@@ -1,4 +1,5 @@
 <!--pages/index/index.wxml-->
 <view class="index">
-  
+  <header />
+  <calendar />
 </view>

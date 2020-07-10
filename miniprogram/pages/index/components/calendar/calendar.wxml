@@ -1,0 +1,24 @@
+<!--pages/index/components/calendar/calendar.wxml-->
+<view class="calendar">
+  <view class="week-line">
+    <block wx:for="{{weekLineTxt}}" wx:key="index">
+      <view class="item">{{item}}</view>
+    </block>
+  </view>
+  <view class="calendar-case">
+    <swiper class="swiper" vertical="{{vertical}}" next-margin="{{nextMargin}}">
+      <block wx:for="{{3}}" wx:key="index">
+        <swiper-item>
+          <view class="calendar-wrap">
+            <view class="title">2020-07<view class="line"></view></view>
+            <view class="content">
+              <block wx:for="{{31}}" wx:key="i" wx:for-item="m" wx:for-index="i">
+                <view class="day" data-index="{{i}}" bindtap="handleChoseDay"><view class="{{dayActive == i ? 'active' : ''}}">{{m}}</view></view>
+              </block>
+            </view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>

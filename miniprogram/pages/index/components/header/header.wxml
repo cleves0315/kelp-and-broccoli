@@ -1,4 +1,10 @@
 <!--pages/index/components/header/header.wxml-->
-<view class="header">
-  
+<view class="header" style="background-image: url({{backImage}});">
+  <view class="date">
+    <text class="num">6</text>
+    <text class="day">天</text>
+  </view>
+  <view class="achievement">
+    <view class="wrap">查看我的成就<view class="arrow-right"></view></view>
+  </view>
 </view>

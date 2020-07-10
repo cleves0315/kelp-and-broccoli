@@ -1,0 +1,76 @@
+/* pages/index/components/calendar/calendar.wxss */
+.calendar {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.week-line {
+  display: flex;
+  height: 84rpx;
+  font-size: 28rpx;
+  text-align: center;
+  /* font-weight: 600; */
+  padding: 20rpx;
+  box-shadow: 0 10rpx 5px rgba(0, 0, 0, .11);
+}
+
+.week-line .item {
+  flex: 1;
+  color: #DBDFE7;
+}
+
+.calendar-case {
+  flex: 1;
+  background: #F2F3F6;
+}
+
+.swiper {
+  height: 100%;
+}
+
+.calendar-wrap {
+  height: 100%;
+  padding: 80rpx 20rpx;
+}
+
+.calendar-wrap .title {
+  display: flex;
+  color: #B7BAC6;
+  font-size: 38rpx;
+  /* font-weight: 600; */
+  align-items: center;
+}
+
+.calendar-wrap .title .line {
+  flex: 1;
+  height: 0;
+  margin-top: 10rpx;
+  border-top: 2rpx solid #B7BAC6;
+}
+
+
+.calendar-wrap .content {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30rpx;
+  font-size: 28rpx;
+  /* font-weight: 600; */
+}
+
+.calendar-wrap .content .day {
+  display: flex;
+  width: calc((100vw - 40rpx) / 7);
+  height: 76rpx;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-wrap .content .active {
+  width: 50rpx;
+  height: 50rpx;
+  text-align: center;
+  line-height: 50rpx;
+  background: #E1E4EC;
+  border-radius: 50%;
+}

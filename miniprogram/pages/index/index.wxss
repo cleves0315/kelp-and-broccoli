@@ -1,1 +1,10 @@
 /* pages/index/index.wxss */
+.index {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+calendar {
+  flex: 1;
+}

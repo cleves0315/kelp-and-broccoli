@@ -1,1 +1,46 @@
 /* pages/index/components/header/header.wxss */
+.header {
+  background: no-repeat 0 0/100%;
+}
+
+.date {
+  display: flex;
+  color: #333;
+  align-items: center;
+  justify-content: center;
+}
+
+.date .num {
+  font-size: 140rpx;
+}
+
+.date .day {
+  font-weight: 600;
+  margin-top: 50rpx;
+}
+
+
+.achievement {
+  display: flex;
+  justify-content: center;
+}
+
+.achievement .wrap {
+  background: #FDF2C3;
+  color: #D47F21;
+  padding: 10rpx 30rpx;
+  border-radius: 50px;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.achievement .arrow-right {
+  width: 12rpx;
+  height: 12rpx;
+  border-top: 4rpx solid #D47F21;
+  border-right: 4rpx solid #D47F21;
+  transform: rotate(45deg);
+  margin-left: 6rpx;
+}
