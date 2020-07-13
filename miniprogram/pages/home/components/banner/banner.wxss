@@ -1,0 +1,77 @@
+/* pages/home/components/banner/banner.wxss */
+.container {
+  padding: 0 30rpx;
+}
+
+.photo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 246rpx;
+  border-radius: 20px;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 30rpx 0;
+}
+
+.banner-title {
+  display: flex;
+  padding-left: 30rpx;
+  justify-content: space-between;
+}
+
+.banner-title .title {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.content .right-table {
+  padding: 10rpx 20rpx;
+  color: #fff;
+  background: #7FCDA0;
+  text-align: center;
+  font-size: 24rpx;
+  border-radius: 20px 0 0 20px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.content .right-table .icon {
+  width: 30rpx;
+  margin-right: 2rpx;
+}
+
+
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 30rpx;
+  padding: 0 30rpx;
+}
+
+.progress-title {
+  display: flex;
+  font-size: 24rpx;
+  font-weight: 600;
+  justify-content: space-between;
+}
+
+.progress-detail,
+.progress-quantity {
+  color: #F5F5F6;
+}
+
+.progress-line {
+  margin-top: 10rpx;
+  border-radius: 20px;
+  overflow: hidden;
+}

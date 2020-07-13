@@ -11,7 +11,7 @@
 }
 
 .date .num {
-  font-size: 140rpx;
+  font-size: 120rpx;
 }
 
 .date .day {

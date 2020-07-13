@@ -1,0 +1,22 @@
+<!--pages/home/components/banner/banner.wxml-->
+<view class="banner">
+  <view class="container">
+    <image class="photo" src="{{photo}}" mode="{{mode}}">
+      <view class="content">
+        <view class="banner-title">
+          <view class="title">{{bannerTitle}}</view>
+          <view class="right-table"><image class="icon" mode="widthFix" src="../../sources/plan.png"></image> {{rightTableTxt}}</view>
+        </view>
+        <view class="progress">
+          <view class="progress-title">
+            <view class="progress-detail">已完成{{progressDetail}}%</view>
+            <view class="progress-quantity">{{progressQuantityActive}}/{{progressQuantity}}目标</view>
+          </view>
+          <view class="progress-line">
+            <progress percent="{{progressDetail}}" stroke-width="4" activeColor="{{progressActiveColor}}" backgroundColor="{{progressBackgroundColor}}" />
+          </view>
+        </view>
+      </view>
+    </image>
+  </view>
+</view>

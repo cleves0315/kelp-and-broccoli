@@ -1,0 +1,6 @@
+<!--pages/plan-edit/plan-edit.wxml-->
+<view class="plan-edit">
+  <view class="container">
+    <view class=""></view>
+  </view>
+</view>

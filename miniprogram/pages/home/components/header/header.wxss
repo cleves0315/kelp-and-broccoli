@@ -1,0 +1,56 @@
+/* pages/home/components/header/header.wxss */
+.header {
+  background: no-repeat 0 0/100%;
+}
+
+.container {
+  padding: 56rpx 30rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.content {
+  display: flex;
+  margin-top: 30rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+}
+
+.date .num {
+  font-size: 120rpx;
+}
+
+.date .day {
+  font-size: 32rpx;
+  margin-left: 10rpx;
+  margin-top: 28rpx;
+}
+
+.content .btn {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  background: #F9DE70;
+  border-radius: 50px;
+  padding: 8rpx 20rpx;
+  box-sizing: content-box;
+  margin-top: 20rpx;
+  font-weight: 600;
+}
+
+.content .btn .arrow-right {
+  width: 16rpx;
+  height: 16rpx;
+  transform: rotate(45deg);
+  border-top: 2rpx solid #333;
+  border-right: 2rpx solid #333;
+  margin-left: 6rpx;
+}

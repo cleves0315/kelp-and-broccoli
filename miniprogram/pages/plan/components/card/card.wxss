@@ -1,0 +1,34 @@
+/* pages/plan/components/card/card.wxss */
+.container {
+  padding: 60rpx 20rpx 20rpx;
+  background: #7DC899;
+}
+
+.card-wrap {
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.card-wrap .title {
+  color: #6F6F6F;
+  font-size: 40rpx;
+  font-weight: 600;
+}
+
+.card-wrap .btn {
+  width: 120rpx;
+  text-align: center;
+  padding: 10rpx 0;
+  font-size: 28rpx;
+  color: #fff;
+  border-radius: 5px;
+  margin: 30rpx auto;
+  background: #1AAD19;
+}
+
+.card-wrap .content {
+  color: #6F6F6F;
+  font-size: 24rpx;
+}

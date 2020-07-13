@@ -1,0 +1,20 @@
+/* pages/home/components/btn/btn.wxss */
+.container {
+  padding: 40rpx 0;
+}
+
+.wrap {
+  width: 540rpx;
+  color: #fff;
+  font-size: 36rpx;
+  text-align: center;
+  background: linear-gradient(to right, #7DC899, #66C3A4);
+  border-radius: 50px;
+  margin: 0 auto;
+  padding: 20rpx 0;
+  transition: .14s linear;
+}
+
+.active {
+  transform: scale(.8);
+}

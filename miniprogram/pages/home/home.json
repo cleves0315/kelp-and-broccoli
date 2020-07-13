@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "header": "components/header/header",
+    "banner": "components/banner/banner",
+    "content": "components/content/content",
+    "btn": "components/btn/btn"
+  }
+}

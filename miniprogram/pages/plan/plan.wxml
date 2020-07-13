@@ -1,0 +1,4 @@
+<!--pages/plan/plan.wxml-->
+<view class="plan">
+  <card bind:tapcard="handleToIntoExit" />
+</view>

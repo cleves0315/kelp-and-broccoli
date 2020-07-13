@@ -1,0 +1,10 @@
+<!--pages/plan/components/card/card.wxml-->
+<view class="card">
+  <view class="container">
+    <view class="card-wrap" bindtap="handleToTap">
+      <view class="title">默认计划</view>
+      <view class="btn">设置</view>
+      <view class="content">设置默认计划，应用在每天</view>
+    </view>
+  </view>
+</view>

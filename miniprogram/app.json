@@ -1,5 +1,8 @@
 {
   "pages": [
+    "pages/home/home",
+    "pages/plan/plan",
+    "pages/plan-edit/plan-edit",
     "pages/index/index",
     "pages/info/info",
     "pages/indexs/indexs",
@@ -19,7 +22,7 @@
   "tabBar": {
     "list": [
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/home/home",
         "text": "首页",
         "iconPath": "images/home.png",
         "selectedIconPath": "images/home_active.png"
@@ -33,11 +36,9 @@
     ]
   },
   "window": {
-    "backgroundColor": "#F6F6F6",
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "海带与西兰花"
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2"

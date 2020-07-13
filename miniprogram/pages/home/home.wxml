@@ -1,0 +1,7 @@
+<!--pages/home/home.wxml-->
+<view class="home">
+  <header bind:tapbtn="handleToIntoCalendar" />
+  <banner />
+  <content />
+  <btn txt="设置计划" bind:tapbtn="handleToIntoPlan" />
+</view>

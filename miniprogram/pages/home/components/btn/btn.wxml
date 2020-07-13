@@ -1,0 +1,6 @@
+<!--pages/home/components/btn/btn.wxml-->
+<view class="btn">
+  <view class="container">
+    <view class="wrap {{touch ? 'active' : ''}}" bindtouchstart="handleToStart" bindtouchend="handleToEnd" bindtap="handleToTap">{{txt}}</view>
+  </view>
+</view>

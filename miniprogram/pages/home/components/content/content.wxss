@@ -1,0 +1,29 @@
+/* pages/home/components/content/content.wxss */
+.container {
+  padding: 76rpx 0;
+}
+
+.title {
+  color: #B9BCC8;
+  font-size: 24rpx;
+  font-weight: 600;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  margin-top: 40rpx;
+}
+
+.main .item {
+  flex: 1;
+  text-align: center;
+}
+
+.main .item .num {
+  font-size: 60rpx;
+}
+
+.main .item .name {
+  font-size: 24rpx;
+}

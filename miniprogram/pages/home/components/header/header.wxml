@@ -1,0 +1,13 @@
+<!--pages/home/components/header/header.wxml-->
+<view class="header" style="background-image: url({{backImage}});">
+  <view class="container">
+    <view class="head"><view class="title">{{title}}</view></view>
+    <view class="content">
+      <view class="date">
+        <view class="num">6</view>
+        <view class="day">天</view>
+      </view>
+      <view class="btn" bindtap="handleToBtn">{{btnTxt}}<view class="arrow-right"></view></view>
+    </view>
+  </view>
+</view>

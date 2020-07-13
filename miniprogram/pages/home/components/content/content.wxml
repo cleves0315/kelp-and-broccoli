@@ -1,0 +1,14 @@
+<!--pages/home/components/content/content.wxml-->
+<view class="content">
+  <view class="container">
+    <view class="title">- {{title}} -</view>
+    <view class="main">
+      <block wx:for="{{3}}" wx:key="index">
+        <view class="item">
+          <view class="num">10</view>
+          <view class="name">已完成</view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>
