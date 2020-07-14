@@ -1,1 +1,4 @@
 /* pages/plan-edit/plan-edit.wxss */
+.container {
+  /* border-top: 2rpx solid #EBEBEB; */
+}

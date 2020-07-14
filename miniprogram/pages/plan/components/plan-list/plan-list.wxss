@@ -1,0 +1,75 @@
+/* pages/plan/components/plan-list/plan-list.wxss */
+.container {
+  padding: 60rpx 0;
+}
+
+.plan-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 60rpx;
+}
+
+.plan-item .content {
+  flex: 1;
+}
+
+.plan-item .content .title {
+  font-size: 32rpx;
+}
+
+.plan-item .content .detail {
+  font-size: 24rpx;
+  color: #636363;
+  margin-top: 10rpx;
+}
+
+.plan-item .arrow-right {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+
+
+.plan-add-btn {
+  color: #68C4A3;
+  font-size: 32rpx;
+  font-weight: 600;
+  text-align: center;
+  padding: 40rpx 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2rpx dashed #68C4A3; */
+  background: url(https://6272-broccoli-puuzo-1302613116.tcb.qcloud.la/border.png?sign=d829a286366072836a1de458602b3c6c&t=1594711717) no-repeat 0 0/100% 100%;
+}
+
+.plan-add-btn .icon {
+  position: relative;
+  width: 34rpx;
+  height: 34rpx;
+  margin-right: 16rpx;
+  border-radius: 50%;
+  background: #68C4A3;
+}
+
+.plan-add-btn .icon::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: '';
+  width: 4rpx;
+  height: 16rpx;
+  background: #fff;
+}
+
+.plan-add-btn .icon::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: '';
+  width: 16rpx;
+  height: 4rpx;
+  background: #fff;
+}

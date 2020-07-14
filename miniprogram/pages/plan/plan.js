@@ -9,9 +9,9 @@ Page({
   },
 
   /**
-   * 进入编辑页
+   * 点击添加计划
    */
-  handleToIntoExit() {
+  handleToAddPlan() {
     wx.navigateTo({
       url: '/pages/plan-edit/plan-edit',
     })

@@ -1,0 +1,7 @@
+<!--pages/plan/components/header/header.wxml-->
+<view class="header">
+  <view class="container">
+    <view class="title">{{title}}</view>
+    <view class="title-detail">{{detail}}</view>
+  </view>
+</view>

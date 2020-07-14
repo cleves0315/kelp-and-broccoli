@@ -1,0 +1,27 @@
+/* pages/plan-edit/components/edit-case/edit-case.wxss */
+.container {
+  padding: 0 30rpx;
+}
+
+.edit-title {
+  padding: 30rpx 0;
+  border-bottom: 2rpx solid #EBEBEB;
+}
+
+.title-placeholder-input {  
+  font-weight: 700;
+  color: #C4C4C4;
+}
+
+.edit-content {
+  padding: 20rpx 0;
+}
+
+.content-input {
+  width: 100%;
+  line-height: 1.5;
+}
+
+.content-placeholder-input {
+  color: #C7C7C7;
+}

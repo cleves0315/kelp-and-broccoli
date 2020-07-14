@@ -1,0 +1,11 @@
+<!--pages/plan-edit/components/edit-case/edit-case.wxml-->
+<view class="edit-case">
+  <view class="container">
+    <view class="edit-title">
+      <input class="title-input" auto-focus placeholder-class="title-placeholder-input" placeholder="{{placeholderTitle}}"/>
+    </view>
+    <view class="edit-content">
+      <textarea class="content-input" maxlength="{{contentMaxlength}}" placeholder-class="content-placeholder-input" placeholder="{{placeholderContent}}"></textarea>
+    </view>
+  </view>
+</view>

@@ -1,10 +1,17 @@
-// pages/plan/components/card/card.js
+// pages/plan-edit/components/header/header.js
 Component({
   /**
    * 组件的属性列表
    */
   properties: {
-
+    title: {
+      type: String,
+      value: '编辑计划'
+    },
+    submitTxt: {
+      type: String,
+      value: '完成'
+    }
   },
 
   /**
@@ -18,8 +25,6 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    handleToTap() {
-      this.triggerEvent('tapcard');
-    }
+
   }
 })

@@ -1,1 +1,4 @@
 /* pages/plan/plan.wxss */
+.container {
+  padding: 40rpx;
+}

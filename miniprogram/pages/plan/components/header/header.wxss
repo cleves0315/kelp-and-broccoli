@@ -1,0 +1,11 @@
+/* pages/plan/components/header/header.wxss */
+.title {
+  font-size: 50rpx;
+  font-weight: 600;
+}
+
+.title-detail {
+  font-size: 24rpx;
+  color: #646464;
+  margin-top: 20rpx;
+}

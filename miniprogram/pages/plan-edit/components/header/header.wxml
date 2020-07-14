@@ -1,0 +1,9 @@
+<!--pages/plan-edit/components/header/header.wxml-->
+<view class="header">
+  <view class="container">
+    <view class="title">
+      <view class="txt">{{title}}</view>
+      <view class="submit">{{submitTxt}}</view>
+    </view>
+  </view>
+</view>

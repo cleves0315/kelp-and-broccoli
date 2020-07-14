@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "card": "components/card/card"
+    "header": "components/header/header",
+    "plan-list": "components/plan-list/plan-list"
   }
 }

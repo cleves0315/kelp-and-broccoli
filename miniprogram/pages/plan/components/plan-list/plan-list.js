@@ -1,0 +1,39 @@
+// pages/plan/components/plan-list/plan-list.js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    title: {
+      type: String,
+      value: '计划标题'
+    },
+    detail: {
+      type: String,
+      value: '计划详情'
+    },
+    planAddBtnTxt: {
+      type: String,
+      value: '添加计划'
+    }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    /**
+     * 点击添加计划
+     */
+    handleToAddPlan() {
+      this.triggerEvent('addplan');
+    }
+  }
+})

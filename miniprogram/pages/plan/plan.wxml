@@ -1,4 +1,7 @@
 <!--pages/plan/plan.wxml-->
 <view class="plan">
-  <card bind:tapcard="handleToIntoExit" />
+  <view class="container">
+    <header title="当前计划列表" detail="可以添加多个计划，完善自己的每日计划" />
+    <plan-list bind:addplan="handleToAddPlan" />
+  </view>
 </view>
