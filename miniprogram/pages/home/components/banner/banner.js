@@ -53,6 +53,8 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    handleTapBanner() {
+      this.triggerEvent('tapbanner')
+    }
   }
 })

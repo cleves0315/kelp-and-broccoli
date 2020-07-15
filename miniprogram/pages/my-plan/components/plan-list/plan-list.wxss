@@ -1,0 +1,34 @@
+/* pages/my-plan/components/plan-list/plan-list.wxss */
+.container {
+  padding: 40rpx 20rpx;
+}
+
+.plan-item {
+  display: flex;
+  padding: 30rpx;
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 50rpx;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
+}
+
+.content-wrap {
+  flex: 1;
+}
+
+.content-wrap .title {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.content-wrap .detail {
+  font-size: 24rpx;
+  color: #ADB0B9;
+  margin-top: 20rpx;
+}
+
+.btn-wrap {
+  align-self: flex-start;
+  margin-left: 30rpx;
+}
+

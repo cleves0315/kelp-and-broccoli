@@ -19,6 +19,15 @@ Page({
   },
 
   /**
+   * 进入我的计划
+   */
+  handleToIntoMyPlan() {
+    wx.navigateTo({
+      url: '/pages/my-plan/my-plan',
+    })
+  },
+
+  /**
    * 进入*设置计划
    */
   handleToIntoPlan() {

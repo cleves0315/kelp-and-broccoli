@@ -14,7 +14,15 @@ Component({
     },
     contentMaxlength: {
       type: Number,
-      value: -1
+      value: 200
+    },
+    conValLength: {
+      type: Number,
+      value: 0
+    },
+    conValMaxLength: {
+      type: Number,
+      value: 200
     }
   },
 
@@ -22,13 +30,26 @@ Component({
    * 组件的初始数据
    */
   data: {
-
+    keyboardHeight: 0
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
+    handleContentInput(e) {
+      this.setData({
+        conValLength: e.detail.value.length
+      });
+    },
 
+    /**
+     * 获取键盘高度
+     */
+    handleKeyboardheightchange(e) {
+      this.setData({
+        keyboardHeight: e.detail.height
+      })
+    }
   }
 })

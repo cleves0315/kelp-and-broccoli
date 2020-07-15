@@ -24,3 +24,13 @@
   padding: 8rpx 26rpx;
   border-radius: 4px;
 }
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.del-btn {
+  width: 40rpx;
+  margin-right: 40rpx;
+}

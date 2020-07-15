@@ -17,24 +17,9 @@
     "pages/openapi/callback/callback",
     "pages/openapi/cloudid/cloudid",
     "pages/im/im",
-    "pages/im/room/room"
+    "pages/im/room/room",
+    "pages/my-plan/my-plan"
   ],
-  "tabBar": {
-    "list": [
-      {
-        "pagePath": "pages/home/home",
-        "text": "首页",
-        "iconPath": "images/home.png",
-        "selectedIconPath": "images/home_active.png"
-      },
-      {
-        "pagePath": "pages/info/info",
-        "text": "我的",
-        "iconPath": "images/info.png",
-        "selectedIconPath": "images/info_active.png"
-      }
-    ]
-  },
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#ffffff",

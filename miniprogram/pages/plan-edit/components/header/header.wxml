@@ -3,7 +3,10 @@
   <view class="container">
     <view class="title">
       <view class="txt">{{title}}</view>
-      <view class="submit">{{submitTxt}}</view>
+      <view class="right">
+        <image class="del-btn" mode="widthFix" src="../../sources/del.png"></image>
+        <view class="submit">{{submitTxt}}</view>
+      </view>
     </view>
   </view>
 </view>

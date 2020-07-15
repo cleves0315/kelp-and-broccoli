@@ -1,7 +1,7 @@
 <!--pages/home/components/banner/banner.wxml-->
 <view class="banner">
   <view class="container">
-    <image class="photo" src="{{photo}}" mode="{{mode}}">
+    <image class="photo" src="{{photo}}" mode="{{mode}}" bindtap="handleTapBanner">
       <view class="content">
         <view class="banner-title">
           <view class="title">{{bannerTitle}}</view>

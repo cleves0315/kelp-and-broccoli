@@ -1,0 +1,27 @@
+/* pages/my-plan/components/header/header.wxss */
+.container {
+  padding: 30rpx;
+  background: #fff;
+}
+
+.title {
+  display: flex;
+  height: 90rpx;
+}
+
+.title .txt {
+  align-self: flex-end;
+  font-size: 50rpx;
+  font-weight: 700;
+}
+
+.bubble {
+  align-self: center;
+  margin-left: 20rpx;
+  color: #fff;
+  padding: 14rpx;
+  font-weight: 700;
+  font-size: 22rpx;
+  background: #70C59E;
+  border-radius: 50px 50px 50px 10px;
+}

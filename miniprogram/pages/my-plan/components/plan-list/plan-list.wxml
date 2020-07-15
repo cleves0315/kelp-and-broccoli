@@ -1,0 +1,14 @@
+<!--pages/my-plan/components/plan-list/plan-list.wxml-->
+<view class="plan-list">
+  <view class="container">
+    <block wx:for="{{10}}" wx:key="index">
+      <view class="plan-item">
+        <view class="content-wrap">
+          <view class="title">计划标题</view>
+          <view class="detail">暂无计划详情</view>
+        </view>
+        <view class="btn-wrap"><switch checked="{{btnChecked}}" bindchange="handleBtnChange"/></view>
+      </view>
+    </block>
+  </view>
+</view>

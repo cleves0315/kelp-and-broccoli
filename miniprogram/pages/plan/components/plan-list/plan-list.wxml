@@ -2,7 +2,7 @@
 <view class="plan-list">
   <view class="container">
     <block wx:for="{{1}}" wx:key="index">
-      <view class="plan-item">
+      <view class="plan-item" bindtap="handleToAddPlan">
         <view class="content">
           <view class="title">{{title}}</view>
           <view class="detail">{{detail}}</view>
