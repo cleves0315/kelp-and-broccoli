@@ -29,10 +29,11 @@
 		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"appid": "wx6bda92e5b6c4facf",
-	"projectname": "miniprogram-7",
+	"projectname": "海带与西蓝花",
 	"libVersion": "2.8.1",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"condition": {
 		"search": {
 			"current": -1,

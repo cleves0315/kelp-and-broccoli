@@ -6,7 +6,7 @@ Component({
   properties: {
     title: {
       type: String,
-      value: '我在海带和西兰花'
+      value: '我在海带与西兰花'
     },
     btnTxt: {
       type: String,

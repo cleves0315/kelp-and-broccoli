@@ -3,12 +3,16 @@
   <view class="container">
     <view class="title">- {{title}} -</view>
     <view class="main">
-      <block wx:for="{{3}}" wx:key="index">
-        <view class="item">
-          <view class="num">10</view>
-          <view class="name">已完成</view>
-        </view>
+      <block wx:for="{{2}}" wx:key="index">
       </block>
+      <view class="item">
+        <view class="num">0</view>
+        <view class="name">已完成</view>
+      </view>
+      <view class="item">
+        <view class="num">2</view>
+        <view class="name">目标</view>
+      </view>
     </view>
   </view>
 </view>

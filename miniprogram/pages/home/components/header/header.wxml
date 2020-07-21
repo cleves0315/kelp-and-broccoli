@@ -4,7 +4,7 @@
     <view class="head"><view class="title">{{title}}</view></view>
     <view class="content">
       <view class="date">
-        <view class="num">6</view>
+        <view class="num">1</view>
         <view class="day">天</view>
       </view>
       <view class="btn" bindtap="handleToBtn">{{btnTxt}}<view class="arrow-right"></view></view>

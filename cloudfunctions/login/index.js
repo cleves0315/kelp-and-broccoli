@@ -25,12 +25,40 @@ exports.main = async (event, context) => {
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
   const wxContext = cloud.getWXContext()
 
-  return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
-    env: wxContext.ENV,
-  }
+  const db = cloud.database()
+
+  const dbUser = db.collection('user');
+
+  return dbUser.get().then(res => {
+    console.log(res.data)
+    let exist = 0;
+    let info = {};
+
+    res.data.map(item => {
+      if (item.openid == wxContext.OPENID) {
+        exist = 1;
+        info = item;
+        return;
+      }
+    })
+
+    // 数据库不存在该用户
+    if (exist == 0) {
+      dbUser.add({
+        data: {
+          openid: wxContext.OPENID
+        }
+      })
+    }
+
+    return {
+      event,
+      openid: wxContext.OPENID,
+      userinfo: info,
+      appid: wxContext.APPID,
+      unionid: wxContext.UNIONID,
+      env: wxContext.ENV
+    }
+  })
 }
 

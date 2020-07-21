@@ -14,7 +14,7 @@ Component({
     },
     bannerTitle: {
       type: String,
-      value: 'Cleves的每日计划'
+      value: '先登陆后查看'
     },
     rightTableTxt: {
       type: String,
@@ -30,7 +30,7 @@ Component({
     },
     progressQuantity: {
       type: String,
-      value: '5'
+      value: '0'
     },
     progressActiveColor: {
       type: String,
