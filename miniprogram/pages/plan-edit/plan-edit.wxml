@@ -1,5 +1,5 @@
 <!--pages/plan-edit/plan-edit.wxml-->
 <view class="plan-edit">
-  <header />
-  <edit-case />
+  <header bind:del="handleToDelPlan" bind:finish="handleToFinishPlan" />
+  <edit-case id="editCase" />
 </view>

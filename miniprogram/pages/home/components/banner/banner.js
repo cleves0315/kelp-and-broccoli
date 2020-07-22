@@ -20,16 +20,16 @@ Component({
       type: String,
       value: '当前计划'
     },
-    progressDetail: {
-      type: String,
+    percentage: {
+      type: Number,
       value: '0'
     },
-    progressQuantityActive: {
-      type: String,
+    curGreQuany: {
+      type: Number,
       value: '0'
     },
-    progressQuantity: {
-      type: String,
+    greQuany: {
+      type: Number,
       value: '0'
     },
     progressActiveColor: {

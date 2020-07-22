@@ -25,6 +25,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    handleToDel() {
+      this.triggerEvent('del');
+    },
+    handleToFinish() {
+      this.triggerEvent('finish')
+    }
   }
 })

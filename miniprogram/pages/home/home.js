@@ -1,13 +1,33 @@
 // pages/home/home.js
+import { callFunction } from '../../utils/util';
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    plan: {}
   },
 
+  /**
+   * 获取plan数据
+   */
+  handleToReqPlanInfo() {
+    callFunction({
+      name: 'request',
+      data: {
+        action: 'getPlanInfo'
+      }
+    })
+    .then(res => {
+      console.log(res)
+
+      this.setData({ plan: res.result });
+
+      wx.setStorageSync('plan', res.result)
+    })
+  },
 
   /**
    * 进入日历
@@ -41,5 +61,6 @@ Page({
    */
   onLoad: function (options) {
 
+    this.handleToReqPlanInfo();
   },
 })

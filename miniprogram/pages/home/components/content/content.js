@@ -7,7 +7,15 @@ Component({
     title: {
       type: String,
       value: '今日计划'
-    }
+    },
+    progress: {
+      type: Number,
+      value: 0
+    },
+    total: {
+      type: Number,
+      value: 0
+    },
   },
 
   /**

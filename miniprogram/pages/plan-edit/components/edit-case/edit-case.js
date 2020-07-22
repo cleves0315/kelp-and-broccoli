@@ -30,6 +30,8 @@ Component({
    * 组件的初始数据
    */
   data: {
+    inputTitle: '',
+    inputDetail: '',
     keyboardHeight: 0
   },
 
@@ -38,9 +40,28 @@ Component({
    */
   methods: {
     handleContentInput(e) {
+      const id = e.currentTarget.id;
+
+      switch(id) {
+        case 'title':
+          this.data.inputTitle = e.detail.value;
+          break;
+
+        case 'detail':
+          this.data.inputDetail = e.detail.value;
+          break;
+      }
+
       this.setData({
         conValLength: e.detail.value.length
       });
+    },
+
+    handleToGetInput() {
+      return {
+        inputTitle: this.data.inputTitle,
+        inputDetail: this.data.inputDetail
+      }
     },
 
     /**

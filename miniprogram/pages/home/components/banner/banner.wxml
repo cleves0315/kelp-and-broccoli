@@ -9,11 +9,11 @@
         </view>
         <view class="progress">
           <view class="progress-title">
-            <view class="progress-detail">已完成{{progressDetail}}%</view>
-            <view class="progress-quantity">{{progressQuantityActive}}/{{progressQuantity}}目标</view>
+            <view class="progress-detail">已完成{{percentage}}%</view>
+            <view class="progress-quantity">{{curGreQuany}}/{{greQuany}}目标</view>
           </view>
           <view class="progress-line">
-            <progress percent="{{progressDetail}}" stroke-width="4" activeColor="{{progressActiveColor}}" backgroundColor="{{progressBackgroundColor}}" />
+            <progress percent="{{percentage}}" stroke-width="4" activeColor="{{progressActiveColor}}" backgroundColor="{{progressBackgroundColor}}" />
           </view>
         </view>
       </view>

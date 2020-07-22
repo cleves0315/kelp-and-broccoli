@@ -27,7 +27,7 @@ exports.main = async (event, context) => {
 
   const db = cloud.database()
 
-  const dbUser = db.collection('user');
+  const dbUser = db.collection('userinfo');
 
   return dbUser.get().then(res => {
     console.log(res.data)

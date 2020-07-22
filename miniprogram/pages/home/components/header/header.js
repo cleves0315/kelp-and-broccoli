@@ -8,6 +8,10 @@ Component({
       type: String,
       value: '我在海带与西兰花'
     },
+    day: {
+      type: Number,
+      value: 1
+    },
     btnTxt: {
       type: String,
       value: '打卡日历'
