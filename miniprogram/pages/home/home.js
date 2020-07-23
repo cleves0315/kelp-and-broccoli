@@ -19,13 +19,18 @@ Page({
       data: {
         action: 'getPlanInfo'
       }
-    })
-    .then(res => {
+    }).then(res => {
       console.log(res)
 
       this.setData({ plan: res.result });
 
       wx.setStorageSync('plan', res.result)
+    }).catch(err => {
+      wx.showToast({
+        icon: 'none',
+        title: '加载失败'
+      })
+      console.log(err)
     })
   },
 
@@ -56,10 +61,8 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  
+  onShow: function () {
 
     this.handleToReqPlanInfo();
   },

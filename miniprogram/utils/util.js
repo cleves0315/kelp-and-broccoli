@@ -3,11 +3,12 @@
  * @param options 
  */
 function callFunction(options) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     wx.cloud.callFunction({
       name: options.name,
       data: options.data,
-      success: resolve
+      success: resolve,
+      fail: reject
     })
   })
 }

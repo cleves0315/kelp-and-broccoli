@@ -47,17 +47,33 @@ async function getPlanInfo(event, db, context) {
 
 }
 
+/**
+ * 新增一条计划
+ * @param {*} event 
+ * @param {*} db 
+ * @param {*} context 
+ */
 async function addPlan(event, db, context) {
   const dbPlan = db.collection('plan');
   const _ = db.command;
+  const $ = db.command.aggregate;
 
-  db.collection('plan').doc(event['_id']).update({
-    data: {
-      total: _.inc(1),
-      
-    },
-    success: function(res) {
-      console.log(res)
-    }
-  })
+  // const percentage = dbPlan.aggregate()
+  //   .project({  //  取整      乘法        除法                  加法
+  //     percentage: $.trunc($.multiply([$.divide(['$progress', $.add(['$total', 1])]), 100]))
+  //   })
+  //   .end();
+  dbPlan.doc(event._id)
+    .get()
+    .then(res => {
+      console.log(res.data)
+
+      dbPlan.doc(event._id).update({
+        data: {
+          total: _.inc(1),
+          percentage: parseInt(res.data.progress / (res.data.total + 1) * 100),
+          list: _.push(event.data)
+        }
+      })
+    })
 }

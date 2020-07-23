@@ -42,8 +42,19 @@ Page({
       name: 'request',
       data: {
         action: 'addPlan',
-        _id: wx.getStorageSync('plan')['_id']
+        _id: wx.getStorageSync('plan')['_id'],
+        data: {
+          title: inputValues.inputTitle,
+          detail: inputValues.inputDetail,
+          finish: 0
+        }
       }
+    }).then(res => {
+      wx.showToast({ icon: 'none', title: '添加成功' })
+
+      wx.navigateBack({
+        delta: 1,
+      })
     })
   },
 
