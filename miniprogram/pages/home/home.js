@@ -17,6 +17,7 @@ Page({
     callFunction({
       name: 'request',
       data: {
+        openid: wx.getStorageSync('openid'),
         action: 'getPlanInfo'
       }
     }).then(res => {
@@ -25,11 +26,8 @@ Page({
       this.setData({ plan: res.result });
 
       wx.setStorageSync('plan', res.result)
-    }).catch(err => {
-      wx.showToast({
-        icon: 'none',
-        title: '加载失败'
-      })
+    }).catch(err => { 
+      wx.showToast({ icon: 'none', title: '加载失败' }) 
       console.log(err)
     })
   },

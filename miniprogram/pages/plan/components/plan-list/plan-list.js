@@ -12,6 +12,10 @@ Component({
       type: String,
       value: '计划详情'
     },
+    planList: {
+      type: Array,
+      value: []
+    },
     planAddBtnTxt: {
       type: String,
       value: '添加计划'
@@ -32,8 +36,10 @@ Component({
     /**
      * 点击添加计划
      */
-    handleToAddPlan() {
-      this.triggerEvent('addplan');
+    handleToAddPlan(e) {
+      const data = e.currentTarget.dataset;
+
+      this.triggerEvent('addplan', { data });
     }
   }
 })

@@ -4,6 +4,14 @@ Component({
    * 组件的属性列表
    */
   properties: {
+    titleValue: {
+      type: String,
+      value: ''
+    },
+    detailValue: {
+      type: String,
+      value: ''
+    },
     placeholderTitle: {
       type: String,
       value: '计划标题...'

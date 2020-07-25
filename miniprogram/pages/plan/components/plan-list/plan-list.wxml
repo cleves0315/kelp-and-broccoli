@@ -1,15 +1,15 @@
 <!--pages/plan/components/plan-list/plan-list.wxml-->
 <view class="plan-list">
   <view class="container">
-    <block wx:for="{{1}}" wx:key="index">
-      <view class="plan-item" bindtap="handleToAddPlan">
+    <block wx:for="{{planList}}" wx:key="index">
+      <view class="plan-item" data-action="edit" data-data="{{item}}" bindtap="handleToAddPlan">
         <view class="content">
-          <view class="title">{{title}}</view>
-          <view class="detail">{{detail}}</view>
+          <view class="title">{{item.title}}</view>
+          <view class="detail">{{item.detail}}</view>
         </view>
         <image class="arrow-right" mode="widthFix" src="../../sources/arrow_right.png"></image>
       </view>
     </block>
-    <view class="plan-add-btn" bindtap="handleToAddPlan"><view class="icon"></view>{{planAddBtnTxt}}</view>
+    <view class="plan-add-btn" data-action="add" bindtap="handleToAddPlan"><view class="icon"></view>{{planAddBtnTxt}}</view>
   </view>
 </view>

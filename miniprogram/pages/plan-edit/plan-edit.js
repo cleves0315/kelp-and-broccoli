@@ -7,7 +7,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    plan: {
+      title: '',
+      detail: ''
+    },
+    isHeaderDelBtn: 0,
   },
 
   EditCase: null,
@@ -25,7 +29,27 @@ Page({
   },
 
   handleToDelPlan() {
-    const inputValues = this.EditCase.handleToGetInput();
+    callFunction({
+      name: 'request',
+      data: {
+        action: 'delPlan',
+        openid: wx.getStorageSync('openid'),
+        id: this.data.plan.id
+      }
+    }).then(res => {
+      wx.showToast({ icon: 'none', title: '删除成功' })
+
+      setTimeout(() => {
+        wx.navigateBack({
+          delta: 1,
+        })
+      }, 1000);
+    }).catch(err => {
+      wx.showToast({
+        icon: 'none',
+        title: '操作失败'
+      })
+    })
   },
 
   handleToFinishPlan() {
@@ -42,6 +66,7 @@ Page({
       name: 'request',
       data: {
         action: 'addPlan',
+        openid: wx.getStorageSync('openid'),
         _id: wx.getStorageSync('plan')['_id'],
         data: {
           title: inputValues.inputTitle,
@@ -52,13 +77,30 @@ Page({
     }).then(res => {
       wx.showToast({ icon: 'none', title: '添加成功' })
 
-      wx.navigateBack({
-        delta: 1,
+      setTimeout(() => {
+        wx.navigateBack({
+          delta: 1,
+        })
+      }, 1000);
+    }).catch(err => {
+      wx.showToast({
+        icon: 'none',
+        title: '操作失败'
       })
     })
   },
 
   onLoad(options) {
+    let plan = this.data.plan;
+    const action = options.action;
+    
+    if (action == 'edit') plan = JSON.parse(options.data);
+
+    this.setData({
+      plan,
+      isHeaderDelBtn: action == 'add' ? 0 : 1
+    })
+
     this.EditCase = this.selectComponent('#editCase');
   }
 })

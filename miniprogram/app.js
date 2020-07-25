@@ -1,15 +1,29 @@
 //app.js
+import { callFunction } from './utils/util';
+
 App({
+  canRun: true,   // 节流开关
+
   login() {
-    wx.cloud.callFunction({
-      name: 'login'
-    })
-    .then(res => {
-      console.log(res)
-      wx.setStorageSync('openid', res.result.openid)
-      wx.setStorageSync('userinfo', res.result.userinfo)
-    })
-    .catch(console.error);
+    if (!this.canRun) return;
+    
+    this.canRun = false;
+
+    console.log('login')
+    setTimeout(() => {
+      callFunction({
+        name: 'login'
+      })
+        .then(res => {
+          console.log(res)
+          wx.setStorageSync('openid', res.result.openid)
+          wx.setStorageSync('userinfo', res.result.userinfo)
+        })
+        .catch(console.error)
+        .finally(() => {
+          this.canRun = true;
+        })
+    }, 1500);
   },
 
   onLaunch: function () {
@@ -30,5 +44,11 @@ App({
 
     // 登陆
     this.login();
+  },
+
+  onShow() {
+    if (!wx.getStorageSync('openid') || !wx.getStorageSync('userinfo')) {
+      this.login();
+    }
   }
 })

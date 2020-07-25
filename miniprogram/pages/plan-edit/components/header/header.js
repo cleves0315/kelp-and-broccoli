@@ -11,7 +11,11 @@ Component({
     submitTxt: {
       type: String,
       value: '完成'
-    }
+    },
+    isDel: {
+      type: Number,
+      value: 0
+    },
   },
 
   /**

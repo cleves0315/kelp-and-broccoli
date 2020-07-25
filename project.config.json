@@ -30,7 +30,7 @@
 	},
 	"appid": "wx6bda92e5b6c4facf",
 	"projectname": "海带与西蓝花",
-	"libVersion": "2.8.1",
+	"libVersion": "2.8.3",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
