@@ -1,7 +1,8 @@
 <!--pages/home/home.wxml-->
 <view class="home">
   <header day="{{plan.day}}" bind:tapbtn="handleToIntoCalendar" />
-  <banner bannerTitle="" percentage="{{plan.percentage}}" curGreQuany="{{plan.progress}}" greQuany="{{plan.total}}" bind:tapbanner="handleToIntoMyPlan" />
+  <banner bannerTitle="{{bannerTitle}}" percentage="{{plan.percentage}}" curGreQuany="{{plan.progress}}" greQuany="{{plan.total}}" bind:tapbanner="handleToIntoMyPlan" />
   <content progress="{{plan.progress}}" total="{{plan.total}}" />
   <btn txt="设置计划" bind:tapbtn="handleToIntoPlan" />
+  <login-case isShow="{{isShowLoginCase}}" bind:getuserinfo="handleToGetuserInfo" />
 </view>

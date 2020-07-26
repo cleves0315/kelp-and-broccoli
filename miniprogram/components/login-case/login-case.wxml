@@ -1,0 +1,17 @@
+<!--components/login-case/login-case.wxml-->
+<view class="login-case" wx:if="{{isShow}}">
+  <view class="container">
+    <view class="title">{{title}}</view>
+    <view class="logo-wrap"><image class="logo-image" mode="widthFix" src="{{logoUrl}}"></image></view>
+    <view class="content">
+      <view class="content-title">{{contTitle}} 申请获得取以下授权</view>
+      <block wx:for="{{contDetails}}" wx:key="index">
+        <view class="content-detail"><view class="origin"></view>{{item}}</view>
+      </block>
+    </view>
+    <view class="funt-wrap" bindtap="handleToFunt">
+      <view class="close-btn {{touch == 'touchclose' ? 'active' : ''}}" data-action="close" bindtouchstart="handleStart" bindtouchend="handleEnd">{{closeBtnTxt}}</view>
+      <button class="finish-btn {{touch == 'touchfinish' ? 'active' : ''}}" open-type="getUserInfo" data-action="finish" bindtouchstart="handleStart" bindtouchend="handleEnd" bindgetuserinfo="handleToGetuserinfo">{{finishBtnTxt}}</button>
+    </view>
+  </view>
+</view>

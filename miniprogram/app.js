@@ -1,5 +1,5 @@
 //app.js
-import { callFunction } from './utils/util';
+import { callFunction, getAuthGetting } from './utils/util';
 
 App({
   canRun: true,   // 节流开关
@@ -16,8 +16,7 @@ App({
       })
         .then(res => {
           console.log(res)
-          wx.setStorageSync('openid', res.result.openid)
-          wx.setStorageSync('userinfo', res.result.userinfo)
+          wx.setStorageSync('openid', JSON.stringify(res.result.openid));
         })
         .catch(console.error)
         .finally(() => {
@@ -47,8 +46,6 @@ App({
   },
 
   onShow() {
-    if (!wx.getStorageSync('openid') || !wx.getStorageSync('userinfo')) {
-      this.login();
-    }
+    if (!wx.getStorageSync('openid')) this.login();
   }
 })

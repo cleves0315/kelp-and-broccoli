@@ -45,10 +45,7 @@ Page({
         })
       }, 1000);
     }).catch(err => {
-      wx.showToast({
-        icon: 'none',
-        title: '操作失败'
-      })
+      wx.showToast({ icon: 'none', title: '操作失败' })
     })
   },
 
@@ -67,7 +64,7 @@ Page({
       data: {
         action: 'addPlan',
         openid: wx.getStorageSync('openid'),
-        _id: wx.getStorageSync('plan')['_id'],
+        _id: JSON.parse(wx.getStorageSync('plan'))['_id'],
         data: {
           title: inputValues.inputTitle,
           detail: inputValues.inputDetail,
@@ -75,6 +72,7 @@ Page({
         }
       }
     }).then(res => {
+      console.log(res)
       wx.showToast({ icon: 'none', title: '添加成功' })
 
       setTimeout(() => {
@@ -83,10 +81,7 @@ Page({
         })
       }, 1000);
     }).catch(err => {
-      wx.showToast({
-        icon: 'none',
-        title: '操作失败'
-      })
+      wx.showToast({ icon: 'none', title: '操作失败' })
     })
   },
 

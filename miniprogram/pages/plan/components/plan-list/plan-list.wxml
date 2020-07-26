@@ -5,7 +5,7 @@
       <view class="plan-item" data-action="edit" data-data="{{item}}" bindtap="handleToAddPlan">
         <view class="content">
           <view class="title">{{item.title}}</view>
-          <view class="detail">{{item.detail}}</view>
+          <view class="detail">{{item.detail || '暂无计划详情'}}</view>
         </view>
         <image class="arrow-right" mode="widthFix" src="../../sources/arrow_right.png"></image>
       </view>

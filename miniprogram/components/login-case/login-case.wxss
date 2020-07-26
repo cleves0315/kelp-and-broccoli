@@ -1,0 +1,96 @@
+/* components/login-case/login-case.wxss */
+.login-case {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, .6);
+}
+
+.container {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin: 0 60rpx;
+  background: #fff;
+  border-radius: 14px;
+  padding-top: 60rpx;
+  overflow: hidden;
+}
+
+.title {
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 700;
+  border-bottom: 2rpx solid #ccc;
+  padding-bottom: 30rpx;
+}
+
+.logo-wrap {
+  margin: 30rpx 0;
+}
+
+.logo-image {
+  display: block;
+  width: 60rpx;
+  margin: 0 auto;
+}
+
+.content {
+  padding: 0 60rpx;
+  font-size: 32rpx;
+}
+
+.content-title {
+  font-size: 32rpx;
+}
+
+.content-detail .origin {
+  border-radius: 50%;
+  background: #888;
+  width: 12rpx;
+  height: 12rpx;
+  margin-right: 20rpx;
+}
+
+.content-detail {
+  display: flex;
+  align-items: center;
+  margin-top: 30rpx;
+  color: #888;
+  font-size: 28rpx;
+}
+
+.funt-wrap {
+  display: flex;
+  margin-top: 120rpx;
+}
+
+.funt-wrap .close-btn,
+.funt-wrap .finish-btn {
+  flex: 1;
+  text-align: center;
+  padding: 30rpx 0;
+  font-size: 32rpx;
+  border-top: 2rpx solid #f1f1f1;
+  font-weight: 700;
+}
+
+.funt-wrap .close-btn {
+  border-right: 2rpx solid #f1f1f1;
+  box-sizing: border-box;
+}
+
+.funt-wrap .finish-btn {
+  color: #66C3A4;
+  border: 0;
+  background: #fff;
+  border-top: 2rpx solid #f1f1f1;
+  border-radius: 0;
+}
+
+.active {
+  background: #ccc !important;
+}

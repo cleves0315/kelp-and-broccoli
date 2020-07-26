@@ -5,6 +5,17 @@ cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 })
 
+/**
+ * 格式化时间格式 xxxx-xx-xx xx:xx:xx
+ * @param {*} date 
+ */
+function formatDate(d) {
+  const date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes()  + ':' + d.getSeconds();
+
+  console.log(date)
+  return date;
+}
+
 // 云函数入口函数
 exports.main = async (event) => {
   // const wxContext = await cloud.getWXContext()
@@ -20,8 +31,8 @@ exports.main = async (event) => {
     case 'addPlan': {
       return await addPlan(event, db);
     }
-    case 'getOpenData': {
-      return getOpenData(event)
+    case 'setUserInfo': {
+      return setUserInfo(event, db);
     }
     default: {
       return
@@ -42,7 +53,35 @@ async function getPlanInfo(event, db) {
   .get()
   .then(res => {
     console.log(res)
-    return res.data[0]
+
+    if (res.errMsg.includes('ok')) {
+
+      if (res.data.length > 0) return { plan: res.data[0], msg: 1 }
+
+      // 数据库不存在数据
+      const plan = {
+        day: 1,
+        list: [],
+        openid: event.openid,
+        percentage: 0,
+        progress: 0,
+        total: 0
+      }
+
+      return dbPlan.add({
+        data: plan
+      }).then(res => {
+        console.log(res);
+        plan._id = res._id;
+
+        return { plan, msg: 1 };
+      }).catch(err => {
+        console.log(err);
+        return { msg: 0 }
+      })
+    } else {
+      return { msg: 0 }
+    }
   })
 }
 
@@ -111,4 +150,30 @@ async function addPlan(event, db) {
         }
       })
     })
+}
+
+/**
+ * 保存用户信息
+ * @param {*} event 
+ * @param {*} db 
+ */
+async function setUserInfo(event, db) {
+  const userInfo = event.userInfo;
+  const date = formatDate(new Date());
+
+  userInfo.openid = event.openid;
+  userInfo.date = date;
+
+  db.collection('userinfo').add({
+    data: userInfo
+  }).then(res => {
+    console.log(res)
+
+    if (!res.errMsg.includes('ok')) return { msg: 0 }
+
+    userInfo._id = res._id;
+    return { msg: 1 }
+  }).catch(err => {
+    console.log(err)
+  })
 }

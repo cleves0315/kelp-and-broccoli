@@ -11,6 +11,11 @@ Page({
   },
 
   handleReqPlanList() {
+    if (!wx.getStorageSync('openid')) {
+      setTimeout(() => this.handleReqPlanList(), 500);
+      return;
+    }
+
     callFunction({
       name: 'request',
       data: {        
@@ -19,9 +24,12 @@ Page({
       }
     }).then(res => {
       console.log(res.result)
-      this.setData({
-        plan: res.result
-      })
+
+      if (res.result.msg == 1) {
+        this.setData({ plan: res.result.plan })
+      } else {
+        wx.showToast({ icon: 'none', title: '加载失败' })
+      }
     }).catch(() => {
       wx.showToast({ icon: 'none', title: '加载失败' })
     })
