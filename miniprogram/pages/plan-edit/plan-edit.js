@@ -33,7 +33,7 @@ Page({
       name: 'request',
       data: {
         action: 'delPlan',
-        openid: wx.getStorageSync('openid'),
+        openid: JSON.parse(wx.getStorageSync('openid')),
         id: this.data.plan.id
       }
     }).then(res => {
@@ -63,7 +63,7 @@ Page({
       name: 'request',
       data: {
         action: 'addPlan',
-        openid: wx.getStorageSync('openid'),
+        openid: JSON.parse(wx.getStorageSync('openid')),
         _id: JSON.parse(wx.getStorageSync('plan'))['_id'],
         data: {
           title: inputValues.inputTitle,

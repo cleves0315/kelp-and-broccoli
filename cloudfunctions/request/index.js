@@ -34,6 +34,9 @@ exports.main = async (event) => {
     case 'setUserInfo': {
       return setUserInfo(event, db);
     }
+    case 'chanPlangress': {
+      return chanPlangress(event, db);
+    }
     default: {
       return
     }
@@ -42,7 +45,7 @@ exports.main = async (event) => {
 
 /**
  * 获取plan数据
- * @param event 
+ * @param event - {openid}
  */
 async function getPlanInfo(event, db) {
   const dbPlan = db.collection('plan')
@@ -88,8 +91,6 @@ async function getPlanInfo(event, db) {
 /**
  * 删除计划
  * @param {*} event 
- * @param {*} db 
- * @param {*} context 
  */
 async function delPlan(event, db) {
   const dbPlan = db.collection('plan');
@@ -116,6 +117,66 @@ async function delPlan(event, db) {
             list: _.pull({ id: delId })
           }
         })
+    })
+}
+
+/**
+ * 改变计划进度
+ */
+async function chanPlangress(event, db) {
+  if (!event.id || !event.openid || event.value == null) {
+    return { msg: 0 }
+  }
+
+  return db.collection('plan').where({
+    openid: event.openid
+  })
+    .get()
+    .then(res => {
+      console.log(res)
+      
+      if (res.errMsg.includes('ok')) {
+        const list = res.data[0].list;
+        const data = res.data[0];
+
+        if (event.value) {
+          data.progress += 1;
+          data.percentage = parseInt(data.progress / data.total * 100);
+        } else if (data.percentage != 0) {
+          data.progress -= 1;
+          data.percentage = parseInt(data.progress / data.total * 100);
+        }
+
+        list.forEach((item, index) => {
+          if (item.id == event.id) {
+            list[index].finish = event.value ? 1 : 0;
+            return;
+          }
+        });
+
+        console.log(list)
+
+        return db.collection('plan').where({
+          openid: event.openid
+        }).update({
+          data: {
+            progress: data.progress,
+            percentage: data.percentage,
+            list 
+          }
+        }).then(res => {
+          console.log(res)
+          return { msg: 1 }
+        }).catch((err) => {
+          console.log(err)
+          return { msg: 0 }
+        })
+      } else {
+        return { msg: 0 }
+      }
+    })
+    .catch(() => {
+      return { msg: 0 }
     })
 }
 

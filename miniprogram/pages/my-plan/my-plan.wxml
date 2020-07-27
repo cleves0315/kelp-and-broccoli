@@ -2,6 +2,6 @@
 <view class="my-plan">
   <view class="container">
     <header />
-    <plan-list />
+    <plan-list list="{{plan ? plan.list : []}}" bind:btnchange="handleToChangePlan" />
   </view>
 </view>

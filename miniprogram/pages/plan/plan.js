@@ -20,7 +20,7 @@ Page({
       name: 'request',
       data: {        
         action: 'getPlanInfo',
-        openid: wx.getStorageSync('openid')
+        openid: JSON.parse(wx.getStorageSync('openid'))
       }
     }).then(res => {
       console.log(res.result)

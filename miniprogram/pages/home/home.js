@@ -25,7 +25,7 @@ Page({
     callFunction({
       name: 'request',
       data: {
-        openid: wx.getStorageSync('openid'),
+        openid: JSON.parse(wx.getStorageSync('openid')),
         action: 'getPlanInfo'
       }
     }).then(res => {
@@ -54,7 +54,7 @@ Page({
       name: 'request',
       data: {
         action: 'setUserInfo',
-        openid: wx.getStorageSync('openid'),
+        openid: JSON.parse(wx.getStorageSync('openid')),
         userInfo
       }
     })

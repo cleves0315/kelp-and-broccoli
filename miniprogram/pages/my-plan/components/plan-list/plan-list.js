@@ -7,6 +7,10 @@ Component({
     btnChecked: {
       type: Boolean,
       value: false
+    },
+    list: {
+      type: Array,
+      value: []
     }
   },
 
@@ -22,7 +26,8 @@ Component({
    */
   methods: {
     handleBtnChange(e) {
-      console.log(e.detail)
+      console.log(e)
+      this.triggerEvent('btnchange', { value: e.detail.value, id: e.currentTarget.dataset.id })
     }
   }
 })
