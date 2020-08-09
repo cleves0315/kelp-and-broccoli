@@ -1,10 +1,6 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 
-cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
-})
-
 /**
  * 格式化时间格式 xxxx-xx-xx xx:xx:xx
  * @param {*} date 
@@ -20,6 +16,11 @@ function formatDate(d) {
 exports.main = async (event) => {
   // const wxContext = await cloud.getWXContext()
   const db = cloud.database();
+
+  cloud.init({
+    env: cloud.DYNAMIC_CURRENT_ENV,
+    timeout: event.timeout || 15000
+  })
 
   switch (event.action) {
     case 'getPlanInfo': {

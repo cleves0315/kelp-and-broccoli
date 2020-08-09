@@ -27,12 +27,9 @@ exports.main = async (event, context) => {
 
   const db = cloud.database()
 
-  const dbUser = db.collection('userinfo');
-
-  return dbUser.get().then(res => {
+  db.collection('user_info').get().then(res => {
     console.log(res.data)
     let exist = 0;
-    let info = {};
 
     res.data.map(item => {
       if (item.openid == wxContext.OPENID) {
@@ -50,15 +47,13 @@ exports.main = async (event, context) => {
         }
       })
     }
-
-    return {
-      event,
-      openid: wxContext.OPENID,
-      userinfo: info,
-      appid: wxContext.APPID,
-      unionid: wxContext.UNIONID,
-      env: wxContext.ENV
-    }
   })
+
+  return {
+    openid: wxContext.OPENID,
+    appid: wxContext.APPID,
+    unionid: wxContext.UNIONID,
+    env: wxContext.ENV
+  }
 }
 

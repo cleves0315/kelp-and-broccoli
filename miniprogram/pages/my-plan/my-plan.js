@@ -15,7 +15,8 @@ Page({
     console.log(value)
 
     wx.showLoading({
-      mask: true
+      mask: true,
+      title: '操作中...'
     });
 
     callFunction({
