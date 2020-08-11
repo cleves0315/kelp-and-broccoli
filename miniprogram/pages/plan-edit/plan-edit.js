@@ -1,6 +1,8 @@
 // pages/plan-edit/plan-edit.js
 import { callFunction } from '../../utils/util'
 
+const app = getApp();
+
 Page({
 
   /**
@@ -11,7 +13,8 @@ Page({
       title: '',
       detail: ''
     },
-    isHeaderDelBtn: 0,
+    action: '',              // 上页面传递过来的操作动做：edit、add
+    isHeaderDelBtn: 0,       // 是否显示删除按钮
   },
 
   EditCase: null,
@@ -28,6 +31,9 @@ Page({
     }
   },
 
+  /**
+   * 删除按钮
+   */
   handleToDelPlan() {
     callFunction({
       name: 'request',
@@ -49,6 +55,9 @@ Page({
     })
   },
 
+  /**
+   * 完成按钮
+   */
   handleToFinishPlan() {
     const inputValues = this.EditCase.handleToGetInput();
 
@@ -59,30 +68,46 @@ Page({
       return;
     }
 
+    wx.showLoading({
+      mask: true,
+      title: '请稍等...',
+    })
+
+    const action = this.data.action == 'edit' ? 'editPlan' : 'addPlan'
+
     callFunction({
       name: 'request',
       data: {
-        action: 'addPlan',
+        action,
         openid: JSON.parse(wx.getStorageSync('openid')),
-        _id: JSON.parse(wx.getStorageSync('plan'))['_id'],
         data: {
+          id: this.data.plan.id,
           title: inputValues.inputTitle,
           detail: inputValues.inputDetail,
-          finish: 0
         }
       }
-    }).then(res => {
-      console.log(res)
-      wx.showToast({ icon: 'none', title: '添加成功' })
-
-      setTimeout(() => {
-        wx.navigateBack({
-          delta: 1,
-        })
-      }, 1000);
-    }).catch(err => {
-      wx.showToast({ icon: 'none', title: '操作失败' })
     })
+      .then(res => {
+        console.log(res)
+        if (res.result.msg == 0) {
+          wx.showToast({ icon: 'none', title: '操作失败' })
+          return;
+        }
+
+        wx.showToast({ title: '操作成功' })
+
+        app.globalData.nveBack = 'plan-edit';
+        
+        setTimeout(() => {
+          wx.navigateBack({
+            delta: 1,
+          })
+        }, 1000);
+      })
+      .catch(err => {
+        wx.showToast({ icon: 'none', title: '操作失败' })
+      })
+      .finally(() => wx.hideLoading());
   },
 
   onLoad(options) {
@@ -95,6 +120,7 @@ Page({
       plan,
       isHeaderDelBtn: action == 'add' ? 0 : 1
     })
+    this.data.action = action;
 
     this.EditCase = this.selectComponent('#editCase');
   }

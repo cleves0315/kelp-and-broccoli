@@ -4,25 +4,60 @@ import { callFunction, getAuthGetting } from './utils/util';
 App({
   canRun: true,   // 节流开关
 
+  /**
+   * 登录
+   */
   login() {
     if (!this.canRun) return;
     
     this.canRun = false;
 
     console.log('login')
-    setTimeout(() => {
-      callFunction({
-        name: 'login'
+
+    callFunction({
+      name: 'login'
+    })
+      .then(res => {
+        console.log(res)
+        wx.setStorageSync('openid', JSON.stringify(res.result.openid));
       })
-        .then(res => {
-          console.log(res)
-          wx.setStorageSync('openid', JSON.stringify(res.result.openid));
-        })
-        .catch(console.error)
-        .finally(() => {
-          this.canRun = true;
-        })
-    }, 1500);
+      .catch(console.error)
+      .finally(() => {
+        this.canRun = true;
+      })
+  },
+
+  /**
+   * 获取plan数据
+   */
+  handleReqPlanInfo() {
+    if (!wx.getStorageSync('openid')) {
+      setTimeout(() => this.handleReqPlanInfo(), 500);
+      return;
+    }
+
+    return new Promise((resolve) => {
+      callFunction({
+        name: 'request',
+        data: {
+          action: 'getPlanInfo',
+          openid: JSON.parse(wx.getStorageSync('openid'))
+        }
+      }).then(res => {
+        console.log(res)
+        if (res.result.msg != 1) {
+          wx.showToast({ icon: 'none', title: '数据加载失败...' });
+          return;
+        }
+  
+        const data = res.result.plan;
+  
+        wx.setStorageSync('plan', JSON.stringify(data));
+        resolve();
+      }).catch(() => {
+        wx.showToast({ icon: 'none', title: '数据加载失败...' });
+      })
+    })
   },
 
   onLaunch: function () {
@@ -41,11 +76,13 @@ App({
 
     this.globalData = {}
 
-    // 登陆
+    
     this.login();
+
+    // this.handleReqPlanInfo();
   },
 
   onShow() {
-    if (!wx.getStorageSync('openid')) this.login();
+    // if (!wx.getStorageSync('openid')) this.login();
   }
 })

@@ -1,6 +1,8 @@
 // pages/plan/plan.js
 import { callFunction } from '../../utils/util';
 
+const app = getApp();
+
 Page({
 
   /**
@@ -10,28 +12,17 @@ Page({
     plan: {}
   },
 
-  handleReqPlanList() {
-    if (!wx.getStorageSync('openid')) {
-      setTimeout(() => this.handleReqPlanList(), 500);
+  /**
+   * 缓存获取plan数据
+   */
+  handleGetPlanList() {
+    if (!wx.getStorageSync('plan')) {
+      wx.showToast({ icon: 'none', title: '加载失败...' })
       return;
     }
 
-    callFunction({
-      name: 'request',
-      data: {        
-        action: 'getPlanInfo',
-        openid: JSON.parse(wx.getStorageSync('openid'))
-      }
-    }).then(res => {
-      console.log(res.result)
-
-      if (res.result.msg == 1) {
-        this.setData({ plan: res.result.plan })
-      } else {
-        wx.showToast({ icon: 'none', title: '加载失败' })
-      }
-    }).catch(() => {
-      wx.showToast({ icon: 'none', title: '加载失败' })
+    this.setData({
+      plan: JSON.parse(wx.getStorageSync('plan'))
     })
   },
 
@@ -47,6 +38,14 @@ Page({
   },
 
   onShow() {
-    this.handleReqPlanList();
+    this.handleGetPlanList();
+
+    if (app.globalData.nveBack == 'plan-edit') {
+      app.handleReqPlanInfo()
+        .then(() => {
+          this.handleGetPlanList();
+        })
+      app.globalData.nveBack = '';
+    }
   }
 })

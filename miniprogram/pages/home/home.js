@@ -1,6 +1,8 @@
 // pages/home/home.js
 import { getAuthGetting, callFunction } from '../../utils/util';
 
+const app = getApp();
+
 Page({
 
   /**
@@ -14,34 +16,26 @@ Page({
   },
 
   /**
-   * 获取plan数据
+   * 从缓存获取plan数据
    */
-  handleToReqPlanInfo() {
-    if (!wx.getStorageSync('openid')) {
-      setTimeout(() => this.handleToReqPlanInfo(), 500);
+  handleToGetPlanInfo() {
+    if (!wx.getStorageSync('plan')) {
+      setTimeout(() => this.handleToGetPlanInfo(), 500);
       return;
     }
 
-    callFunction({
-      name: 'request',
-      data: {
-        openid: JSON.parse(wx.getStorageSync('openid')),
-        action: 'getPlanInfo'
-      }
-    }).then(res => {
-      console.log(res)
+    this.setData({ plan: JSON.parse(wx.getStorageSync('plan')) })
+  },
 
-      if (res.result.msg == 1) {
-        this.setData({ plan: res.result.plan });
-
-        wx.setStorageSync('plan', JSON.stringify(res.result.plan));
-      } else {
-        wx.showToast({ icon: 'none', title: '加载失败' }) 
-      }
-    }).catch(err => { 
-      wx.showToast({ icon: 'none', title: '加载失败' }) 
-      console.log(err)
-    })
+  /**
+   * 
+   */
+  getUserInfo() {
+    if (!this.data.userInfo) {
+      wx.getUserInfo({
+        success: (res) => this.setData({ userInfo: res.userInfo, bannerTitle: res.userInfo.nickName + '的每日计划' })
+      })
+    }
   },
 
   /**
@@ -58,8 +52,6 @@ Page({
         userInfo
       }
     })
-
-    wx.setStorageSync('userInfo', JSON.stringify(userInfo));
 
     this.setData({ userInfo, bannerTitle: userInfo.nickName + '的每日计划' })
   },
@@ -109,12 +101,12 @@ Page({
   },
   
   onShow: function () {
-    this.handleToReqPlanInfo();
-
-    if (!this.data.userInfo) {
-      wx.getUserInfo({
-        success: (res) => this.setData({ userInfo: res.userInfo, bannerTitle: res.userInfo.nickName + '的每日计划' })
+    // 获取plan数据，存入缓存
+    app.handleReqPlanInfo()
+      .then(() => {
+        this.handleToGetPlanInfo();
       })
-    }
+
+    this.getUserInfo();
   },
 })
