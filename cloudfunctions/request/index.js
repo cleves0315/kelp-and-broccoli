@@ -181,7 +181,7 @@ async function chanPlangress(event, db) {
 
 /**
  * 修改计划
- * @param event title、detail、id
+ * @param event (title、detail、id)
  * @param  db 
  */
 async function editPlan(event, db) {
@@ -191,20 +191,27 @@ async function editPlan(event, db) {
     })
     .get()
     .then(res => {
+      console.log(res)
       if (res.data.length == 0 || !event.title || !event.id) return { msg: 0 }
 
       const today_list = res.data[0].today_list;
+      let isSame = 0;
 
       today_list.forEach((item, index) => {
-        if (item.id == id) {
+        if (item.id == event.id) {
+          if ((today_list[index].title == event.title) && (today_list[index].detail == event.detail)) {
+            isSame = 1;   // 判断传递的标题、详情是否和数据库里数据相同
+            return;
+          }
 
           today_list[index].title = event.title;
-
-          if (event.detail) today_list[index].detail = event.detail;
+          today_list[index].detail = event.detail;
 
           return;
         }
       })
+
+      if (isSame == 1) return { msg: 1 }
 
       return db.collection('plan')
         .where({
@@ -216,6 +223,7 @@ async function editPlan(event, db) {
           }
         })
         .then(res => {
+          console.log(res)
           if (res.stats.updated != 1) return { msg: 0 }
 
           return { msg: 1 }
@@ -233,13 +241,12 @@ async function editPlan(event, db) {
 
 /**
  * 新增每日计划
- * @param {*} event 
+ * @param {*} event (title、detail)
  * @param {*} db 
  * @param {*} context 
  */
 async function addPlan(event, db) {
   const dbPlan = db.collection('plan');
-  const front = event.data;
   const _ = db.command;
 
   return dbPlan.where({
@@ -257,8 +264,8 @@ async function addPlan(event, db) {
         item.id = 1;
       }
       item.finish = 0;
-      item.title = front.title;
-      item.detail = front.detail;
+      item.title = event.title;
+      item.detail = event.detail;
 
       return dbPlan.where({
         openid: event.openid
@@ -271,13 +278,18 @@ async function addPlan(event, db) {
           }
         }).then(res => {
           console.log(res)
-          if (res.stats.updated != 1) {
-            return { msg: 0 }
-          }
+
+          if (res.stats.updated != 1) return { msg: 0 }
+
           return { msg: 1 }
+        }).catch(err => {
+          console.log(err)
+
+          return { msg: 0 }
         })
       })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err)
       console.log('找不到计划对应的openid')
       return { msg: 0 }
     })

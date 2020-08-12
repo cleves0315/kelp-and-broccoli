@@ -6,7 +6,7 @@
         bindinput="handleContentInput" bindkeyboardheightchange="handleKeyboardheightchange" />
     </view>
     <view class="edit-content">
-      <textarea id="detail" class="content-input" maxlength="{{contentMaxlength}}" value="{{detailValue}}" placeholder-class="content-placeholder-input" placeholder="{{placeholderContent}}"
+      <textarea id="detail" class="content-input" maxlength="{{detailMaxlength}}" value="{{detailValue}}" placeholder-class="content-placeholder-input" placeholder="{{placeholderContent}}"
         bindinput="handleContentInput" bindkeyboardheightchange="handleKeyboardheightchange"></textarea>
     </view>
     <view class="cont-val-tips" style="bottom: {{keyboardHeight + 15}}px;">{{conValLength}}/{{conValMaxLength}}</view>

@@ -20,7 +20,7 @@ Component({
       type: String,
       value: '计划详情，可以写写该计划具体内容（选填）'
     },
-    contentMaxlength: {
+    detailMaxlength: {
       type: Number,
       value: 200
     },
@@ -38,38 +38,26 @@ Component({
    * 组件的初始数据
    */
   data: {
-    inputTitle: '',
-    inputDetail: '',
-    keyboardHeight: 0
+    keyboardHeight: 0,         // 底部最大字数提示栏 bottom位置
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
+    /**
+     * 监听标题、详情input事件
+     * @param {String} e 
+     */
     handleContentInput(e) {
+      // console.log(e)
       const id = e.currentTarget.id;
-
-      switch(id) {
-        case 'title':
-          this.data.inputTitle = e.detail.value;
-          break;
-
-        case 'detail':
-          this.data.inputDetail = e.detail.value;
-          break;
-      }
 
       this.setData({
         conValLength: e.detail.value.length
       });
-    },
 
-    handleToGetInput() {
-      return {
-        inputTitle: this.data.inputTitle,
-        inputDetail: this.data.inputDetail
-      }
+      this.triggerEvent('detail-input', { id, value: e.detail.value });
     },
 
     /**

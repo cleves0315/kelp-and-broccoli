@@ -21,7 +21,7 @@ Page({
 
   /**
    * 验证文本
-   * @param title 
+   * @param title 标题
    */
   handleToVerication(title) {
     if (title.trim().length == 0) {
@@ -59,9 +59,9 @@ Page({
    * 完成按钮
    */
   handleToFinishPlan() {
-    const inputValues = this.EditCase.handleToGetInput();
-
-    const veriResults = this.handleToVerication(inputValues.inputTitle);
+    // const inputValues = this.EditCase.handleToGetInput();
+    const plan = this.data.plan;
+    const veriResults = this.handleToVerication(plan.title);
 
     if (!veriResults) {
       wx.showToast({ icon: 'none', title: '请输入标题' });
@@ -80,11 +80,9 @@ Page({
       data: {
         action,
         openid: JSON.parse(wx.getStorageSync('openid')),
-        data: {
-          id: this.data.plan.id,
-          title: inputValues.inputTitle,
-          detail: inputValues.inputDetail,
-        }
+        id: this.data.plan.id,
+        title: plan.title,
+        detail: plan.detail,
       }
     })
       .then(res => {
@@ -96,7 +94,7 @@ Page({
 
         wx.showToast({ title: '操作成功' })
 
-        app.globalData.nveBack = 'plan-edit';
+        app.globalData.nveBack = 'plan-edit';   // 设定返回点，plan页面onShow时判断来刷新请求plan数据
         
         setTimeout(() => {
           wx.navigateBack({
@@ -108,6 +106,27 @@ Page({
         wx.showToast({ icon: 'none', title: '操作失败' })
       })
       .finally(() => wx.hideLoading());
+  },
+
+  /**
+   * 监听输入标题、内容
+   * @param {Object} e 组件传递参数
+   */
+  handleToDetailInput(e) {
+    const id = e.detail.id;
+    const value = e.detail.value;
+    const plan = this.data.plan;
+
+    switch (id) {
+      case 'title':
+        plan.title = value;
+        break;
+      case 'detail':
+        plan.detail = value;
+        break;
+    }
+
+    this.setData({ plan })
   },
 
   onLoad(options) {
