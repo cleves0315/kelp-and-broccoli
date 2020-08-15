@@ -97,29 +97,60 @@ async function getPlanInfo(event, db) {
  */
 async function delPlan(event, db) {
   const dbPlan = db.collection('plan');
-  const delId = event.id;
   const _ = db.command;
 
-  dbPlan.where({
+  return dbPlan.where({
     openid: event.openid
   })
     .get()
     .then(res => {
       console.log(res.data);
 
-      const progress = res.data[0].total - 1 == 0 ? 0 : res.data[0].progress;
-      const percentage = parseInt(res.data[0].progress / (res.data[0].total - 1) * 100);
+      if (res.data.length == 0 || !event.id) return { msg: 0 }
 
-      dbPlan.where({
+      let progress = 0;   // today_list完成的数量
+      let percentage = 0;   // 每日任务进度百分比
+      
+      res.data[0].today_list.forEach(item => {
+        if (item.id == event.id) {
+          if (item.finish == 1) {
+            progress = res.data[0].progress - 1;
+          } else {
+            progress = res.data[0].progress;
+          }
+          return;
+        }
+      })
+
+      if (progress < 0) progress = 0;
+
+      if ((res.data[0].total - 1) == 0) percentage = 0;
+      else percentage = parseInt(progress / (res.data[0].total - 1) * 100);
+
+      return dbPlan.where({
         openid: event.openid
       }).update({
           data: {
             total: _.inc(-1),
-            progress:  progress,
-            percentage: percentage || 0,
-            today_list: _.pull({ id: delId })
+            progress,
+            percentage,
+            today_list: _.pull({ id: event.id })
           }
         })
+        .then(res => {
+          console.log(res)
+          if (res.stats.updated != 1) return { msg: 0 }
+
+          return { msg: 1 }
+        })
+        .catch(err => {
+          console.log(err)
+          return { msg: 0 }
+        })
+    })
+    .catch(err => {
+      console.log(err)
+      return { msg: 0 };
     })
 }
 

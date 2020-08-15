@@ -39,13 +39,5 @@ Page({
 
   onShow() {
     this.handleGetPlanList();
-
-    if (app.globalData.nveBack == 'plan-edit') {
-      app.handleReqPlanInfo()
-        .then(() => {
-          this.handleGetPlanList();
-        })
-      app.globalData.nveBack = '';
-    }
   }
 })

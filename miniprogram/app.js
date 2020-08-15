@@ -29,6 +29,7 @@ App({
 
   /**
    * 获取plan数据
+   * @returns Promise
    */
   handleReqPlanInfo() {
     if (!wx.getStorageSync('openid')) {
@@ -78,8 +79,6 @@ App({
 
     
     this.login();
-
-    // this.handleReqPlanInfo();
   },
 
   onShow() {

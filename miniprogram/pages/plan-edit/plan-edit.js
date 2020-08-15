@@ -35,6 +35,11 @@ Page({
    * 删除按钮
    */
   handleToDelPlan() {
+    wx.showLoading({
+      mask: true,
+      title: '请稍等...',
+    })
+
     callFunction({
       name: 'request',
       data: {
@@ -43,15 +48,30 @@ Page({
         id: this.data.plan.id
       }
     }).then(res => {
-      wx.showToast({ icon: 'none', title: '删除成功' })
+      console.log(res)
+      if (res.result.msg == 0) {
+        wx.hideLoading();
+        wx.showToast({ mask: true, icon: 'none', title: '操作失败' })
+        return;
+      }
 
-      setTimeout(() => {
-        wx.navigateBack({
-          delta: 1,
+      // 重新从后台获取plan数据
+      app.handleReqPlanInfo()
+        .then(() => {
+          wx.hideLoading();
+          wx.showToast({ mask: true, icon: 'none', title: '删除成功' })
+
+          setTimeout(() => {
+            wx.navigateBack({
+              delta: 1,
+            })
+          }, 1000);
         })
-      }, 1000);
+        
     }).catch(err => {
-      wx.showToast({ icon: 'none', title: '操作失败' })
+      console.log(err)
+      wx.hideLoading();
+      wx.showToast({ mask: true, icon: 'none', title: '操作失败' })
     })
   },
 
@@ -64,7 +84,7 @@ Page({
     const veriResults = this.handleToVerication(plan.title);
 
     if (!veriResults) {
-      wx.showToast({ icon: 'none', title: '请输入标题' });
+      wx.showToast({ mask: true, icon: 'none', title: '请输入标题' });
       return;
     }
 
@@ -88,24 +108,30 @@ Page({
       .then(res => {
         console.log(res)
         if (res.result.msg == 0) {
-          wx.showToast({ icon: 'none', title: '操作失败' })
+          wx.hideLoading();
+          wx.showToast({ mask: true, icon: 'none', title: '操作失败' })
           return;
         }
 
-        wx.showToast({ title: '操作成功' })
-
-        app.globalData.nveBack = 'plan-edit';   // 设定返回点，plan页面onShow时判断来刷新请求plan数据
-        
-        setTimeout(() => {
-          wx.navigateBack({
-            delta: 1,
+        // 重新从后台获取plan数据
+        app.handleReqPlanInfo()
+          .then(() => {
+            wx.hideLoading();
+            wx.showToast({ mask: true, title: '操作成功' })
+          
+            setTimeout(() => {
+              wx.navigateBack({
+                delta: 1,
+              })
+            }, 1000);
           })
-        }, 1000);
+        
       })
       .catch(err => {
-        wx.showToast({ icon: 'none', title: '操作失败' })
+        console.log(err)
+        wx.hideLoading();
+        wx.showToast({ mask: true, icon: 'none', title: '操作失败' })
       })
-      .finally(() => wx.hideLoading());
   },
 
   /**

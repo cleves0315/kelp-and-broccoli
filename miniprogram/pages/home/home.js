@@ -95,17 +95,19 @@ Page({
       .catch(err => this.setData({ isShowLoginCase: 1 }))
   },
 
-  onLoad: function() {
+  onReady: function() {
     getAuthGetting('scope.userInfo')
       .catch(() => this.setData({ isShowLoginCase: 1 }))
-  },
-  
-  onShow: function () {
+
     // 获取plan数据，存入缓存
     app.handleReqPlanInfo()
       .then(() => {
         this.handleToGetPlanInfo();
       })
+  },
+  
+  onShow: function () {
+    this.handleToGetPlanInfo();
 
     this.getUserInfo();
   },
