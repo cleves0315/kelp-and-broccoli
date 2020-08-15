@@ -16,6 +16,10 @@ Component({
       type: String,
       value: '打卡日历'
     },
+    logoUrl: {
+      type: String,
+      value: ''
+    },
     backImage: {
       type: String,
       value: 'https://6272-broccoli-puuzo-1302613116.tcb.qcloud.la/index_header.jpg?sign=3e80640d8bda0190c64abf2d463892fa&t=1594609072'

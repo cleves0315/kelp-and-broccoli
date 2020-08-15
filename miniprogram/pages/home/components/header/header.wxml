@@ -1,7 +1,12 @@
 <!--pages/home/components/header/header.wxml-->
 <view class="header" style="background-image: url({{backImage}});">
   <view class="container">
-    <view class="head"><view class="title">{{title}}</view></view>
+    <view class="head">
+      <block wx:if="{{logoUrl != ''}}">
+        <!-- <view class="logo-wrap"><image class="logo" src="{{logoUrl}}" mode="widthFix"></image></view> -->
+      </block>
+      <view class="title">{{title}}</view>
+    </view>
     <view class="content">
       <view class="date">
         <view class="num">{{day}}</view>

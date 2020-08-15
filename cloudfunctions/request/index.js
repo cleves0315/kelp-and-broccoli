@@ -156,18 +156,18 @@ async function delPlan(event, db) {
 
 /**
  * 改变计划进度
+ * @param { Object } event [id, openid, value -> boolean]
  */
 async function chanPlangress(event, db) {
-  if (!event.id || !event.openid || event.value == null) {
-    return { msg: 0 }
-  }
-
   return db.collection('plan').where({
     openid: event.openid
   })
     .get()
     .then(res => {
       console.log(res)
+      if (res.data.length == 0 || !event.id || !event.openid || event.value == null) {
+        return { msg: 0 }
+      }
       
       const today_list = res.data[0].today_list;
       const data = res.data[0];
@@ -199,13 +199,16 @@ async function chanPlangress(event, db) {
         }
       }).then(res => {
         console.log(res)
+        if (res.stats.updated != 1) return { msg: 0 }
+
         return { msg: 1 }
       }).catch((err) => {
         console.log(err)
         return { msg: 0 }
       })
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err)
       return { msg: 0 }
     })
 }
