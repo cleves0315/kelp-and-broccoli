@@ -8,7 +8,7 @@
   padding: 30rpx;
   background: #fff;
   border-radius: 10px;
-  margin-bottom: 50rpx;
+  margin-bottom: 30rpx;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
 }
 
@@ -27,11 +27,6 @@
   margin-top: 20rpx;
 }
 
-.btn-wrap {
-  align-self: flex-start;
-  margin-left: 30rpx;
-}
-
 .tips {
   position: fixed;
   top: 40%;
@@ -40,4 +35,9 @@
   text-align: center;
   color: #888;
   font-size: 28rpx;
+}
+
+.funt-wap {
+  align-self: center;
+  margin-right: 30rpx;
 }

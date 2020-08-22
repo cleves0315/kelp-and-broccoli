@@ -33,7 +33,7 @@ Page({
    */
   handleToChangePlan(e) {
     const value = e.detail.value;
-    console.log(value)
+    console.log(e)
 
     wx.showLoading({
       mask: true,

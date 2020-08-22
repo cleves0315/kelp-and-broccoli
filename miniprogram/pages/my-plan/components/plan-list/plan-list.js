@@ -27,7 +27,8 @@ Component({
   methods: {
     handleBtnChange(e) {
       console.log(e)
-      this.triggerEvent('btnchange', { value: e.detail.value, id: e.currentTarget.dataset.id })
+      const dataset = e.currentTarget.dataset;
+      this.triggerEvent('btnchange', { value: dataset.value, id: dataset.id })
     }
   }
 })
