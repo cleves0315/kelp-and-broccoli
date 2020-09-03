@@ -23,6 +23,9 @@ exports.main = async (event) => {
   const db = cloud.database();
 
   switch (event.action) {
+    case 'update_plan': {
+      return await updatePlan(event, db)
+    }
     case 'getPlanInfo': {
       return await getPlanInfo(event, db)
     }
@@ -45,6 +48,32 @@ exports.main = async (event) => {
       return
     }
   }
+}
+
+
+/**
+ * 更新数据
+ * @param {*} event 
+ * @param {*} db 
+ */
+async function updatePlan(event, db) {
+  return db.collection('plan').where({
+    openid: event.openid
+  })
+    .update({
+      data: {
+        update_time: event.update_time
+      }
+    })
+    .then(res => {
+      console.log(res)
+      if (res.stats.updated != 1) return { msg: 0 }
+      return { msg: 1 }
+    })
+    .catch(err => {
+      console.log(err)
+      return { msg: 0 }
+    })
 }
 
 /**

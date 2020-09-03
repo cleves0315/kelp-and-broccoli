@@ -1,6 +1,6 @@
 /**
  * callFunction API封装
- * @param options 
+ * @param { Object } options 
  */
 function callFunction(options) {
   return new Promise((resolve, reject) => {

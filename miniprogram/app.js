@@ -83,5 +83,37 @@ App({
 
   onShow() {
     // if (!wx.getStorageSync('openid')) this.login();
+    console.log('onShow')
+    const getTime = new Date().getTime();
+
+    // callFunction({
+    //   name: 'request',
+    //   data: {
+    //     action: 'update_plan',
+    //     update_time: getTime,
+    //     openid: JSON.parse(wx.getStorageSync('plan')).openid
+    //   }
+    // }).then(res => {
+    //   console.log(res)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+  },
+
+  onHide() {
+    console.log('onHide')
+    const getTime = new Date().getTime();
+    callFunction({
+      name: 'request',
+      data: {
+        action: 'update_plan',
+        update_time: getTime,
+        openid: JSON.parse(wx.getStorageSync('plan')).openid
+      }
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
   }
 })
