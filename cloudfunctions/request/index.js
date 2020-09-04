@@ -90,7 +90,11 @@ async function getPlanInfo(event, db) {
   .then(res => {
     console.log(res)
 
-    if (res.data.length > 0) return { plan: res.data[0], msg: 1 }
+    if (res.data.length == 0) return {}
+
+    return { plan: res.data[0] }
+
+    // if (res.data.length > 0) return { plan: res.data[0], msg: 1 }
 
     // 数据库不存在数据
     const plan = {

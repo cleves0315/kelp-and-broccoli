@@ -1,0 +1,14 @@
+<!--components/floot-input-box/floot-input-box.wxml-->
+<view class="floot-input-box {{isIphoneX ? 'iphone-x' : 'ordinary'}}" style="bottom: {{cursorSpacing || ''}}px;">
+  <view class="container">
+    <input class="input-box {{cursorSpacing > 0 ? 'input-change-height' : ''}}"
+      placeholder="{{inputPlaceTxt}}" 
+      placeholder-class="{{cursorSpacing == 0 ? 'input-box-placeholder' : 'input-box-placeholder-focus'}}"
+      adjust-position="{{adjustPosition}}"
+      bindkeyboardheightchange="handleKeyboardheightchange"></input>
+    <view class="input-place">
+      <image wx:if="{{cursorSpacing == 0}}" class="blur-icon" src="{{inputPlaceIcon}}"></image>
+      <view wx:else class="focus-icon"></view>
+    </view>
+  </view>
+</view>

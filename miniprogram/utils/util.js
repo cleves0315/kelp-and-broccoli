@@ -49,10 +49,30 @@ function throttle(fn, interval = 300) {
 }
 
 
+/**
+ * 获取iphoneX
+ * @returns 1, 0
+ */
+function judgeIphoneX() {
+  const res = wx.getSystemInfoSync();
+
+  console.log(res)
+
+  const model = res.model;
+
+  if (model.search('iPhone X') != -1 || model.search('iPhone 11') != -1) {
+    return 1;
+  }
+
+  return 0;
+}
+
+
 
 
 module.exports = {
   throttle,
   callFunction,
-  getAuthGetting
+  getAuthGetting,
+  judgeIphoneX
 }

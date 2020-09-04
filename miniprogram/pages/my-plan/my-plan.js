@@ -1,5 +1,5 @@
 // miniprogram/pages/my-plan/my-plan.js
-import { callFunction } from '../../utils/util';
+import { callFunction, judgeIphoneX } from '../../utils/util';
 
 const app = getApp();
 
@@ -9,23 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isIphoneX: 0,
     plan: null
   },
-
-   /**
-   * 从storage获取plan数据
-   */
-  handleGetPlanList() {
-    if (!wx.getStorageSync('plan')) {
-      setTimeout(() => {
-        this.handleGetPlanList();
-      }, 1000);
-    }
-
-    this.setData({
-      plan: JSON.parse(wx.getStorageSync('plan'))
-    })
-  },
+  
 
   /**
    * @callback
@@ -70,6 +57,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.handleGetPlanList();
+    this.setData({
+      isIphoneX: judgeIphoneX()
+    })
   },
 })

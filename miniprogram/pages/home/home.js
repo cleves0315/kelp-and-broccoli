@@ -15,17 +15,6 @@ Page({
     bannerTitle: '先登陆后查看'
   },
 
-  /**
-   * 从缓存获取plan数据
-   */
-  handleToGetPlanInfo() {
-    if (!wx.getStorageSync('plan')) {
-      setTimeout(() => this.handleToGetPlanInfo(), 500);
-      return;
-    }
-
-    this.setData({ plan: JSON.parse(wx.getStorageSync('plan')) })
-  },
 
   /**
    * 
@@ -60,55 +49,66 @@ Page({
    * 进入日历
    */
   handleToIntoCalendar() {
-    getAuthGetting('scope.userInfo')
-      .then(res => {
-        wx.navigateTo({
-          url: '/pages/index/index',
-        })
-      })
-      .catch(() => this.setData({ isShowLoginCase: 1 }))
+    wx.navigateTo({
+      url: '/pages/index/index',
+    })
+    // getAuthGetting('scope.userInfo')
+    //   .then(res => {
+    //     wx.navigateTo({
+    //       url: '/pages/index/index',
+    //     })
+    //   })
+    //   .catch(() => this.setData({ isShowLoginCase: 1 }))
   },
 
   /**
    * 进入我的计划
    */
   handleToIntoMyPlan() {
-    getAuthGetting('scope.userInfo')
-      .then(res => {
-        wx.navigateTo({
-          url: '/pages/my-plan/my-plan',
-        })
-      })
-      .catch(() => this.setData({ isShowLoginCase: 1 }))
+    wx.navigateTo({
+      url: '/pages/my-plan/my-plan',
+    })
+    // getAuthGetting('scope.userInfo')
+    //   .then(res => {
+    //     wx.navigateTo({
+    //       url: '/pages/my-plan/my-plan',
+    //     })
+    //   })
+    //   .catch(() => this.setData({ isShowLoginCase: 1 }))
   },
 
   /**
    * 进入*设置计划
    */
   handleToIntoPlan() {
-    getAuthGetting('scope.userInfo')
-      .then(res => {
-        wx.navigateTo({
-          url: '/pages/plan/plan',
-        })
-      })
-      .catch(err => this.setData({ isShowLoginCase: 1 }))
+    wx.navigateTo({
+      url: '/pages/plan/plan',
+    })
+    // getAuthGetting('scope.userInfo')
+    //   .then(res => {
+    //     wx.navigateTo({
+    //       url: '/pages/plan/plan',
+    //     })
+    //   })
+    //   .catch(err => this.setData({ isShowLoginCase: 1 }))
   },
 
+
   onReady: function() {
-    getAuthGetting('scope.userInfo')
-      .catch(() => this.setData({ isShowLoginCase: 1 }))
+    // getAuthGetting('scope.userInfo')
+    //   .catch(() => this.setData({ isShowLoginCase: 1 }))
+
+    this.setData({
+      plan: app.globalData.plan
+    })
 
     // 获取plan数据，存入缓存
-    app.handleReqPlanInfo()
+    app.initPlanInfo()
       .then(() => {
-        this.handleToGetPlanInfo();
+        this.setData({ plan: app.globalData.plan })
       })
   },
   
   onShow: function () {
-    this.handleToGetPlanInfo();
-
-    this.getUserInfo();
   },
 })

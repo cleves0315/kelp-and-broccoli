@@ -5,6 +5,45 @@ App({
   canRun: true,   // 节流开关
 
   /**
+   * 获取云端上plan数据, 获取成功走resolve回调，获取失败（云端不存在数据，或前端更新时间更新）不走返回
+   * @returns Promise
+   */
+  initPlanInfo() {
+    if (wx.getStorageSync('openid') == '') {
+      setTimeout(() => {
+        this.initPlanInfo();
+      }, 500);
+      return;
+    }
+
+    return new Promise((resolve) => {
+
+      callFunction({
+        name: 'request',
+        data: {
+          action: 'getPlanInfo',
+          openid: JSON.parse(wx.getStorageSync('openid'))
+        }
+      }).then(res => {
+        console.log(res)
+  
+        const data = res.result.plan;
+        const plan = wx.getStorageSync('plan') && JSON.parse(wx.getStorageSync('plan'));
+  
+        if (data == {}) return;
+  
+        // 使用最新更新时间的数据
+        if (plan == '' || data.update_time > plan.update_time) {
+          this.globalData.plan = data;
+          resolve();
+        }
+
+      })
+
+    })
+  },
+
+  /**
    * 登录
    */
   login() {
@@ -79,6 +118,8 @@ App({
 
     
     this.login();
+
+    this.globalData.plan = wx.getStorageSync('plan') ? JSON.parse(wx.getStorageSync('plan')) : {};
   },
 
   onShow() {
@@ -102,18 +143,6 @@ App({
 
   onHide() {
     console.log('onHide')
-    const getTime = new Date().getTime();
-    callFunction({
-      name: 'request',
-      data: {
-        action: 'update_plan',
-        update_time: getTime,
-        openid: JSON.parse(wx.getStorageSync('plan')).openid
-      }
-    }).then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.log(err)
-    })
+    
   }
 })
