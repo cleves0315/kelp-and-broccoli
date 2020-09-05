@@ -51,6 +51,18 @@ Page({
       })
     })
   },
+
+  /**
+   * 点击单个计划
+   */
+  handleToTapPlanItem(e) {
+    console.log(e)
+    const data = e.detail.data;
+
+    wx.navigateTo({
+      url: '/pages/plan-edit/plan-edit?data=' + JSON.stringify(data),
+    })
+  },
  
 
   /**

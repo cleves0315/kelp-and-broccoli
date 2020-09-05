@@ -2,7 +2,7 @@
 <view class="plan-list">
   <view class="container">
     <block wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="_id">
-      <view class="plan-item">
+      <view class="plan-item" bindtap="handleToTap" data-data="{{item}}">
         <view class="funt-wap"><radio checked="{{item.finish ? true : false}}" data-value="{{item.finish ? true : false}}" data-id="{{item.id}}" bindtap="handleBtnChange"></radio></view>
         <view class="content-wrap">
           <view class="title">{{item.title}}</view>

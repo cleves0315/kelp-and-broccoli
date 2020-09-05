@@ -8,6 +8,10 @@ Component({
       type: Number,
       value: 0
     },
+    background: {        // 背景颜色
+      type: String,
+      value: '#fff'
+    },
     inputPlaceTxt: {    // 添加计划input标签提示文本
       type: String,
       value: '添加任务'
@@ -26,7 +30,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    cursorSpacing: 0,
+    cursorSpacing: 0,   // 获取键盘高度值
   },
 
   /**

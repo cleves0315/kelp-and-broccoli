@@ -6,16 +6,28 @@ Component({
   properties: {
     title: {
       type: String,
-      value: '我的计划列表'
+      value: '我的每日计划'
     },
     bubbleTxt: {
       type: String,
       value: '进行中'
     },
-    addBtnUrl: {
+    background: {
       type: String,
-      value: 'https://6272-broccoli-puuzo-1302613116.tcb.qcloud.la/Add%E6%B7%BB%E5%8A%A0.svg?sign=9d5287cd2ed1c28ea0f85988bddcbfa8&t=1598112797'
-    }
+      value: '#fff'
+    },
+    titColor: {
+      type: String,
+      value: '#fff'
+    },
+    bubColor: {
+      type: String,
+      value: '#333'
+    },
+    bubbleBackColor: {
+      type: String,
+      value: '#fff'
+    },
   },
 
   /**

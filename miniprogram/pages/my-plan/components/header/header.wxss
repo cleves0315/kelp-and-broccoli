@@ -2,9 +2,7 @@
 .container {
   display: flex;
   padding: 30rpx;
-  background: #fff;
   justify-content: space-between;
-  
 }
 
 .title {
@@ -25,18 +23,5 @@
   padding: 14rpx;
   font-weight: 700;
   font-size: 22rpx;
-  background: #70C59E;
   border-radius: 50px 50px 50px 10px;
-}
-
-.funt-wrap {
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 10rpx;
-}
-
-.funt-wrap .icon-add {
-  display: block;
-  width: 44rpx;
-  height: 44rpx;
 }

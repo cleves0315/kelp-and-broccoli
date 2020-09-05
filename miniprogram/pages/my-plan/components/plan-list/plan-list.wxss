@@ -1,19 +1,31 @@
 /* pages/my-plan/components/plan-list/plan-list.wxss */
 .container {
-  padding: 40rpx 20rpx;
+  padding: 0 20rpx;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  color: transparent;
 }
 
 .plan-item {
   display: flex;
-  padding: 30rpx;
+  height: 110rpx;
+  align-items: center;
   background: #fff;
-  border-radius: 10px;
-  margin-bottom: 30rpx;
+  border-radius: 16rpx;
+  margin-bottom: 4rpx;
+  padding: 0 30rpx;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
 }
 
 .content-wrap {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .content-wrap .title {
@@ -24,11 +36,11 @@
 .content-wrap .detail {
   font-size: 24rpx;
   color: #ADB0B9;
-  margin-top: 20rpx;
+  /* margin-top: 20rpx; */
 }
 
 .tips {
-  position: fixed;
+  position: absolute;
   top: 40%;
   left: 0;
   right: 0;

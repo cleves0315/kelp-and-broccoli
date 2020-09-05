@@ -1,5 +1,4 @@
 <!--pages/plan-edit/plan-edit.wxml-->
 <view class="plan-edit">
-  <header isDel="{{isHeaderDelBtn}}" bind:del="handleToDelPlan" bind:finish="handleToFinishPlan" />
-  <edit-case id="editCase" titleValue="{{plan.title}}" detailValue="{{plan.detail}}" conValLength="{{plan.detail.length}}" bind:detail-input="handleToDetailInput" />
+  <plan-list />
 </view>

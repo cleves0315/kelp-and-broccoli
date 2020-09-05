@@ -1,0 +1,14 @@
+<!--pages/plan-edit/components/plan-list/plan-list.wxml-->
+<view class="plan-list">
+  <view class="container">
+    <view class="main">
+      <view class="main-wrap">
+        <radio class="title-1"></radio>
+        <radio></radio>
+      </view>
+    </view>
+    <block>
+      <view class=""></view>
+    </block>
+  </view>
+</view>

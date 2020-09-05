@@ -1,14 +1,15 @@
 <!--components/floot-input-box/floot-input-box.wxml-->
-<view class="floot-input-box {{isIphoneX ? 'iphone-x' : 'ordinary'}}" style="bottom: {{cursorSpacing || ''}}px;">
-  <view class="container">
-    <input class="input-box {{cursorSpacing > 0 ? 'input-change-height' : ''}}"
+<view class="floot-input-box {{isIphoneX ? 'iphone-x' : ''}} {{cursorSpacing ? 'change-height' : ''}}" style="background: {{background}}; bottom: {{cursorSpacing || ''}}px;">
+  <view class="container {{cursorSpacing ? 'container-change-height' : ''}}">
+    <input class="input-box {{cursorSpacing ? 'input-box-change-height' : ''}}"
       placeholder="{{inputPlaceTxt}}" 
-      placeholder-class="{{cursorSpacing == 0 ? 'input-box-placeholder' : 'input-box-placeholder-focus'}}"
+      placeholder-class="{{cursorSpacing ? 'input-box-placeholder-focus' : 'input-box-placeholder'}}"
       adjust-position="{{adjustPosition}}"
-      bindkeyboardheightchange="handleKeyboardheightchange"></input>
-    <view class="input-place">
-      <image wx:if="{{cursorSpacing == 0}}" class="blur-icon" src="{{inputPlaceIcon}}"></image>
-      <view wx:else class="focus-icon"></view>
-    </view>
+      bindkeyboardheightchange="handleKeyboardheightchange">
+      <view class="input-place">
+        <image wx:if="{{cursorSpacing == 0}}" class="blur-icon" src="{{inputPlaceIcon}}"></image>
+        <view wx:else class="focus-icon"></view>
+      </view>
+    </input>
   </view>
 </view>

@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "header": "components/header/header",
-    "edit-case": "components/edit-case/edit-case"
+    "plan-list": "components/plan-list/plan-list"
   }
 }

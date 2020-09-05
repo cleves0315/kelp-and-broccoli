@@ -90,7 +90,7 @@ async function getPlanInfo(event, db) {
   .then(res => {
     console.log(res)
 
-    if (res.data.length == 0) return {}
+    if (res.data.length == 0) return { plan: {} }
 
     return { plan: res.data[0] }
 
