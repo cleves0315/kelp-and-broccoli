@@ -1,13 +1,31 @@
 <!--pages/plan-edit/components/plan-list/plan-list.wxml-->
 <view class="plan-list">
   <view class="container">
+    <!-- 主标题 -->
     <view class="main">
       <view class="main-wrap">
-        <ident checked="true" bind:changed="handleToChangeState" />
+        <view class="check-wrap">
+          <ident checked="false" bind:changed="handleToChangeState" />
+        </view>
+        <view class="main-title"><textarea class="main-input-title" auto-height="true" value="今日智投"></textarea></view>  
       </view>
     </view>
-    <block>
-      <view class=""></view>
-    </block>
+    <!-- 副标题 -->
+    <view class="sub">
+      <block wx:for="{{3}}" >
+        <view class="sub-item">
+          <view class="check-wrap">
+            <ident checked="false" width="40" height="40" bind:changed="handleToChangeState" />
+          </view>
+          <view class="sub-title"><textarea class="sub-input-title" auto-height="true" value="第{{index}}篇"></textarea></view>
+          <view class="del-btn"></view>
+        </view>
+      </block>
+    </view>
+    <!-- 添加按钮 -->
+    <view class="function">
+      <view class="add-icon"></view>
+      <view class="add-txt">{{addTxt}}</view>
+    </view>
   </view>
 </view>

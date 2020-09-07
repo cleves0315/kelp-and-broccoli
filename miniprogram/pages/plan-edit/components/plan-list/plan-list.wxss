@@ -1,1 +1,111 @@
 /* pages/plan-edit/components/plan-list/plan-list.wxss */
+.container {
+  padding: 0 40rpx;
+}
+
+.main,
+.sub-item {
+  margin: 40rpx 0;
+}
+
+.main-wrap,
+.sub-item {
+  display: flex;
+  align-items: center;
+}
+
+.check-wrap {
+  width: 50rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-wrap .main-title {
+  flex: 1;
+  margin-left: 36rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  min-height: 50rpx;
+  padding-right: 104rpx;
+}
+
+.main .main-title .main-input-title {
+  width: 100%;
+}
+
+
+
+.sub-item .sub-title {
+  flex: 1;
+  margin-left: 40rpx;
+  font-size: 32rpx;
+  padding-right: 80rpx;
+  min-height: 50rpx;
+  display: flex;
+  align-items: center;
+}
+
+.sub-item .del-btn {
+  width: 24rpx;
+  height: 24rpx;
+  position: relative;
+}
+
+.sub-item .del-btn::after,
+.sub-item .del-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2rpx;
+  background: #5E5E61;
+}
+.sub-item .del-btn::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+.sub-item .del-btn::before {
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+
+.sub-item .sub-title .sub-input-title {
+  width: 100%;
+}
+
+
+
+.function {
+  display: flex;
+}
+
+.function .add-icon {
+  width: 40rpx;
+  height: 40rpx;
+  position: relative;
+  background: #07C160;
+  background-image: linear-gradient(transparent 0, #fff 50%);
+}
+
+.function .add-icon::after,
+.function .add-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 4rpx;
+  border-radius: 200rpx;
+  background-color: inherit;
+}
+
+.function .add-icon::after {
+  transform: translateY(-50%);
+}
+.function .add-icon::before {
+  transform: translateY(-50%) rotate(90deg);
+}

@@ -2,7 +2,7 @@
 .ident {
   overflow: hidden;
   border-radius: 50%;
-  border: 2rpx solid #dedede;
+  border: 4rpx solid #8D8D8D;
 }
 
 .ident .ident-checked {
