@@ -3,8 +3,7 @@
   <view class="container">
     <view class="main">
       <view class="main-wrap">
-        <radio class="title-1"></radio>
-        <radio></radio>
+        <ident checked="true" bind:changed="handleToChangeState" />
       </view>
     </view>
     <block>

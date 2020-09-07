@@ -9,11 +9,12 @@
 }
 /* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
 .title-1 .wx-radio-input.wx-radio-input-checked::before{
-  width: 60rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
-  height: 60rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
-  position: relative;
+  /* position: relative;
   top: 15rpx;
   left: 12rpx;
   transform: translate(-50%, -50%) scale(1);
-  -webkit-transform: translate(-50%, -50%) scale(1);
+  -webkit-transform: translate(-50%, -50%) scale(1); */
+  width: 60rpx;
+  height: 60rpx;
+  transform: translate(-25%, -25%) scale(1);
 }

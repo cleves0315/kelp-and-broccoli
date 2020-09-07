@@ -1,0 +1,26 @@
+/* components/ident/ident.wxss */
+.ident {
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2rpx solid #dedede;
+}
+
+.ident .ident-checked {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.ident .ident-hidden {
+  visibility: hidden;
+}
+
+.ident .ident-checked::after {
+  content: '';
+  width: 60%;
+  height: 60%;
+  background: url(https://6272-broccoli-puuzo-1302613116.tcb.qcloud.la/icon.svg?sign=9326be99b7e582c0ef69cb05f00eca22&t=1599457379)
+    no-repeat 0 / 100% 100%;
+}

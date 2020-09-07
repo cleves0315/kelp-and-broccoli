@@ -18,10 +18,8 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    handleToChangeState(e) {
+      console.log(e)
+    }
   },
-  
-  options: {
-    addGlobalClass: true
-  }
 })
