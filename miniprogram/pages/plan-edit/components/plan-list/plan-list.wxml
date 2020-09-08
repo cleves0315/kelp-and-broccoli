@@ -7,25 +7,36 @@
         <view class="check-wrap">
           <ident checked="false" bind:changed="handleToChangeState" />
         </view>
-        <view class="main-title"><textarea class="main-input-title" auto-height="true" value="今日智投"></textarea></view>  
+        <view class="main-title"><textarea class="main-input-title" auto-height="true" value="{{mainTitle}}" maxlength="{{maxlength}}"></textarea></view>  
       </view>
     </view>
     <!-- 副标题 -->
     <view class="sub">
-      <block wx:for="{{3}}" >
-        <view class="sub-item">
+      <block wx:for="{{stepList}}" wx:key="id">
+        <view id="item-{{item.id}}" class="sub-item {{isDelStepLine == item.id && 'del-items'}}">
           <view class="check-wrap">
             <ident checked="false" width="40" height="40" bind:changed="handleToChangeState" />
           </view>
-          <view class="sub-title"><textarea class="sub-input-title" auto-height="true" value="第{{index}}篇"></textarea></view>
-          <view class="del-btn"></view>
+          <view class="sub-title"><textarea class="sub-input-title" auto-height="true" value="{{item.title}}" maxlength="{{maxlength}}"></textarea></view>
+          <view class="del-btn" data-data="{{item}}" bindtap="handleToDelStep"></view>
         </view>
       </block>
     </view>
     <!-- 添加按钮 -->
-    <view class="function">
-      <view class="add-icon"></view>
-      <view class="add-txt">{{addTxt}}</view>
+    <view class="function" bindtap="handleToAddStep">
+      <view class="icon-wrap"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
+      <view class="add-txt">
+        <textarea class="add-step-input" style="color: {{isAddStepInputFocus ? '#8d8d8d' : '#07C160'}};"
+          value="{{addStepInputValue}}"
+          auto-height="true" 
+          focus="{{addStepInputFocus}}"
+          placeholder="{{addTxt}}" 
+          maxlength="{{maxlength}}" 
+          placeholder-style="color: {{isAddStepInputFocus ? '#8d8d8d' : '#07C160'}};"
+          bindfocus="handleToAddStepInputFocus"
+          bindblur="handleToAddStepInputBlur">
+        </textarea>
+      </view>
     </view>
   </view>
 </view>

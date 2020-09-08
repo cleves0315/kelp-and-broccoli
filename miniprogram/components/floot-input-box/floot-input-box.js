@@ -8,6 +8,10 @@ Component({
       type: Number,
       value: 0
     },
+    maxlength: {
+      type: Number,
+      value: -1
+    },
     background: {        // 背景颜色
       type: String,
       value: '#fff'

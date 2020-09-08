@@ -4,9 +4,21 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    addTxt: {
+    mainTitle: {      // 计划标题
+      type: String,
+      value: '今日智投'
+    },
+    stepList: {       // 步骤列表 数据
+      type: Array,
+      value: []
+    },
+    addTxt: {         // 下一步输入框 placeholder值
       type: String,
       value: '下一步'
+    },
+    maxlength: {      // 输入框最大输入值
+      type: Number,
+      value: -1
     },
   },
 
@@ -14,15 +26,88 @@ Component({
    * 组件的初始数据
    */
   data: {
-
+    isDelStepLine: -1,
+    addStepInputValue: '',      // '下一步输入框'的内容
+    addStepInputFocus: false,   // 控制'下一步输入框'是否聚焦
+    isAddStepInputFocus: false, // 查看'下一步输入框'当前是聚焦 or 失焦
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
+    /**
+     * @callback
+     * 计划完成情况切换事件
+     */
     handleToChangeState(e) {
       console.log(e)
-    }
+      const value = e.detail.value;   // true or false
+    },
+
+    /**
+     * @callback
+     * 点击删除按钮
+     */
+    handleToDelStep(e) {
+      console.log(e)
+      const data = e.currentTarget.dataset.data;
+
+      this.setData({
+        isDelStepLine: data.id
+      })
+
+      const id = '#item-' + data.id;
+      const query = this.createSelectorQuery();
+      query.select(id).boundingClientRect((rect) => {
+        console.log(rect);
+      }).exec();
+
+      return;
+
+      setTimeout(() => {
+        this.setData({ isDelStepLine: data.id })
+        
+        this.triggerEvent('delStep', { data: data });
+      }, 800);
+    },
+
+    /**
+     * @callback
+     * '下一步输入框'包括旁边 '+' 按钮 
+     */
+    handleToAddStep() {
+      this.setData({     // 使输入框聚焦
+        addStepInputFocus: true
+      })
+    },
+
+    /**
+     * @callback
+     * 监听 '下一步输入框' 聚焦事件
+     */
+    handleToAddStepInputFocus() {
+      this.setData({     // 保存输入框聚焦状态，响应前端样式
+        isAddStepInputFocus: true
+      })
+    },
+
+    /**
+     * @callback
+     * 监听 '下一步输入框' 失焦事件
+     */
+    handleToAddStepInputBlur(e) {
+      const value = e.detail.value.trim();
+
+      this.setData({     // 保存失焦状态
+        isAddStepInputFocus: false
+      })
+
+      // 生成一个步骤
+      if (value.length > 0) {
+        this.setData({ addStepInputValue: '' });   // 清空输入框内容
+        this.triggerEvent('addStep', { title: value });
+      }
+    },
   },
 })

@@ -3,6 +3,7 @@
   <view class="container {{cursorSpacing ? 'container-change-height' : ''}}">
     <input class="input-box {{cursorSpacing ? 'input-box-change-height' : ''}}"
       placeholder="{{inputPlaceTxt}}" 
+      maxlength="{{maxlength}}"
       placeholder-class="{{cursorSpacing ? 'input-box-placeholder-focus' : 'input-box-placeholder'}}"
       adjust-position="{{adjustPosition}}"
       bindkeyboardheightchange="handleKeyboardheightchange">

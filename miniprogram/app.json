@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/index/index",
     "pages/plan/plan",
     "pages/plan-edit/plan-edit",
-    "pages/index/index",
     "pages/my-plan/my-plan"
   ],
   "window": {
