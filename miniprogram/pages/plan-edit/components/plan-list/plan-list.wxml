@@ -7,7 +7,14 @@
         <view class="check-wrap">
           <ident checked="false" bind:changed="handleToChangeState" />
         </view>
-        <view class="main-title"><textarea class="main-input-title" auto-height="true" value="{{mainTitle}}" maxlength="{{maxlength}}"></textarea></view>  
+        <view class="main-title">
+          <textarea class="main-input-title"
+           auto-height="true" 
+           value="{{mainTitle}}" 
+           maxlength="{{maxlength}}" 
+           bindblur="handleToInputBlur"
+           bindinput="handleToInput"></textarea>
+        </view>  
       </view>
     </view>
     <!-- 副标题 -->
@@ -17,22 +24,32 @@
           <view class="check-wrap">
             <ident checked="false" width="40" height="40" bind:changed="handleToChangeState" />
           </view>
-          <view class="sub-title"><textarea class="sub-input-title" auto-height="true" value="{{item.title}}" maxlength="{{maxlength}}"></textarea></view>
+          <view class="sub-title">
+            <textarea class="sub-input-title" data-data="{{item}}" data-index="{{index}}"
+              focus="{{stepBlur.id == item.id && stepBlur.index == index && false}}"
+              auto-height="true" 
+              value="{{item.title}}" 
+              maxlength="{{maxlength}}" 
+              bindblur="handleToInputBlur"
+              bindinput="handleToInput"></textarea>
+          </view>
+          <!-- 删除按钮 -->
           <view class="del-btn" data-data="{{item}}" bindtap="handleToDelStep"></view>
         </view>
       </block>
     </view>
-    <!-- 添加按钮 -->
+    <!-- 下一步按钮 -->
     <view class="function" bindtap="handleToAddStep">
       <view class="icon-wrap"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
       <view class="add-txt">
-        <textarea class="add-step-input" style="color: {{isAddStepInputFocus ? '#8d8d8d' : '#07C160'}};"
+        <textarea class="add-step-input" style="color: {{isAddStepInputFocus ? 'inherit' : '#07C160'}};"
           value="{{addStepInputValue}}"
           auto-height="true" 
           focus="{{addStepInputFocus}}"
           placeholder="{{addTxt}}" 
           maxlength="{{maxlength}}" 
           placeholder-style="color: {{isAddStepInputFocus ? '#8d8d8d' : '#07C160'}};"
+          bindinput="handleToInput"
           bindfocus="handleToAddStepInputFocus"
           bindblur="handleToAddStepInputBlur">
         </textarea>

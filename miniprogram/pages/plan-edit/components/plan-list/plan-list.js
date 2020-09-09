@@ -26,7 +26,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isDelStepLine: -1,
+    stepBlur: { index: -1, id: -1 },    // 控制副标题输入框失焦，当id和index符合时
+    isDelStepLine: -1,          // 要删除step的id，界面出现对应id响应消失动画
     addStepInputValue: '',      // '下一步输入框'的内容
     addStepInputFocus: false,   // 控制'下一步输入框'是否聚焦
     isAddStepInputFocus: false, // 查看'下一步输入框'当前是聚焦 or 失焦
@@ -38,7 +39,7 @@ Component({
   methods: {
     /**
      * @callback
-     * 计划完成情况切换事件
+     * 计划完成按钮切换事件
      */
     handleToChangeState(e) {
       console.log(e)
@@ -53,23 +54,22 @@ Component({
       console.log(e)
       const data = e.currentTarget.dataset.data;
 
-      this.setData({
-        isDelStepLine: data.id
+      wx.showActionSheet({
+        itemList: ['删除任务'],
+        itemColor: '#EA3927',
+        success: res => {
+          this.setData({    // 界面删除效果
+            isDelStepLine: data.id
+          })
+    
+          // 传递事件，删除数据
+          setTimeout(() => {
+            this.setData({ isDelStepLine: data.id })
+            
+            this.triggerEvent('delStep', { data: data });
+          }, 800);
+        }
       })
-
-      const id = '#item-' + data.id;
-      const query = this.createSelectorQuery();
-      query.select(id).boundingClientRect((rect) => {
-        console.log(rect);
-      }).exec();
-
-      return;
-
-      setTimeout(() => {
-        this.setData({ isDelStepLine: data.id })
-        
-        this.triggerEvent('delStep', { data: data });
-      }, 800);
     },
 
     /**
@@ -80,6 +80,28 @@ Component({
       this.setData({     // 使输入框聚焦
         addStepInputFocus: true
       })
+    },
+
+    /**
+     * @callback
+     * 键盘输入事件
+     */
+    handleToInput(e) {
+      console.log(e)
+      const value = e.detail.value;
+      const index = e.currentTarget.dataset.index;
+      const data = e.currentTarget.dataset.data;
+      
+      // 当前输入回车
+      if (value.indexOf('\n') != -1) {
+        this.setData({
+          stepBlur: { id: data.id, index: index }
+        })
+      }
+    },
+
+    handleToInputBlur(e) {
+      console.log('blur')
     },
 
     /**

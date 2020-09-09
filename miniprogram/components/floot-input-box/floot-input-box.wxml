@@ -4,7 +4,7 @@
     <input class="input-box {{cursorSpacing ? 'input-box-change-height' : ''}}"
       placeholder="{{inputPlaceTxt}}" 
       maxlength="{{maxlength}}"
-      placeholder-class="{{cursorSpacing ? 'input-box-placeholder-focus' : 'input-box-placeholder'}}"
+      placeholder-style="color: {{cursorSpacing > 0 ? '#767678;' : '#fff'}};"
       adjust-position="{{adjustPosition}}"
       bindkeyboardheightchange="handleKeyboardheightchange">
       <view class="input-place">

@@ -5,7 +5,7 @@
 
 .main,
 .sub-item {
-  margin: 40rpx 0;
+  margin-bottom: 40rpx;
 }
 
 .main-wrap,
@@ -48,15 +48,15 @@
   flex: 1;
   margin-left: 40rpx;
   font-size: 32rpx;
-  padding-right: 80rpx;
+  padding-right: 40rpx;
   min-height: 50rpx;
   display: flex;
   align-items: center;
 }
 
 .sub-item .del-btn {
-  width: 24rpx;
-  height: 24rpx;
+  width: 50rpx;
+  height: 50rpx;
   position: relative;
 }
 
@@ -65,8 +65,8 @@
   content: '';
   position: absolute;
   top: 50%;
-  left: 0;
   right: 0;
+  width: 48%;
   height: 2rpx;
   background: #5E5E61;
 }
@@ -125,8 +125,7 @@
 .del-items {
   height: 0;
   min-height: 0 !important;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
   opacity: 0;
   transition: .3s;
 }

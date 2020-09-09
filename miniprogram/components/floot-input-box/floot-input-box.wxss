@@ -47,13 +47,6 @@
 }
 /* 激活键盘时end */
 
-.input-box-placeholder {
-  color: #fff;
-}
-.input-box-placeholder-focus {
-  color: #767678;
-}
-
 .input-place {
   position: absolute;
   top: 50%;
