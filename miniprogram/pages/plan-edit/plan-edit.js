@@ -14,6 +14,39 @@ Page({
     ]
   },
 
+
+  /**
+   * 按照id，更改step 标题
+   */
+  handleToEditStep(data) {
+    const stepList = this.data.stepList;
+
+    stepList.forEach((item, index) => {
+      if (item.id == data.id) {
+        stepList[index].title = data.title;
+      }
+    })
+
+    this.setData({
+      stepList
+    })
+  },
+
+  /**
+   * 输入完内容
+   * @callback
+   */
+  handleToEdited(e) {
+    const type = e.detail.type;
+    const data = e.detail.data;
+
+    switch (type) {
+      case 'sub':
+        this.handleToEditStep(data);
+        break;
+    }
+  },
+
   /**
    * @callback
    * 点击删除步骤按钮

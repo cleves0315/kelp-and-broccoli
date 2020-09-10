@@ -3,7 +3,9 @@
   <view class="container">
     <block wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="_id">
       <view class="plan-item" bindtap="handleToTap" data-data="{{item}}">
-        <view class="funt-wap"><radio checked="{{item.finish ? true : false}}" data-value="{{item.finish ? true : false}}" data-id="{{item.id}}" bindtap="handleBtnChange"></radio></view>
+        <view class="funt-wap">
+          <ident checked="{{item.finish ? true : false}}" detail="{{item}}" bind:identTap="handleToIdentTap" />
+        </view>
         <view class="content-wrap">
           <view class="title">{{item.title}}</view>
           <view class="detail">{{item.detail || '暂无计划详情'}}</view>

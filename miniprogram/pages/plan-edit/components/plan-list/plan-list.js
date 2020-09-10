@@ -93,15 +93,30 @@ Component({
       const data = e.currentTarget.dataset.data;
       
       // 当前输入回车
-      if (value.indexOf('\n') != -1) {
-        this.setData({
-          stepBlur: { id: data.id, index: index }
-        })
-      }
+      // if (value.indexOf('\n') != -1) {
+      //   this.setData({
+      //     stepBlur: { id: data.id, index: index }
+      //   })
+      // }
     },
-
+    
+    /**
+     * 输入完内容 
+     * @param {Object} e { type: main、sub }
+     * @callback
+     */
     handleToInputBlur(e) {
       console.log('blur')
+      console.log(e)
+      const value = e.detail.value;
+      const type = e.currentTarget.dataset.type;
+      const data = e.currentTarget.dataset.data;
+
+      if (value == data.title) return;
+
+      data.title = e.detail.value;
+
+      this.triggerEvent('edited', { type, data })
     },
 
     /**

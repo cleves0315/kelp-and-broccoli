@@ -5,10 +5,10 @@
     <view class="main">
       <view class="main-wrap">
         <view class="check-wrap">
-          <ident checked="false" bind:changed="handleToChangeState" />
+          <ident checked="false" bind:identTap="handleToChangeState" />
         </view>
         <view class="main-title">
-          <textarea class="main-input-title"
+          <textarea class="main-input-title" data-type="main"
            auto-height="true" 
            value="{{mainTitle}}" 
            maxlength="{{maxlength}}" 
@@ -22,10 +22,10 @@
       <block wx:for="{{stepList}}" wx:key="id">
         <view id="item-{{item.id}}" class="sub-item {{isDelStepLine == item.id && 'del-items'}}">
           <view class="check-wrap">
-            <ident checked="false" width="40" height="40" bind:changed="handleToChangeState" />
+            <ident checked="false" width="40" height="40" bind:identTap="handleToChangeState" />
           </view>
           <view class="sub-title">
-            <textarea class="sub-input-title" data-data="{{item}}" data-index="{{index}}"
+            <textarea class="sub-input-title" data-type="sub" data-data="{{item}}"
               focus="{{stepBlur.id == item.id && stepBlur.index == index && false}}"
               auto-height="true" 
               value="{{item.title}}" 

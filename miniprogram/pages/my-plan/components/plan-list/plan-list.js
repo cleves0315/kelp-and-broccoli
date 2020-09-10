@@ -40,9 +40,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    handleBtnChange(e) {
+    handleToIdentTap(e) {
       console.log(e)
-      const dataset = e.currentTarget.dataset;
+      const dataset = e.detail;
       this.triggerEvent('btnchange', { value: dataset.value, id: dataset.id })
     },
 

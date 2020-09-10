@@ -1,4 +1,4 @@
 <!--pages/plan-edit/plan-edit.wxml-->
 <view class="plan-edit">
-  <plan-list stepList="{{stepList}}" bind:delStep="handleToDelStep" bind:addStep="handleToAddStep" />
+  <plan-list stepList="{{stepList}}" bind:delStep="handleToDelStep" bind:addStep="handleToAddStep" bind:edited="handleToEdited" />
 </view>

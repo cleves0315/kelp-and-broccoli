@@ -1,5 +1,5 @@
 <!--components/ident/ident.wxml-->
 <view class="ident" style="width: {{width}}rpx; height: {{height}}rpx; {{isChecked && 'border: 0;'}}"
-  bindtap="handleToTap">
+  catch:tap="handleToTap">
   <view class="{{isChecked ? 'ident-checked' : 'ident-hidden'}}" style="background-color: {{checkedBackgroundColor}};"></view>
 </view>

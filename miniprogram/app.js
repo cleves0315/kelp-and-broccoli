@@ -5,10 +5,10 @@ App({
   canRun: true,   // 节流开关
 
   /**
-   * 获取云端上plan数据, 获取成功走resolve回调，获取失败（云端不存在数据，或前端更新时间更新）不走返回
+   * 获取云端上plan数据, 与缓存数据对比。更新时间返回最近更新的数据
    * @returns Promise
    */
-  initPlanInfo() {
+  getLatestPlan() {
     if (wx.getStorageSync('openid') == '') {
       setTimeout(() => {
         this.initPlanInfo();

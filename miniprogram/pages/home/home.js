@@ -103,7 +103,7 @@ Page({
     })
 
     // 获取plan数据，存入缓存
-    app.initPlanInfo()
+    app.getLatestPlan()
       .then(() => {
         this.setData({ plan: app.globalData.plan })
       })

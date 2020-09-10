@@ -22,6 +22,8 @@ Page({
     const value = e.detail.value;
     console.log(e)
 
+    return;
+
     wx.showLoading({
       mask: true,
       title: '操作中...'

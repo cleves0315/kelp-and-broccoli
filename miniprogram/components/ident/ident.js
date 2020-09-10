@@ -20,6 +20,10 @@ Component({
       type: Boolean,
       value: false
     },
+    detail: {      // 组件绑定的数据
+      type: Object,
+      value: {}
+    },
   },
 
   /**
@@ -36,11 +40,13 @@ Component({
     handleToTap() {
       const isChecked = this.data.isChecked;
 
+      wx.vibrateShort();
+
       this.setData({ 
         isChecked: !isChecked
       })
 
-      this.triggerEvent('changed', { value: this.data.isChecked })
+      this.triggerEvent('identTap', { value: this.data.isChecked, data: this.data.detail })
     }
   },
 
