@@ -17,6 +17,20 @@ Page({
 
 
   /**
+   * 展示缓存数据
+   */
+  showStorageData() {
+    if (wx.getStorageSync('plan') == '' || JSON.parse(wx.getStorageSync('plan')) == {}) return;
+
+    const data = JSON.parse(wx.getStorageSync('plan'));
+
+    this.setData({
+      plan: data
+    })
+  },
+
+
+  /**
    * 
    */
   getUserInfo() {
@@ -94,7 +108,14 @@ Page({
   },
 
 
-  onReady: function() {
+
+  onLoad() {
+    this.showStorageData();
+
+
+  },
+
+  onReady() {
     // getAuthGetting('scope.userInfo')
     //   .catch(() => this.setData({ isShowLoginCase: 1 }))
 
@@ -103,12 +124,20 @@ Page({
     })
 
     // 获取plan数据，存入缓存
-    app.getLatestPlan()
-      .then(() => {
-        this.setData({ plan: app.globalData.plan })
+    app.compareLatestPlan()
+      .then((res) => {
+        console.log(res)
+        // this.setData({ plan: app.globalData.plan })
+      })
+      .catch(() => {
+        console.log('无数据')
+        if (wx.getStorageSync('plan') == '' || JSON.parse(wx.getStorageSync('plan')) == {}) {
+          // 初始化数据
+          app.initPlan();
+        }
       })
   },
   
-  onShow: function () {
+  onShow () {
   },
 })

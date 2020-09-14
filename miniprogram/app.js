@@ -4,19 +4,46 @@ import { callFunction, getAuthGetting } from './utils/util';
 App({
   canRun: true,   // 节流开关
 
+
+  /**
+   * 初始化plan数据
+   */
+  initPlan() {
+    return new Promise((resolve) => {
+      
+      callFunction({
+        name: 'request',
+        data: {
+          action: 'initPlan',
+          openid: JSON.parse(wx.getStorageSync('openid'))
+        }
+      }).then(res => {
+        console.log(res)
+      })
+
+    });
+  },
+
+  /**
+   * 更新plan数据
+   */
+  updateLatestPlan() {
+
+  },
+
   /**
    * 获取云端上plan数据, 与缓存数据对比。更新时间返回最近更新的数据
    * @returns Promise
    */
-  getLatestPlan() {
+  compareLatestPlan() {
     if (wx.getStorageSync('openid') == '') {
       setTimeout(() => {
-        this.initPlanInfo();
+        this.compareLatestPlan();
       }, 500);
       return;
     }
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
 
       callFunction({
         name: 'request',
@@ -26,18 +53,15 @@ App({
         }
       }).then(res => {
         console.log(res)
-  
-        const data = res.result.plan;
-        const plan = wx.getStorageSync('plan') && JSON.parse(wx.getStorageSync('plan'));
-  
-        if (data == {}) return;
-  
-        // 使用最新更新时间的数据
-        if (plan == '' || data.update_time > plan.update_time) {
-          this.globalData.plan = data;
-          resolve();
-        }
 
+        if (res.result.plan) {
+          const data = res.result.plan;
+  
+          resolve(data);
+        } else {
+
+          reject();
+        }
       })
 
     })
@@ -118,8 +142,6 @@ App({
 
     
     this.login();
-
-    this.globalData.plan = wx.getStorageSync('plan') ? JSON.parse(wx.getStorageSync('plan')) : {};
   },
 
   onShow() {

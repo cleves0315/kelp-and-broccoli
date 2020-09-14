@@ -23,6 +23,9 @@ exports.main = async (event) => {
   const db = cloud.database();
 
   switch (event.action) {
+    case 'initPlan': {
+      return await initPlan(event, db)
+    }
     case 'update_plan': {
       return await updatePlan(event, db)
     }
@@ -48,6 +51,80 @@ exports.main = async (event) => {
       return
     }
   }
+}
+
+// 初始化数据格式
+
+const user = {
+  day: 1,                      // 天数 Number
+  open_id: event.openid,       // openid String
+  create_time: formatDate(),   // 生成时间 Date
+  update_imte: 1600073125840,  // 更新时间
+  // today_list: [],
+  // percentage: 0,
+  // progress: 0,
+  // total: 0,
+}
+
+
+/**
+ * 每日计划
+ */
+const plan = {
+  open_id: event.openid,        // openid String
+  create_time: formatDate(),    // 生成时间 Date
+  list: [                         // 
+    { 
+      id: 1,                       // id Number
+      title: '计划1',              // 标题 String
+      detail: '计划描述',           // 计划描述 String
+      state: false,                // 完成状态 Boolean
+      create_time: formatDate(),   // 生成时间 Date
+      update_imte: 1600073125840,  // 更新时间
+      is_today: true,              // 是否放到'我的一天' Boolean
+      closing_date: 1600073125840, // 截止时间(时间戳) Number
+      repeat: 0,                   // 重复周期 ??
+    }
+  ],
+  // progress: 0,                  // 进度 Number
+  // total: 0,                     // 计划数量 Number
+  // percentage: 0,                // 进度百分比值 Number
+}
+
+const step_List = {
+  open_id: event.openid,       // openid String 
+  plan_id: 1,                  // 对应计划的id Number
+  create_time: formatDate(),    // 生成时间 Date
+  list: [
+    {
+      id: 1, 
+      title: 第一步, 
+      state: false,           
+      create_time: formatDate(),  
+      update_imte: 1600073125840
+    }
+  ]
+}
+
+
+/**
+ * 初始化plan数据格式
+ * @param event 
+ * @param db 
+ */
+async function initPlan(event, db) {
+
+  return dbPlan.add({
+    data: plan
+  }).then(res => {
+    console.log(res);
+    plan._id = res._id;
+
+    return { plan, msg: 1 };
+  }).catch(err => {
+    console.log(err);
+    return { msg: 0 }
+  })
 }
 
 
