@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "plan-list": "components/plan-list/plan-list"
+    "plan-list": "components/plan-list/plan-list",
+    "funt-button": "components/funt-button/funt-button"
   }
 }

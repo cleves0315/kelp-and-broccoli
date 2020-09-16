@@ -11,7 +11,10 @@ Page({
       { id: 3, title: '第三步' },
       { id: 4, title: '第四步' },
       { id: 5, title: '第五步' },
-    ]
+    ],
+    todayFuntTxt: '添加到“我的一天”',
+    todayFuntIcon: '/static/images/plan-edit/sunlight.svg',
+    todayFuntLiveIcon: '/static/images/plan-edit/sunlight_live.svg',
   },
 
 
@@ -79,6 +82,26 @@ Page({
       stepList: stepList
     });
   },
+
+
+  /**
+   * 切换功能按钮状态
+   */
+  handleToChangeState(e) {
+    console.log(e)
+    const type = e.currentTarget.dataset.type;
+    const value = e.detail.value;
+
+    switch (type) {
+      case 'today':
+        
+        break;
+    
+      default:
+        break;
+    }
+  },
+
 
   /**
    * 生命周期函数--监听页面加载

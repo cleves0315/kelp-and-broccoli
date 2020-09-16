@@ -1,0 +1,7 @@
+<!--pages/plan-edit/components/funt-button/funt-button.wxml-->
+<view class="funt-button">
+  <view class="container {{isDivisionLine && 'division-line'}}" bindtap="handleToTap">
+    <view class="icon-wrap"><image class="icon" src="{{isFuntLive ? iconLiveUrl : iconUrl}}"></image></view>
+    <view class="txt-wrap"><view class="txt {{isFuntLive ? 'live-txt' : ''}}">{{txt}}</view></view>
+  </view>
+</view>

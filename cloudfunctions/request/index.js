@@ -73,7 +73,7 @@ const user = {
 const plan = {
   open_id: event.openid,        // openid String
   create_time: formatDate(),    // 生成时间 Date
-  list: [                         // 
+  list: [                          // 
     { 
       id: 1,                       // id Number
       title: '计划1',              // 标题 String
@@ -91,10 +91,36 @@ const plan = {
   // percentage: 0,                // 进度百分比值 Number
 }
 
-const step_List = {
-  open_id: event.openid,       // openid String 
-  plan_id: 1,                  // 对应计划的id Number
+
+/**
+ * 已完成的每日计划
+ */
+const done_plan = {
+  open_id: event.openid,        // openid String
   create_time: formatDate(),    // 生成时间 Date
+  list: [                          // 
+    { 
+      id: 1,                       // id Number
+      title: '计划1',              // 标题 String
+      detail: '计划描述',           // 计划描述 String
+      state: true,                 // 完成状态 Boolean
+      create_time: formatDate(),   // 生成时间 Date
+      update_imte: 1600073125840,  // 更新时间
+      is_today: true,              // 是否放到'我的一天' Boolean
+      closing_date: 1600073125840, // 截止时间(时间戳) Number
+      repeat: 0,                   // 重复周期 ??
+    }
+  ],
+}
+
+
+/**
+ * 每日计划的步骤
+ */
+const step_List = {
+  open_id: event.openid,           // openid String 
+  plan_id: 1,                      // 对应计划的id Number
+  create_time: formatDate(),       // 生成时间 Date
   list: [
     {
       id: 1, 

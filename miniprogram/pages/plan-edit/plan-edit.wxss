@@ -1,20 +1,4 @@
 /* pages/plan-edit/plan-edit.wxss */
-.title-1 .wx-radio-input{ 
-  /* 自定义样式.... */
-  height: 60rpx; 
-  width: 60rpx;
-}
-/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
-.title-1 .wx-radio-input.wx-radio-input-checked{
-}
-/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
-.title-1 .wx-radio-input.wx-radio-input-checked::before{
-  /* position: relative;
-  top: 15rpx;
-  left: 12rpx;
-  transform: translate(-50%, -50%) scale(1);
-  -webkit-transform: translate(-50%, -50%) scale(1); */
-  width: 60rpx;
-  height: 60rpx;
-  transform: translate(-25%, -25%) scale(1);
+.plan-edit {
+  padding: 0 40rpx;
 }

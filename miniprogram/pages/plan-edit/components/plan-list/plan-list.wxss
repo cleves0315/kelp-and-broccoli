@@ -1,11 +1,7 @@
 /* pages/plan-edit/components/plan-list/plan-list.wxss */
-.container {
-  padding: 0 40rpx;
-}
 
-.main,
 .sub-item {
-  margin-bottom: 40rpx;
+  padding: 20rpx 0;
 }
 
 .main-wrap,
@@ -88,6 +84,7 @@
 .function {
   display: flex;
   align-items: center;
+  padding: 16rpx 0;
 }
 
 .function .add-icon {

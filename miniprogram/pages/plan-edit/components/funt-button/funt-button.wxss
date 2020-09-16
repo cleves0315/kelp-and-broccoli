@@ -1,0 +1,41 @@
+/* pages/plan-edit/components/funt-button/funt-button.wxss */
+.funt-button {
+  margin-top: 20rpx;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  box-sizing: border-box;
+}
+
+.division-line {
+  border: 2rpx solid #ededed;
+  border-left: 0;
+  border-right: 0;
+}
+
+.icon-wrap {
+  display: flex;
+  width: 50rpx;
+  height: 50rpx;
+  align-items: center;
+  justify-content: center;
+  margin-right: 40rpx;
+}
+
+.icon {
+  display: block;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.txt-wrap .txt {
+  color: #767678;
+  font-size: 32rpx;
+}
+
+.txt-wrap .live-txt {
+  color: #07C160;
+}

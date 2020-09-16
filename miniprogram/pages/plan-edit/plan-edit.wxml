@@ -1,4 +1,5 @@
 <!--pages/plan-edit/plan-edit.wxml-->
 <view class="plan-edit">
   <plan-list stepList="{{stepList}}" bind:delStep="handleToDelStep" bind:addStep="handleToAddStep" bind:edited="handleToEdited" />
+  <funt-button data-type="today" isDivisionLine="true" iconUrl="{{todayFuntIcon}}" iconLiveUrl="{{todayFuntLiveIcon}}" txt="{{todayFuntTxt}}" bind:changeState="handleToChangeState" />
 </view>
