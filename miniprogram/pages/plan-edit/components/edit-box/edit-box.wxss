@@ -1,0 +1,14 @@
+/* pages/plan-edit/components/edit-box/edit-box.wxss */
+.container {
+  border-top: 2rpx solid #ededed;
+  border-bottom: 2rpx solid #ededed;
+}
+
+.edit {
+  width: 100%;
+  height: auto;
+  min-height: 180rpx;
+  padding: 30rpx 0;
+  font-size: 30rpx;
+  color: #767678;
+}

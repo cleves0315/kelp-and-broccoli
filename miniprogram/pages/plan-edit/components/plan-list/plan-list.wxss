@@ -1,5 +1,9 @@
 /* pages/plan-edit/components/plan-list/plan-list.wxss */
 
+.sub {
+  margin-top: 20rpx;
+}
+
 .sub-item {
   padding: 20rpx 0;
 }
@@ -23,10 +27,11 @@
 
 .main-wrap .main-title {
   flex: 1;
-  margin-left: 36rpx;
+  margin-left: 30rpx;
   font-size: 40rpx;
   font-weight: 700;
-  margin-bottom: 20rpx;
+  /* margin-bottom: 20rpx; */
+  align-self: flex-start;
   display: flex;
   align-items: center;
   min-height: 50rpx;
@@ -42,7 +47,7 @@
 .sub-item .sub-title,
 .function .add-txt {
   flex: 1;
-  margin-left: 40rpx;
+  margin-left: 30rpx;
   font-size: 32rpx;
   padding-right: 40rpx;
   min-height: 50rpx;
@@ -77,9 +82,8 @@
 .sub-item .sub-title .sub-input-title,
 .function .add-txt .add-step-input {
   width: 100%;
+  font-size: 30rpx;
 }
-
-
 
 .function {
   display: flex;
@@ -88,8 +92,8 @@
 }
 
 .function .add-icon {
-  width: 36rpx;
-  height: 36rpx;
+  width: 32rpx;
+  height: 32rpx;
   position: relative;
 }
 

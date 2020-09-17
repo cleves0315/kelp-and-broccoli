@@ -1,6 +1,8 @@
 {
   "usingComponents": {
     "plan-list": "components/plan-list/plan-list",
-    "funt-button": "components/funt-button/funt-button"
+    "funt-button": "components/funt-button/funt-button",
+    "edit-box": "components/edit-box/edit-box",
+    "footer-column": "components/footer-column/footer-column"
   }
 }

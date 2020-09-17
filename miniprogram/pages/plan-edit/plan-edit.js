@@ -15,6 +15,12 @@ Page({
     todayFuntTxt: '添加到“我的一天”',
     todayFuntIcon: '/static/images/plan-edit/sunlight.svg',
     todayFuntLiveIcon: '/static/images/plan-edit/sunlight_live.svg',
+    dateFuntTxt: '添加截止日期',
+    dateFuntIcon: '/static/images/plan-edit/date.svg',
+    dateFuntLiveIcon: '/static/images/plan-edit/date_live.svg',
+    repeatFuntTxt: '添加截止日期',
+    repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
+    repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
   },
 
 

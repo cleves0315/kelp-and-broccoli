@@ -1,6 +1,6 @@
 /* pages/plan-edit/components/funt-button/funt-button.wxss */
 .funt-button {
-  margin-top: 20rpx;
+  /* margin-top: 10rpx; */
 }
 
 .container {
@@ -27,13 +27,13 @@
 
 .icon {
   display: block;
-  width: 40rpx;
-  height: 40rpx;
+  width: 36rpx;
+  height: 36rpx;
 }
 
 .txt-wrap .txt {
   color: #767678;
-  font-size: 32rpx;
+  font-size: 30rpx;
 }
 
 .txt-wrap .live-txt {

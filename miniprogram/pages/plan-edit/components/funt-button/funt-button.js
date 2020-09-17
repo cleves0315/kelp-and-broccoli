@@ -14,7 +14,7 @@ Component({
     },
     isDivisionLine: {     // 是否要有分割线
       type: Boolean,
-      value: 'false'
+      value: false
     },
     txt: {
       type: String,

@@ -1,0 +1,8 @@
+<!--pages/plan-edit/components/edit-box/edit-box.wxml-->
+<view class="edit-box">
+  <view class="container">
+    <textarea class="edit" auto-height="true" maxlength="{{maxlength}}" placeholder="{{placeholder}}" placeholder-style="color: #767678;">
+
+    </textarea>
+  </view>
+</view>
