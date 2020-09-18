@@ -1,4 +1,6 @@
 // pages/plan-edit/plan-edit.js
+import { judgeIphoneX } from '../../utils/util';
+
 Page({
 
   /**
@@ -114,5 +116,8 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    this.setData({
+      isIphoneX: judgeIphoneX()
+    })
   }
 })

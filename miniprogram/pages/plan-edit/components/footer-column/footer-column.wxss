@@ -1,1 +1,44 @@
 /* pages/plan-edit/components/footer-column/footer-column.wxss */
+.footer-column {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 99999;
+}
+
+.no-iphone-x {
+  padding-bottom: 20rpx;
+}
+
+.iphone-x {
+  padding-bottom: 68rpx;
+}
+
+.container {
+  position: relative;
+  line-height: 50rpx;
+  overflow: hidden;
+}
+
+.txt {
+  font-size: 28rpx;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn-wrap {
+  position: absolute;
+  top: 50%;
+  right: 40rpx;
+  transform: translateY(-50%);
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.btn-wrap .icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

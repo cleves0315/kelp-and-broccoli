@@ -12,8 +12,11 @@
 .sub-item {
   display: flex;
   align-items: center;
+  height: auto;
   min-height: 50rpx;
   overflow: hidden;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .check-wrap,
@@ -88,7 +91,7 @@
 .function {
   display: flex;
   align-items: center;
-  padding: 16rpx 0;
+  padding: 30rpx 0;
 }
 
 .function .add-icon {
@@ -105,7 +108,7 @@
   width: 100%;
   height: 5rpx;
   border-radius: 200rpx;
-  background-color: #07C160;
+  background-color: #07b45b;
 }
 
 .function .add-icon::after {
@@ -124,9 +127,10 @@
 
 
 .del-items {
-  height: 0;
-  min-height: 0 !important;
-  margin-bottom: 0 !important;
+  overflow: hidden;
+  /* height: 0; */
+  /* margin-bottom: 0 !important; */
   opacity: 0;
   transition: .3s;
+  margin-bottom: -49px;
 }

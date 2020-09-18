@@ -2,3 +2,11 @@
 .plan-edit {
   padding: 0 40rpx;
 }
+
+.no-iphone-x {
+  padding-bottom: 70rpx;
+}
+
+.iphone-x {
+  padding-bottom: 118rpx;
+}

@@ -1,9 +1,9 @@
 <!--pages/plan-edit/plan-edit.wxml-->
-<view class="plan-edit">
+<view class="plan-edit {{isIphoneX ? 'iphone-x' : 'no-iphone-x'}}">
   <plan-list stepList="{{stepList}}" bind:delStep="handleToDelStep" bind:addStep="handleToAddStep" bind:edited="handleToEdited" />
   <funt-button data-type="today" isDivisionLine="{{true}}" iconUrl="{{todayFuntIcon}}" iconLiveUrl="{{todayFuntLiveIcon}}" txt="{{todayFuntTxt}}" bind:changeState="handleToChangeState" />
   <funt-button data-type="date" iconUrl="{{dateFuntIcon}}" iconLiveUrl="{{dateFuntLiveIcon}}" txt="{{dateFuntTxt}}" bind:changeState="handleToChangeState" />
   <funt-button data-type="repeat" iconUrl="{{repeatFuntIcon}}" iconLiveUrl="{{repeatFuntLiveIcon}}" txt="{{repeatFuntTxt}}" bind:changeState="handleToChangeState" />
   <edit-box />
-  <footer-column />
+  <footer-column isIphoneX="{{isIphoneX}}" />
 </view>

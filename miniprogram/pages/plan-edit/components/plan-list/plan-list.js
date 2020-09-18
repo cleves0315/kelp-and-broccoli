@@ -82,12 +82,14 @@ Component({
       })
     },
 
+    
+
     /**
      * @callback
      * 键盘输入事件
      */
     handleToInput(e) {
-      console.log(e)
+      // console.log(e)
       const value = e.detail.value;
       const index = e.currentTarget.dataset.index;
       const data = e.currentTarget.dataset.data;
@@ -101,7 +103,7 @@ Component({
     },
     
     /**
-     * 输入完内容 
+     * 主标题、副标题表单 失焦
      * @param {Object} e { type: main、sub }
      * @callback
      */
@@ -130,15 +132,22 @@ Component({
     },
 
     /**
-     * @callback
      * 监听 '下一步输入框' 失焦事件
+     * @callback
      */
     handleToAddStepInputBlur(e) {
-      const value = e.detail.value.trim();
-
       this.setData({     // 保存失焦状态
         isAddStepInputFocus: false
       })
+    },
+
+    /**
+     * 监听'下一步'表单 完成按钮
+     * @callback
+     */
+    handleToAddConfirm(e) {
+      console.log(e)
+      const value = e.detail.value.trim();
 
       // 生成一个步骤
       if (value.length > 0) {

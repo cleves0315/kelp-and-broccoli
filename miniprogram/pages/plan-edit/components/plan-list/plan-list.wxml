@@ -8,33 +8,33 @@
           <ident checked="false" bind:identTap="handleToChangeState" />
         </view>
         <view class="main-title">
-          <textarea class="main-input-title" data-type="main"
-           auto-height="true" 
+          <input class="main-input-title" data-type="main"
            value="{{mainTitle}}" 
            maxlength="{{maxlength}}" 
            bindblur="handleToInputBlur"
-           bindinput="handleToInput"></textarea>
+           bindinput="handleToInput"></input>
         </view>  
       </view>
     </view>
     <!-- 副标题 -->
     <view class="sub">
       <block wx:for="{{stepList}}" wx:key="id">
-        <view id="item-{{item.id}}" class="sub-item {{isDelStepLine == item.id && 'del-items'}}">
-          <view class="check-wrap">
-            <ident checked="false" width="40" height="40" bind:identTap="handleToChangeState" />
+        <view class="{{isDelStepLine == item.id && 'del-items'}}">
+          <view id="item-{{item.id}}" class="sub-item">
+            <view class="check-wrap">
+              <ident checked="false" width="40" height="40" bind:identTap="handleToChangeState" />
+            </view>
+            <view class="sub-title">
+              <input class="sub-input-title" data-type="sub" data-data="{{item}}"
+                focus="{{stepBlur.id == item.id && stepBlur.index == index && false}}"
+                value="{{item.title}}" 
+                maxlength="{{maxlength}}" 
+                bindblur="handleToInputBlur"
+                bindinput="handleToInput"></input>
+            </view>
+            <!-- 删除按钮 -->
+            <view class="del-btn" data-data="{{item}}" bindtap="handleToDelStep"></view>
           </view>
-          <view class="sub-title">
-            <textarea class="sub-input-title" data-type="sub" data-data="{{item}}"
-              focus="{{stepBlur.id == item.id && stepBlur.index == index && false}}"
-              auto-height="true" 
-              value="{{item.title}}" 
-              maxlength="{{maxlength}}" 
-              bindblur="handleToInputBlur"
-              bindinput="handleToInput"></textarea>
-          </view>
-          <!-- 删除按钮 -->
-          <view class="del-btn" data-data="{{item}}" bindtap="handleToDelStep"></view>
         </view>
       </block>
     </view>
@@ -42,17 +42,18 @@
     <view class="function" bindtap="handleToAddStep">
       <view class="icon-wrap"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
       <view class="add-txt">
-        <textarea class="add-step-input" style="color: {{isAddStepInputFocus ? 'inherit' : '#07C160'}};"
+        <input class="add-step-input" style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
           value="{{addStepInputValue}}"
-          auto-height="true" 
           focus="{{addStepInputFocus}}"
           placeholder="{{addTxt}}" 
           maxlength="{{maxlength}}" 
-          placeholder-style="color: {{isAddStepInputFocus ? '#8d8d8d' : '#07C160'}};"
+          confirm-hold="{{true}}"
+          placeholder-style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
           bindinput="handleToInput"
           bindfocus="handleToAddStepInputFocus"
+          bindconfirm="handleToAddConfirm"
           bindblur="handleToAddStepInputBlur">
-        </textarea>
+        </input>
       </view>
     </view>
   </view>
