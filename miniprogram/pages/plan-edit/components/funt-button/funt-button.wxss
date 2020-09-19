@@ -1,4 +1,7 @@
 /* pages/plan-edit/components/funt-button/funt-button.wxss */
+.funt-button {
+  padding: 0 40rpx;
+}
 
 .container {
   display: flex;
@@ -36,4 +39,8 @@
 .txt-wrap .live-txt {
   /* color: #07C160; */
   color: #07b45b;
+}
+
+.touch {
+  background: #eee;
 }

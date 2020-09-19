@@ -8,6 +8,12 @@
   padding: 20rpx 0;
 }
 
+.main,
+.sub-item-wrap,
+.function-wrap {
+  padding: 0 40rpx;
+}
+
 .main-wrap,
 .sub-item {
   display: flex;
@@ -132,5 +138,4 @@
   /* margin-bottom: 0 !important; */
   opacity: 0;
   transition: .3s;
-  margin-bottom: -49px;
 }

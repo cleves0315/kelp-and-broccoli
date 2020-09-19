@@ -16,6 +16,10 @@ Component({
       type: Boolean,
       value: false
     },
+    isFuntLive: {          // 按钮是否被激活（显示激活样式）
+      type: Boolean,
+      value: false
+    },
     txt: {
       type: String,
       value: '功能按钮'
@@ -26,21 +30,26 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isFuntLive: false
+    isTouch: 0,             // 记录组件touchStart事件触发
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    handleToTap() {
-      let isFuntLive = this.data.isFuntLive;
-
+    handleToStart() {
       this.setData({
-        isFuntLive: !isFuntLive
+        isTouch: 1
       })
+    },
+    handleToEnd() {
+      this.setData({
+        isTouch: 0
+      })
+    },
 
-      this.triggerEvent('changeState', { value: !isFuntLive });
+    handleToTap() {
+      this.triggerEvent('changeState');
     },
   }
 })

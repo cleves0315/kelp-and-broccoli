@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    disabled: false,
     stepList: [
       { id: 1, title: '第一步' },
       { id: 2, title: '第二步' },
@@ -14,13 +15,16 @@ Page({
       { id: 4, title: '第四步' },
       { id: 5, title: '第五步' },
     ],
-    todayFuntTxt: '添加到“我的一天”',
+    isTodayFutLive: false,                 // 控制"添加到我的一天"按钮是否被激活
+    todayFuntTxt: '添加到“我的一天”',      
     todayFuntIcon: '/static/images/plan-edit/sunlight.svg',
     todayFuntLiveIcon: '/static/images/plan-edit/sunlight_live.svg',
-    dateFuntTxt: '添加截止日期',
+    isdateFutLive: false,                 // 控制"添加截止日期"按钮是否被激活
+    dateFuntTxt: '添加截止日期',           
     dateFuntIcon: '/static/images/plan-edit/date.svg',
     dateFuntLiveIcon: '/static/images/plan-edit/date_live.svg',
-    repeatFuntTxt: '添加截止日期',
+    isRepeatFutLive: false,                // 控制"重复"按钮是否被激活
+    repeatFuntTxt: '重复',
     repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
     repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
   },
@@ -98,16 +102,35 @@ Page({
   handleToChangeState(e) {
     console.log(e)
     const type = e.currentTarget.dataset.type;
-    const value = e.detail.value;
 
     switch (type) {
       case 'today':
         
         break;
-    
-      default:
+      case 'date':
+        this.handleToSettingEndDate();
+        break;
+      case 'repeat':
+        
         break;
     }
+  },
+
+  /**
+   * 添加截止日期
+   */
+  handleToSettingEndDate() {
+    wx.showActionSheet({
+      itemList: ['今天', '明天', '下周', '选择日期'],
+      success: res => {
+        console.log(res)
+        const index = res.tapIndex;
+      }
+    })
+  },
+
+  handleToChangeEndDate(e) {
+    console.log(e)
   },
 
 

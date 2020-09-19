@@ -14,7 +14,7 @@ Component({
     },
     addTxt: {         // 下一步输入框 placeholder值
       type: String,
-      value: '下一步'
+      value: '添加步骤'
     },
     maxlength: {      // 输入框最大输入值
       type: Number,
@@ -27,10 +27,11 @@ Component({
    */
   data: {
     stepBlur: { index: -1, id: -1 },    // 控制副标题输入框失焦，当id和index符合时
-    isDelStepLine: -1,          // 要删除step的id，界面出现对应id响应消失动画
-    addStepInputValue: '',      // '下一步输入框'的内容
-    addStepInputFocus: false,   // 控制'下一步输入框'是否聚焦
-    isAddStepInputFocus: false, // 查看'下一步输入框'当前是聚焦 or 失焦
+    isDelStepLine: -1,                  // 要删除step的id，界面出现对应id响应消失动画
+    addStepInputValue: '',              // '下一步输入框'的内容
+    addStepInputFocus: false,           // 控制'下一步输入框'是否聚焦
+    isAddStepInputFocus: false,         // 查看'下一步输入框'当前是聚焦 or 失焦
+    delSubItemHeight: '0',                // 准备删除副标题的高度 px
   },
 
   /**
@@ -58,9 +59,17 @@ Component({
         itemList: ['删除任务'],
         itemColor: '#EA3927',
         success: res => {
-          this.setData({    // 界面删除效果
-            isDelStepLine: data.id
-          })
+          const query = this.createSelectorQuery();
+          const queryItem = '#item-' + data.id;
+
+          // 获取点击副标题的高度 然后删除
+          query.select(queryItem)
+            .boundingClientRect((rect) => {
+              this.setData({    // 界面删除效果
+                isDelStepLine: data.id,
+                delSubItemHeight: '-' + rect.height
+              })
+            }).exec();
     
           // 传递事件，删除数据
           setTimeout(() => {
@@ -149,8 +158,13 @@ Component({
       console.log(e)
       const value = e.detail.value.trim();
 
-      // 生成一个步骤
-      if (value.length > 0) {
+      // 输入的内容是空的，表单失焦
+      if (value.length == 0) {
+        this.setData({
+          addStepInputFocus: false
+        })
+      } else {
+        // 生成一个步骤
         this.setData({ addStepInputValue: '' });   // 清空输入框内容
         this.triggerEvent('addStep', { title: value });
       }

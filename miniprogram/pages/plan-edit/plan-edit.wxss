@@ -1,12 +1,12 @@
 /* pages/plan-edit/plan-edit.wxss */
 .plan-edit {
-  padding: 0 40rpx;
+  padding: 40rpx 0;
 }
 
 .no-iphone-x {
-  padding-bottom: 70rpx;
+  padding-bottom: 80rpx;
 }
 
 .iphone-x {
-  padding-bottom: 118rpx;
+  padding-bottom: 128rpx;
 }

@@ -11,14 +11,30 @@ Component({
     nextMargin: {
       type: String,
       value: '160rpx'
-    }
+    },
+    clendarCurrent: {               // 当前日历滑块的current
+      type: Number,
+      value: 0
+    },
+    thisCalendarYear: {              // 日历标题 -> 显示当前年月份
+      type: Number,
+      value: 0
+    },
+    thisCalendarMonth: {              // 日历标题 -> 显示当前年月份
+      type: Number,
+      value: 0
+    },
+    calendar: {               // 当年日历数据
+      type: Array,
+      value: []
+    },
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-    weekLineTxt: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+    weekLineTxt: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
     dayActive: 0
   },
 
@@ -26,13 +42,10 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    /**
-     * 点击选择时期
-     */
-    handleChoseDay(e) {
-      const index = e.currentTarget.dataset.index;
+    handleToChangeCalendar(e) {
+      const current = e.detail.current;
 
-      this.setData({ dayActive: index })
-    }
+      this.triggerEvent('chaSwpCalendar', { current })
+    },
   }
 })

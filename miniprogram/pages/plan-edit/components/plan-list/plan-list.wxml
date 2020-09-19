@@ -19,7 +19,7 @@
     <!-- 副标题 -->
     <view class="sub">
       <block wx:for="{{stepList}}" wx:key="id">
-        <view class="{{isDelStepLine == item.id && 'del-items'}}">
+        <view class="sub-item-wrap {{isDelStepLine == item.id && 'del-items'}}" style="margin-bottom: {{isDelStepLine == item.id ? delSubItemHeight : '0'}}px;">
           <view id="item-{{item.id}}" class="sub-item">
             <view class="check-wrap">
               <ident checked="false" width="40" height="40" bind:identTap="handleToChangeState" />
@@ -39,21 +39,23 @@
       </block>
     </view>
     <!-- 下一步按钮 -->
-    <view class="function" bindtap="handleToAddStep">
-      <view class="icon-wrap"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
-      <view class="add-txt">
-        <input class="add-step-input" style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
-          value="{{addStepInputValue}}"
-          focus="{{addStepInputFocus}}"
-          placeholder="{{addTxt}}" 
-          maxlength="{{maxlength}}" 
-          confirm-hold="{{true}}"
-          placeholder-style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
-          bindinput="handleToInput"
-          bindfocus="handleToAddStepInputFocus"
-          bindconfirm="handleToAddConfirm"
-          bindblur="handleToAddStepInputBlur">
-        </input>
+    <view class="function-wrap">
+      <view class="function" bindtap="handleToAddStep">
+        <view class="icon-wrap"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
+        <view class="add-txt">
+          <input class="add-step-input" style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
+            value="{{addStepInputValue}}"
+            focus="{{addStepInputFocus}}"
+            placeholder="{{addTxt}}" 
+            maxlength="{{maxlength}}" 
+            confirm-hold="{{true}}"
+            placeholder-style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
+            bindinput="handleToInput"
+            bindfocus="handleToAddStepInputFocus"
+            bindconfirm="handleToAddConfirm"
+            bindblur="handleToAddStepInputBlur">
+          </input>
+        </view>
       </view>
     </view>
   </view>

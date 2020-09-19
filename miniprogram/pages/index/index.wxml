@@ -1,5 +1,5 @@
 <!--pages/index/index.wxml-->
 <view class="index">
   <header />
-  <calendar />
+  <calendar clendarCurrent="{{clendarCurrent}}" thisCalendarYear="{{thisCalendarYear}}" thisCalendarMonth="{{thisCalendarMonth}}" calendar="{{calendar}}" bind:chaSwpCalendar="handleToChaSwpCalendar" />
 </view>
