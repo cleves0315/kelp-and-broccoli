@@ -1,5 +1,4 @@
 // pages/index/index.js
-import { initMonthCalendar } from '../../utils/util';
 
 Page({
 
@@ -49,7 +48,6 @@ Page({
    * @callback swiper组件 change 回调
    */
   handleToChaSwpCalendar(e) {
-    console.log(e.detail.current)
     const current = e.detail.current;
     const lastCurrent = this.data.clendarCurrent;
     const difCurrent = current - lastCurrent;        // 本次滑块移动的格数 (左划是负数)
@@ -75,8 +73,8 @@ Page({
     })
 
     // 初始化当前年份日历格式
-    this.setData({
-      calendar: this.handleToInitYearCalendar()
-    });
+    // this.setData({
+    //   calendar: this.handleToInitYearCalendar()
+    // });
   }
 })

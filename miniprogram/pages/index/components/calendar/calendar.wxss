@@ -31,8 +31,10 @@
   display: flex;
   width: calc(100vw / 7);
   height: calc(100vw / 7);
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
   font-size: 32rpx;
 }
 
@@ -47,8 +49,24 @@
   color: #939597;
 }
 
+.calendar-case .day-wrap .day,
+.calendar-case .day-wrap .day-cn {
+  width: 100%;
+  text-align: center;
+  line-height: 1;
+}
 
 .calendar-case .day-last .day,
-.calendar-case .day-next .day {
+.calendar-case .day-last .day-cn,
+.calendar-case .day-next .day,
+.calendar-case .day-next .day-cn {
   color: #ADAFB1;
+}
+
+.calendar-case .day-wrap .day {
+  font-size: 38rpx;
+}
+
+.calendar-case .day-wrap .day-cn {
+  font-size: 24rpx;
 }
