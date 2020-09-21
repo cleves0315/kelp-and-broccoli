@@ -1,27 +1,12 @@
 // pages/index/components/calendar/calendar.js
-import { initMonthCalendar } from './utils/calendar.js';
+import { initCalendar } from './utils/calendar.js';
 
 Component({
   /**
    * 组件的属性列表
    */
   properties: {
-    // clendarCurrent: {               // 当前日历滑块的current
-    //   type: Number,
-    //   value: 0
-    // },
-    // thisCalendarYear: {              // 日历标题 -> 显示当前年月份
-    //   type: Number,
-    //   value: 0
-    // },
-    // thisCalendarMonth: {              // 日历标题 -> 显示当前年月份
-    //   type: Number,
-    //   value: 0
-    // },
-    // calendar: {               // 当年日历数据
-    //   type: Array,
-    //   value: []
-    // },
+    // curDate: 
   },
 
   /**
@@ -59,10 +44,10 @@ Component({
 
       }
 
-      console.log(difCent)
+      // console.log(difCent)
 
       this.setData({
-        thisCalendarMonth: this.data.thisCalendarMonth + difCent
+        thisCalendarMonth: this.data.thisCalendarMonth + difCent,       // 更改标题中的月份
       })
 
       
@@ -75,11 +60,11 @@ Component({
 
   attached() {
     this.setData({
-      thisCalendarYear: new Date().getFullYear(),
-      thisCalendarMonth: new Date().getMonth() + 1,
-      clendarCurrent: new Date().getMonth(),
-      calendar: initMonthCalendar(),
+      thisCalendarYear: new Date().getFullYear(),            // 设置标题年份
+      thisCalendarMonth: new Date().getMonth() + 1,          // 设置标题月份
+      clendarCurrent: new Date().getMonth(),                 // 设置滑块的位置
+      calendar: initCalendar(),                         // 获取当前时间 年日历排版
     })
-    this.data.lastCurrent = this.data.clendarCurrent;
+    this.data.lastCurrent = this.data.clendarCurrent;       // 记录这次的滑块位置
   }
 })
