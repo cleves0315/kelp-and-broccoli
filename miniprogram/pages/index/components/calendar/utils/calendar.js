@@ -8,7 +8,7 @@ import { calendar } from './calendar-cn';
  * @param {Number} line 日历中显示几行
  * @returns [[{},{}...],[{},{}...]]
  */
-function initCalendar(type = 'year', dates = new Date(), line = 6) {
+function initCalendar(type = 'month', dates = new Date(), line = 6) {
   const date = new Date(dates);     // 初始时间格式
   const y = date.getFullYear();
   let arrY = [];   // 日历存储数组
