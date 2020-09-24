@@ -9,6 +9,7 @@ import { calendar } from './calendar-cn';
  * @returns [[{},{}...],[{},{}...]]
  */
 function initCalendar(type = 'month', dates = new Date(), line = 6) {
+  console.log('new Date() --> ' + dates);
   const date = new Date(dates);     // 初始时间格式
   const y = date.getFullYear();
   let arrY = [];   // 日历存储数组

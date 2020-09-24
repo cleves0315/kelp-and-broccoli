@@ -60,35 +60,45 @@ Component({
       const calendar = this.data.calendar;
 
       // console.log(difCent)
+      currentM += difCent;     // 根据本次滑动的块数，把月份值做更改
 
       // 滑块日历 跨年滑动，则把年份值更改
-      if ((currentM + difCent) < 1) {
+      if (currentM < 1) {
         currentY -= 1;
         currentM = 12;
-      } else if ((currentM + difCent) > 12) {
+      } else if (currentM > 12) {
         currentY += 1;
         currentM = 1;
       }
 
-      currentM += difCent;
-
       this.setData({
         thisCalendarYear: currentY,        // 更改标题中的年份
         thisCalendarMonth: currentM,       // 更改标题中的月份
-        lastCurrent: current,              // 记录本次滑块的位置
       })
+      this.data.lastCurrent = current;              // 记录本次滑块的位置
       
 
       // return;
       // 如果滑到了最左边，加载日历表最前端的上个月数据
-      // if (difCent < 0 && current <= 1) {
-      //   calendar.unshift(initCalendar('month', (currentY - 1) + '-' + '12' + '-' + '1')[0]);
-      //   current += 1;
-      //   this.setData({
-      //     // lastCurrent: current,
-      //     calendar
-      //   })
-      // }
+      if (difCent < 0 && current <= 1) {
+        // let firstM = (currentM - current - 1);     // 日历头部要插入的月份
+        // 把日历头部要插入的时间按照'xxxx/xx/xx格式输出'
+        const dates = new Date(currentY, (currentM - current - 1 - 1)).toLocaleDateString();    
+
+        console.log('现在显示的月份 ' + currentM + '; 现在索引 ' + current )
+
+        // 从日历插件获取上个月份日历数据
+        calendar.unshift(initCalendar('month', dates)[0]);
+
+
+        // 最前端日历增加一个，滑块的位置也往后移一位
+        current += 1;
+        this.setData({
+          clendarCurrent: current,     // 设置滑块索引位置
+          calendar
+        })
+        this.data.lastCurrent = current;   // 记录本次滑块位置
+      }
 
       // // 上一次是在12月，本次还向右滑动
       // if ((current >= (calendar.length - 2)) && difCent > 0) {
