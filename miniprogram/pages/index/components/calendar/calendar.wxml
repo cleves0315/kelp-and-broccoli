@@ -20,7 +20,7 @@
                 <!-- 只占一天的小格子 -->
                 <view class="day-wrap {{'day-' + n.type}}">
                   <view class="day">{{n.day}}</view>
-                  <view class="day-cn">{{n.lunarFestival || n.festival || (n.dayCn == '初一' ? n.monthCn : n.dayCn)}}</view>
+                  <view class="day-cn" style="color: {{(n.lunarFestival || n.festival) && '#f00'}};">{{n.lunarFestival || n.festival || (n.dayCn == '初一' ? n.monthCn : n.dayCn)}}</view>
                 </view>
               </block>
             </view>
