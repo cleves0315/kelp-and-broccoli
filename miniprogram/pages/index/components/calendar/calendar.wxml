@@ -9,7 +9,7 @@
     </block>
   </view>
   <view class="calendar-case">
-    <swiper class="calendar-swiper" current="{{clendarCurrent}}" bindchange="handleToChangeCalendar">
+    <swiper class="calendar-swiper" current="{{clendarCurrent}}" bindchange="handleToChangeCalendar" bindanimationfinish="handleAnimationfinish">
       <block wx:for="{{calendar}}" wx:key="key">
         <!-- 一个 swiper-item 表示一个月份的表格 -->
         <swiper-item>
