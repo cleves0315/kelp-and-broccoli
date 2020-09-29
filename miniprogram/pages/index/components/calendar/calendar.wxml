@@ -18,7 +18,7 @@
             <view class="calendar-week-line">
               <block wx:for="{{m}}" wx:key="i" wx:for-item="n" wx:for-index="j">
                 <!-- 只占一天的小格子 -->
-                <view class="day-wrap {{'day-' + n.type}}">
+                <view class="day-wrap {{'day-' + n.type}} {{}}" data-data="{{n}}" bindtap="handleToTapDay">
                   <view class="day">{{n.day}}</view>
                   <view class="day-cn" style="color: {{(n.lunarFestival || n.festival) && '#f00'}};">{{n.lunarFestival || n.festival || (n.dayCn == '初一' ? n.monthCn : n.dayCn)}}</view>
                 </view>

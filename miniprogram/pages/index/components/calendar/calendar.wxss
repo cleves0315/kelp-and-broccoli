@@ -56,11 +56,12 @@
   line-height: 1;
 }
 
+/* 上月、下月日历都显示灰色 */
 .calendar-case .day-last .day,
 .calendar-case .day-last .day-cn,
 .calendar-case .day-next .day,
 .calendar-case .day-next .day-cn {
-  color: #ADAFB1;
+  color: #ADAFB1 !important;
 }
 
 .calendar-case .day-wrap .day {

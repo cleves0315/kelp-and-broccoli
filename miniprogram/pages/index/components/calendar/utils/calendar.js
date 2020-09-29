@@ -66,6 +66,9 @@ function initCalendar(type = 'month', dates = new Date(), line = 6) {
           obj.day = d++;
           obj.type = 'this';                        // 这个月日期，我设置 this 类型
         }
+
+        obj.year = y;                // 添加新历年份属性
+        obj.month = currentMonth + 1;    // 添加新历月份属性
   
         n.push(obj);
         if (n.length == 7) break;    // 放了7个格子该结束了
@@ -124,6 +127,11 @@ function initCalendar(type = 'month', dates = new Date(), line = 6) {
             break;
         }
 
+        // console.log('阳历数据')
+        // console.log(obj)
+
+
+        arrY[i][index][j].yearCn = obj.gzYear;                      // 阳历 年份
         arrY[i][index][j].monthCn = obj.IMonthCn;                   // 阳历 月份
         arrY[i][index][j].dayCn = obj.IDayCn;                       // 阳历 日期
         arrY[i][index][j].festival = obj.festival;                  // 节假日
