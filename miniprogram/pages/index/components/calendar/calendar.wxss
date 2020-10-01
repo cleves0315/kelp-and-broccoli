@@ -65,9 +65,27 @@
 }
 
 .calendar-case .day-wrap .day {
-  font-size: 38rpx;
+  font-size: 32rpx;
 }
 
 .calendar-case .day-wrap .day-cn {
-  font-size: 24rpx;
+  font-size: 20rpx;
+}
+
+
+.calendar-case .today-wrap {
+  position: relative;
+}
+
+.calendar-case .today-wrap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 65%;
+  height: 65%;
+  background: #dedede;
 }

@@ -45,6 +45,8 @@ function initCalendar(type = 'month', dates = new Date(), line = 6) {
     for(let i = 0; i < firstDayWeek; i++) {
       const obj = {};
 
+      obj.year = new Date(y, currentMonth, (0 - i)).getFullYear();                // 添加新历年份属性
+      obj.month = new Date(y, currentMonth, (0 - i)).getMonth() + 1;    // 添加新历月份属性
       obj.day = new Date(y, currentMonth, 0 - i).getDate();   // new Date(2020, 8, 0) --> 9月没有0号 === 8月31
       obj.type = 'last';                           // 上个月日期，我设置 last 类型
       n.unshift(obj);
@@ -59,16 +61,17 @@ function initCalendar(type = 'month', dates = new Date(), line = 6) {
 
         // 这个月都放完了，该放什么？
         if(d > days) {
+          obj.year = new Date(y, currentMonth, (d + 1)).getFullYear();                // 添加新历年份属性
+          obj.month = new Date(y, currentMonth, (d + 1)).getMonth() + 1;    // 添加新历月份属性
           obj.day = new Date(y, currentMonth, d++).getDate();   // new Date(2020, 8, 31)  --> 9月没有31 === 10月1
           obj.type = 'next';                         // 下个月日期，我设置 next 类型
         } else {
           // 放置这个月的天数
+          obj.year = y;                // 添加新历年份属性
+          obj.month = currentMonth + 1;    // 添加新历月份属性
           obj.day = d++;
           obj.type = 'this';                        // 这个月日期，我设置 this 类型
         }
-
-        obj.year = y;                // 添加新历年份属性
-        obj.month = currentMonth + 1;    // 添加新历月份属性
   
         n.push(obj);
         if (n.length == 7) break;    // 放了7个格子该结束了

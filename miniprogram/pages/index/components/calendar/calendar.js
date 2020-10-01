@@ -22,9 +22,10 @@ Component({
   data: {
     weekLineTxt: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
     dayActive: 0,
+    today: null,               // 记录当天日期
     thisCalendarYear: 0,       // 日历标题 -> 显示当前年月份
     thisCalendarMonth: 0,      // 日历标题 -> 显示当前年月份
-    calendar: [],              // 当年日历数据
+    calendar: [],              // 日历数据
     clendarCurrent: 0,         // 控制当前滑块组件显示的索引，根据月份显示当前月份日历表
     lastCurrent: 0,            // 记录上一次滑块的索引值 (用来判断本次滑动的方向)
   },
@@ -48,14 +49,21 @@ Component({
       }
 
 
+      this.data.today = {
+        year: y,
+        month: m + 1,
+        day: new Date().getDate()
+      }
+
       this.setData({
         thisCalendarYear: y,        // 初始标题年份
         thisCalendarMonth: m + 1,   // 初始标题月份
         calendar: arr,              // 获取当前时间 年日历排版
         clendarCurrent: parseInt(arr.length / 2),  // 初始滑块的位置在中间
+        today: this.data.today
       })
       this.data.lastCurrent = this.data.clendarCurrent;       // 记录这次的滑块位置
-      // this.data.today = 
+      
     },
 
     
@@ -199,7 +207,7 @@ Component({
      * @callback 点击日期
      */
     handleToTapDay(e) {
-      console.log(e)
+      console.log(e.currentTarget.dataset.data)
     },
   },
 
