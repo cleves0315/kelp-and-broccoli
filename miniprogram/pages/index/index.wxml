@@ -1,5 +1,5 @@
 <!--pages/index/index.wxml-->
 <view class="index">
   <header />
-  <calendar rightTohAnimEnd="{{true}}" leftTohAnimEnd="{{true}}" />
+  <calendar lodingScope="{{12}}" rightTohAnimEnd="{{true}}" leftTohAnimEnd="{{true}}" />
 </view>

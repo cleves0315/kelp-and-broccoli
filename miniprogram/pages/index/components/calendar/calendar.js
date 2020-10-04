@@ -6,6 +6,14 @@ Component({
    * 组件的属性列表
    */
   properties: {
+    lodingScope: {            // 初始化日历数据的范围[月]（默认加载当前时间为中心共5个月）
+      type: Number,
+      value: 5
+    },
+    activeIcon: {             // 被激活日期的图标
+      type: String,
+      value: 'https://6272-broccoli-puuzo-1302613116.tcb.qcloud.la/broccoli.png?sign=a39d71b31516e14dfc194a4747c0e5fe&t=1601783832'
+    },
     rightTohAnimEnd: {        // 开、关 日历组件右滑尽头加载新日历(右滑，过去的日历)
       type: Boolean,
       value: false
@@ -21,12 +29,12 @@ Component({
    */
   data: {
     weekLineTxt: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-    dayActive: 0,
+    selectDay: {},             // 当前选中的日期
     today: null,               // 记录当天日期
     thisCalendarYear: 0,       // 日历标题 -> 显示当前年月份
     thisCalendarMonth: 0,      // 日历标题 -> 显示当前年月份
     calendar: [],              // 日历数据
-    clendarCurrent: 0,         // 控制当前滑块组件显示的索引，根据月份显示当前月份日历表
+    calendarCurrent: 0,         // 控制当前滑块组件显示的索引，根据月份显示当前月份日历表
     lastCurrent: 0,            // 记录上一次滑块的索引值 (用来判断本次滑动的方向)
   },
 
@@ -40,11 +48,14 @@ Component({
     initCalendarData() {
       const y = new Date().getFullYear();
       const m = new Date().getMonth();
-      let arr = [];
+      const lodScope = this.data.lodingScope;     // 加载日历的范围
+      const scpHalf = parseInt(lodScope / 2);
+      let arr = [];        // 保存返回的日历数据
+      let dates = '';      // 保存格式化后的日期 new Date(2020, 11, 32)  -> 2021/1/1
 
       // 获取以这个月为中心，共5个月的日历数据
-      for (let i = -1; i < 4; i++) {
-        const dates = new Date(y, m + i - 1, 1);
+      for (let i = -scpHalf; i < (lodScope - scpHalf); i++) {
+        dates = new Date(y, m + i, 1);
         arr.push(initCalendar('month', dates)[0]);
       }
 
@@ -59,10 +70,11 @@ Component({
         thisCalendarYear: y,        // 初始标题年份
         thisCalendarMonth: m + 1,   // 初始标题月份
         calendar: arr,              // 获取当前时间 年日历排版
-        clendarCurrent: parseInt(arr.length / 2),  // 初始滑块的位置在中间
-        today: this.data.today
+        calendarCurrent: scpHalf,   // 初始滑块的位置在中间
+        today: this.data.today,
+        selectDay: this.data.today
       })
-      this.data.lastCurrent = this.data.clendarCurrent;       // 记录这次的滑块位置
+      this.data.lastCurrent = this.data.calendarCurrent;       // 记录这次的滑块位置
       
     },
 
@@ -77,47 +89,14 @@ Component({
       const difCent = current - this.data.lastCurrent;    // 基于上次，本次滑动的 swiper-item 数（向左为负）
       let currentY = this.data.thisCalendarYear;         // 当前标题年份(滑动更改前)
       let currentM = this.data.thisCalendarMonth;       // 当前标题月份(滑动更改前)
-      const calendar = this.data.calendar;
 
       // console.log(difCent)
       currentM += difCent;     // 根据本次滑动的块数，把月份值做更改
 
-      // 滑块日历 跨年滑动，则把年份值更改
-      if (currentM < 1) {
-        currentY -= 1;
-      } else if (currentM > 12) {
-        currentY += 1;
-      }
+      const dates = new Date(currentY, currentM - 1);   // 重新格式化当前日期
 
-      
-      // 月份超出范围，设置为对应正确月份
-      switch (currentM) {
-        case 0:
-          currentM = 12;
-          break;
-        case -1:
-          currentM = 11;
-          break;
-        case -2:
-          currentM = 10;
-          break;
-        case -4:
-          currentM = 9;
-          break;
-        case 13:
-          currentM = 1;
-          break;
-        case 14:
-          currentM = 2;
-          break;
-        case 15:
-          currentM = 3;
-          break;
-        case 16:
-          currentM = 4;
-          break;
-      }
-
+      currentY = dates.getFullYear();
+      currentM = dates.getMonth() + 1;
 
       this.setData({
         thisCalendarYear: currentY,        // 更改标题中的年份
@@ -140,6 +119,7 @@ Component({
       const calendar = this.data.calendar;    // 当前日历数据
       const currentY = this.data.thisCalendarYear;   // 当前标题显示的年份
       const currentM = this.data.thisCalendarMonth;  // 当前标题显示的月份
+      const selectDay = {};                 // 记录当前日历的第一天
 
       let dates = '';     // 要加载的日历日期
       let arr = [];     // 存放新加载的日历数据
@@ -166,7 +146,7 @@ Component({
 
         this.setData({
           calendar,
-          clendarCurrent: 0,         // 把滑块索引设置第一位
+          calendarCurrent: 0,         // 把滑块索引设置第一位
           thisCalendarYear: dates.getFullYear(),
           thisCalendarMonth: dates.getMonth() + 1
         })
@@ -192,22 +172,47 @@ Component({
 
         this.setData({
           calendar,
-          clendarCurrent: calendar.length - 1,         // 把滑块索引设置最后一位
+          calendarCurrent: calendar.length - 1,         // 把滑块索引设置最后一位
           thisCalendarYear: dates.getFullYear(),
           thisCalendarMonth: dates.getMonth() + 1
         })
 
         this.data.lastCurrent = calendar.length - 1;              // 动画结束后，记录本次滑块的位置
       }
+      // 没有触发新增日历
+      else {
+        // 滑动动画结束后的日期
+        dates = new Date(currentY, currentM - 1, 1);
+      }
+
+      // 动画结束后 选中的日期变更到当月第一天
+      selectDay.year = dates.getFullYear();
+      selectDay.month = dates.getMonth() + 1;
+      selectDay.day = 1;
+
+      this.setData({
+        selectDay
+      })
     },
 
 
     /**
+     * 点击日期切换选中效果，或左右翻页
      * @param {*} e 
      * @callback 点击日期
      */
     handleToTapDay(e) {
-      console.log(e.currentTarget.dataset.data)
+      const data = e.currentTarget.dataset.data;
+      console.log(data);
+      
+      if (data.type !== 'this') {
+        return;
+      }
+
+      // 切换选中的日期
+      this.setData({
+        selectDay: data
+      })
     },
   },
 

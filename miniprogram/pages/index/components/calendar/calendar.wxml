@@ -9,7 +9,7 @@
     </block>
   </view>
   <view class="calendar-case">
-    <swiper class="calendar-swiper" current="{{clendarCurrent}}" bindchange="handleToChangeCalendar" bindanimationfinish="handleAnimationfinish">
+    <swiper class="calendar-swiper" current="{{calendarCurrent}}" bindchange="handleToChangeCalendar" bindanimationfinish="handleAnimationfinish">
       <block wx:for="{{calendar}}" wx:key="key">
         <!-- 一个 swiper-item 表示一个月份的表格 -->
         <swiper-item>
@@ -18,9 +18,18 @@
             <view class="calendar-week-line">
               <block wx:for="{{m}}" wx:key="i" wx:for-item="n" wx:for-index="j">
                 <!-- 只占一天的小格子 -->
-                <view class="day-wrap {{'day-' + n.type}} {{n.year == today.year && n.month == today.month && n.day == today.day && n.type == 'this' && 'today-wrap'}}" data-data="{{n}}" bindtap="handleToTapDay">
-                  <view class="day">{{n.day}}</view>
-                  <view class="day-cn" style="color: {{(n.lunarFestival || n.festival) && '#f00'}};">{{n.lunarFestival || n.festival || (n.dayCn == '初一' ? n.monthCn : n.dayCn)}}</view>
+                <view class="day-box" data-data="{{n}}" bindtap="handleToTapDay">
+                  <!-- 西兰花图标 -->
+                  <block wx:if="{{n.type == 'this' && n.year == selectDay.year && n.month == selectDay.month && n.day == selectDay.day && 'selected-day'}}">
+                    <view class="day-wrap">
+                      <image class="broccoli-icon" src="{{activeIcon}}"></image>
+                    </view>
+                  </block>
+                  <!-- 显示正常日期 -->
+                  <view wx:else class="day-wrap {{'day-' + n.type}} {{n.type == 'this' && n.year == selectDay.year && n.month == selectDay.month && n.day == selectDay.day && 'selected-day'}} {{n.year == today.year && n.month == today.month && n.day == today.day && n.type == 'this' && 'today'}}">
+                    <view class="day">{{n.day}}</view>
+                    <view class="day-cn" style="color: {{(n.lunarFestival || n.festival) && '#07b45b'}};">{{n.lunarFestival || n.festival || (n.dayCn == '初一' ? n.monthCn : n.dayCn)}}</view>
+                  </view>
                 </view>
               </block>
             </view>

@@ -26,27 +26,41 @@
   display: flex;
 }
 
+.calendar-week-line {
+  margin-top: 10rpx;
+}
+
 .week-line .item,
-.calendar-case .calendar-week-line .day-wrap {
+.calendar-case .calendar-week-line .day-box {
   display: flex;
   width: calc(100vw / 7);
-  height: calc(100vw / 7);
+  /* height: calc(100vw / 7); */
   /* align-items: center; */
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
-  font-size: 32rpx;
 }
 
 .week-line {
   border-top: 2rpx solid #c0c4c7;
   border-bottom: 2rpx solid #939597;
+  padding: 10rpx 0;
 }
 
 .week-line .item {
-  /* font-weight: 700; */
-  height: 80rpx;
-  color: #939597;
+  font-weight: 700;
+  /* color: #939597; */
+  color: #07b45b;
+  font-size: 28rpx;
+}
+
+.calendar-case .day-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* align-items: center; */
+  width: 66rpx;
+  height: 64rpx;
 }
 
 .calendar-case .day-wrap .day,
@@ -70,22 +84,45 @@
 
 .calendar-case .day-wrap .day-cn {
   font-size: 20rpx;
+  color: #888;
+}
+
+/* 当天日期的颜色 */
+.calendar-case .day-box .today .day {
+  color: #07b45b;
+  font-weight: 700;
+}
+
+.calendar-case .day-box .today .day-cn {
+  color: #07b45b;
+  font-weight: 700;
 }
 
 
-.calendar-case .today-wrap {
+.calendar-case .selected-day {
   position: relative;
 }
 
-.calendar-case .today-wrap::after {
+.calendar-case .selected-day::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
   z-index: -1;
-  width: 65%;
-  height: 65%;
-  background: #dedede;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #07b45b;
+}
+
+.calendar-case .selected-day .day {
+  color: #fff !important;
+}
+
+.calendar-case .selected-day .day-cn {
+  color: #fff !important;
+}
+
+.calendar-case .day-wrap .broccoli-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
