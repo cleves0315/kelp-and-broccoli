@@ -20,7 +20,7 @@
                 <!-- 只占一天的小格子 -->
                 <view class="day-box" data-data="{{n}}" bindtap="handleToTapDay">
                   <!-- 西兰花图标 -->
-                  <block wx:if="{{n.type == 'this' && n.year == selectDay.year && n.month == selectDay.month && n.day == selectDay.day && 'selected-day'}}">
+                  <block wx:if="">
                     <view class="day-wrap">
                       <image class="broccoli-icon" src="{{activeIcon}}"></image>
                     </view>

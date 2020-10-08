@@ -1,5 +1,5 @@
 /* pages/index/index.wxss */
-.index {
+/* .index {
   display: flex;
   height: 100vh;
   flex-direction: column;
@@ -7,4 +7,4 @@
 
 calendar {
   flex: 1;
-}
+} */
