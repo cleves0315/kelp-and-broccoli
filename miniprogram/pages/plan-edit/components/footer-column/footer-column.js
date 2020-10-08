@@ -33,6 +33,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    // 点击按钮
+    handleToBtn() {
+      this.triggerEvent('del');
+    },
   }
 })

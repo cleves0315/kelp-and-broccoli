@@ -2,6 +2,6 @@
 <view class="footer-column {{isIphoneX ? 'iphone-x' : 'no-iphone-x'}}">
   <view class="container">
     <view class="txt-wrap"><view class="txt" style="color: {{txtColor}};">{{txt}}</view></view>
-    <view class="btn-wrap"><image class="icon" src="{{btnUrl}}"></image></view>
+    <view class="btn-wrap" catchtap="handleToBtn"><image class="icon" src="{{btnUrl}}"></image></view>
   </view>
 </view>

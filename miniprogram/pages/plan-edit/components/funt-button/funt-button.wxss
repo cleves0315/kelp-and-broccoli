@@ -31,16 +31,41 @@
   height: 36rpx;
 }
 
+.txt-wrap {
+  flex: 1;
+}
+
 .txt-wrap .txt {
   color: #767678;
   font-size: 30rpx;
 }
 
-.txt-wrap .live-txt {
-  /* color: #07C160; */
-  color: #07b45b;
+/* 删除按钮 */
+.del-wrap {
+  position: relative;
+  width: 50rpx;
+  height: 50rpx;
 }
 
+.del-wrap::before,
+.del-wrap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 45%;
+  height: 2rpx;
+  background: #5E5E61;
+}
+.del-wrap::before {
+  transform: translateY(-50%) rotate(-45deg);
+}
+.del-wrap::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+
+/* 手指按住时的背景颜色 */
 .touch {
   background: #eee;
 }

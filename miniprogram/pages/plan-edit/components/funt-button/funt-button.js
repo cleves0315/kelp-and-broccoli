@@ -12,6 +12,10 @@ Component({
       type: String,
       value: ''
     },
+    liveTxtColor: {       // 激活时文本的颜色
+      type: String,
+      value: '#07b45b'
+    },
     isDivisionLine: {     // 是否要有分割线
       type: Boolean,
       value: false
@@ -20,10 +24,10 @@ Component({
       type: Boolean,
       value: false
     },
-    txt: {
+    txt: {                  // 显示的文本
       type: String,
       value: '功能按钮'
-    },
+    }
   },
 
   /**
@@ -51,5 +55,12 @@ Component({
     handleToTap() {
       this.triggerEvent('changeState');
     },
+
+    /**
+     * 点击删除按钮
+     */
+    handleToDel() {
+      this.triggerEvent('del')
+    }
   }
 })

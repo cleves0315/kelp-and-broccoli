@@ -2,11 +2,11 @@
 <view class="plan-edit {{isIphoneX ? 'iphone-x' : 'no-iphone-x'}}">
   <plan-list stepList="{{stepList}}" addTxt="{{stepList.length == 0 ? '添加步骤' : '下一步'}}" bind:delStep="handleToDelStep" bind:addStep="handleToAddStep" bind:edited="handleToEdited" />
   <!-- 添加到我的一天 -->
-  <funt-button data-type="today" isFuntLive="{{isTodayFutLive}}" isDivisionLine="{{true}}" iconUrl="{{todayFuntIcon}}" iconLiveUrl="{{todayFuntLiveIcon}}" txt="{{todayFuntTxt}}" bind:changeState="handleToChangeState" />
+  <funt-button data-type="today" isFuntLive="{{isTodayFutLive}}" isDivisionLine="{{true}}" iconUrl="{{todayFuntIcon}}" iconLiveUrl="{{todayFuntLiveIcon}}" txt="{{todayFuntTxt}}" bind:changeState="handleToChangeState" bind:del="handleToDelFunt" />
   <!-- 添加截止日期 -->
-  <funt-button data-type="date" isFuntLive="{{isdateFutLive}}" iconUrl="{{dateFuntIcon}}" iconLiveUrl="{{dateFuntLiveIcon}}" txt="{{dateFuntTxt}}" bind:changeState="handleToChangeState" />
+  <funt-button data-type="date" isFuntLive="{{isdateFutLive}}" iconUrl="{{dateFuntIcon}}" iconLiveUrl="{{dateFuntLiveIcon}}" txt="{{dateFuntTxt}}" bind:changeState="handleToChangeState" bind:del="handleToDelFunt" />
   <!-- 重复 -->
-  <funt-button data-type="repeat" isFuntLive="{{isRepeatFutLive}}" iconUrl="{{repeatFuntIcon}}" iconLiveUrl="{{repeatFuntLiveIcon}}" txt="{{repeatFuntTxt}}" bind:changeState="handleToChangeState" />
+  <funt-button data-type="repeat" isFuntLive="{{isRepeatFutLive}}" iconUrl="{{repeatFuntIcon}}" iconLiveUrl="{{repeatFuntLiveIcon}}" txt="{{repeatFuntTxt}}" bind:changeState="handleToChangeState" bind:del="handleToDelFunt" />
   <edit-box />
-  <footer-column isIphoneX="{{isIphoneX}}" />
+  <footer-column isIphoneX="{{isIphoneX}}" bind:del="handleToDelPlan" />
 </view>

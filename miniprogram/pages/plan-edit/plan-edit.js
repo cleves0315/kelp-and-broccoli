@@ -29,6 +29,15 @@ Page({
     repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
   },
 
+  /**
+   * 适配IphoneX
+   * @method 
+   */
+  adaptationIphoneX() {
+    this.setData({
+      isIphoneX: judgeIphoneX()
+    })
+  },
 
   /**
    * 按照id，更改step 标题
@@ -97,7 +106,7 @@ Page({
 
 
   /**
-   * 切换功能按钮状态
+   * 点击功能按钮状态
    */
   handleToChangeState(e) {
     console.log(e)
@@ -105,15 +114,63 @@ Page({
 
     switch (type) {
       case 'today':
-        
+        this.handleToAddMyToDay();
         break;
       case 'date':
         this.handleToSettingEndDate();
         break;
       case 'repeat':
+        this.handleToRepeat();
+        break;
+    }
+  },
+
+  /**
+   * 点击功能按钮上的删除按钮
+   */
+  handleToDelFunt(e) {
+    const type = e.currentTarget.dataset.type;
+
+    switch (type) {
+      case 'today':
+        this.handleToDelMyToday();
+        break;
+      case 'date':
+        
+        break;
+      case 'repeat':
         
         break;
     }
+  },
+
+  /**
+   * 添加到我的一天
+   */
+  handleToAddMyToDay() {
+    const isLive = this.data.isTodayFutLive;
+    let txt = '';
+
+    if (isLive) {
+      txt = '添加到"我的一天"';
+    } else {
+      txt = '已添加到"我的一天"';
+    }
+
+    this.setData({
+      isTodayFutLive: !isLive,
+      todayFuntTxt: txt,
+    })
+  },
+
+  /**
+   * 删除"我的一天"
+   */
+  handleToDelMyToday() {
+    this.setData({
+      isTodayFutLive: false,
+      todayFuntTxt: '添加到"我的一天"',
+    })
   },
 
   /**
@@ -129,8 +186,33 @@ Page({
     })
   },
 
-  handleToChangeEndDate(e) {
-    console.log(e)
+  /**
+   * 设置重复时间
+   * @callback 重复按钮
+   */
+  handleToRepeat() {
+    wx.showActionSheet({
+      itemList: ['每天', '每周', '工作日', '每月', '每年', '自定义'],
+      success: res => {
+        console.log(res)
+        const index = res.tapIndex;
+      }
+    })
+  },
+
+
+  /**
+   * 删除计划
+   * @callback 点击底部删除按钮
+   */
+  handleToDelPlan() {
+    wx.showActionSheet({
+      itemList: ['删除任务'],
+      itemColor: '#EA3927',
+      success: res => {
+        console.log(res);
+      }
+    })
   },
 
 
@@ -139,8 +221,7 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
-    this.setData({
-      isIphoneX: judgeIphoneX()
-    })
+    // 适配IphoneX
+    this.adaptationIphoneX();
   }
 })

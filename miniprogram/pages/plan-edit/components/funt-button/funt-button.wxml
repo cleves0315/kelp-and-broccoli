@@ -2,6 +2,7 @@
 <view class="funt-button {{isTouch && 'touch'}}" bindtouchstart="handleToStart" bindtouchend="handleToEnd">
   <view class="container {{isDivisionLine && 'division-line'}}" bindtap="handleToTap">
     <view class="icon-wrap"><image class="icon" src="{{isFuntLive ? iconLiveUrl : iconUrl}}"></image></view>
-    <view class="txt-wrap"><view class="txt {{isFuntLive ? 'live-txt' : ''}}">{{txt}}</view></view>
+    <view class="txt-wrap"><view class="txt" style="color: {{isFuntLive && liveTxtColor}};">{{txt}}</view></view>
+    <view wx:if="{{isFuntLive}}" class="del-wrap" catchtap="handleToDel"></view>
   </view>
 </view>
