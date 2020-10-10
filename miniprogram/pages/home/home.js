@@ -17,20 +17,6 @@ Page({
 
 
   /**
-   * 展示缓存数据
-   */
-  showStorageData() {
-    if (wx.getStorageSync('plan') == '' || JSON.parse(wx.getStorageSync('plan')) == {}) return;
-
-    const data = JSON.parse(wx.getStorageSync('plan'));
-
-    this.setData({
-      plan: data
-    })
-  },
-
-
-  /**
    * 
    */
   getUserInfo() {
@@ -66,13 +52,6 @@ Page({
     wx.navigateTo({
       url: '/pages/index/index',
     })
-    // getAuthGetting('scope.userInfo')
-    //   .then(res => {
-    //     wx.navigateTo({
-    //       url: '/pages/index/index',
-    //     })
-    //   })
-    //   .catch(() => this.setData({ isShowLoginCase: 1 }))
   },
 
   /**
@@ -82,13 +61,6 @@ Page({
     wx.navigateTo({
       url: '/pages/my-plan/my-plan',
     })
-    // getAuthGetting('scope.userInfo')
-    //   .then(res => {
-    //     wx.navigateTo({
-    //       url: '/pages/my-plan/my-plan',
-    //     })
-    //   })
-    //   .catch(() => this.setData({ isShowLoginCase: 1 }))
   },
 
   /**
@@ -98,47 +70,16 @@ Page({
     wx.navigateTo({
       url: '/pages/plan/plan',
     })
-    // getAuthGetting('scope.userInfo')
-    //   .then(res => {
-    //     wx.navigateTo({
-    //       url: '/pages/plan/plan',
-    //     })
-    //   })
-    //   .catch(err => this.setData({ isShowLoginCase: 1 }))
   },
 
 
 
   onLoad() {
-    this.showStorageData();
 
 
-  },
-
-  onReady() {
-    // getAuthGetting('scope.userInfo')
-    //   .catch(() => this.setData({ isShowLoginCase: 1 }))
-
-    this.setData({
-      plan: app.globalData.plan
-    })
-
-    // 获取plan数据，存入缓存
-    app.compareLatestPlan()
-      .then((res) => {
-        console.log(res)
-        // this.setData({ plan: app.globalData.plan })
-      })
-      .catch(() => {
-        console.log('无数据')
-        if (wx.getStorageSync('plan') == '' || JSON.parse(wx.getStorageSync('plan')) == {}) {
-          // 初始化数据
-          app.initPlan();
-        }
-      })
   },
   
   onShow () {
-    
+    app.getPlanStorage();
   },
 })

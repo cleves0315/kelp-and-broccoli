@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
   return {
-    openid: wxContext.OPENID,
+    open_id: wxContext.OPENID,
     appid: wxContext.APPID,
     unionid: wxContext.UNIONID,
     env: wxContext.ENV

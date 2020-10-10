@@ -22,6 +22,10 @@ Component({
       type: Boolean,
       value: false
     },
+    calBackImage: {          // 日历背景图
+      type: String,
+      value: '',
+    }
   },
 
   /**

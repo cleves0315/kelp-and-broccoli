@@ -8,7 +8,7 @@
       <view class="item">{{item}}</view>
     </block>
   </view>
-  <view class="calendar-case">
+  <view class="calendar-case" style="background-image: url({{calBackImage}});">
     <swiper class="calendar-swiper" current="{{calendarCurrent}}" bindchange="handleToChangeCalendar" bindanimationfinish="handleAnimationfinish">
       <block wx:for="{{calendar}}" wx:key="key">
         <!-- 一个 swiper-item 表示一个月份的表格 -->

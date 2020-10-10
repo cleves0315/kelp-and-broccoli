@@ -17,9 +17,13 @@
 
 
 .calendar-swiper {
-  height: calc((100vw / 7) * 6);
+  height: calc((64rpx + 10rpx) * 6);
 }
 
+
+.calendar-case {
+  background: 0 / 100% 100%;
+}
 
 .week-line,
 .calendar-case .calendar-week-line {

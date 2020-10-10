@@ -4,6 +4,42 @@ import { callFunction, getAuthGetting } from './utils/util';
 App({
   canRun: true,   // 节流开关
 
+  /**
+   * 获取或初始化缓存上的数据
+   */
+  getPlanStorage() {
+    if (wx.getStorageSync('plan') !== '') {
+
+    } else {
+      // 缓存不存在数据，这里向后端请求
+
+      const action = 'getPlanInfo';
+      const openId = wx.getStorageSync('open_id');
+
+      // 如果缓存不存在openId，则先登陆后再次获取数据
+      if (openId === '') {
+        this.login()
+          .then(() => {
+            console.log('login -> then');
+            this.getPlanStorage()
+          });
+        return;
+      }
+
+      // 加载后台数据
+      callFunction({
+        name: 'request',
+        data: {
+          action,
+          open_id: JSON.parse(openId),
+        }
+      }).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+  },
 
   /**
    * 初始化plan数据
@@ -69,25 +105,35 @@ App({
 
   /**
    * 登录
+   * @method
    */
   login() {
-    if (!this.canRun) return;
+    return new Promise((resolve, reject) => {
+      if (!this.canRun) return;
     
-    this.canRun = false;
+      this.canRun = false;
 
-    console.log('login')
+      console.log('login');
 
-    callFunction({
-      name: 'login'
-    })
-      .then(res => {
-        console.log(res)
-        wx.setStorageSync('openid', JSON.stringify(res.result.openid));
+      callFunction({
+        name: 'login'
       })
-      .catch(console.error)
-      .finally(() => {
-        this.canRun = true;
-      })
+        .then(res => {
+          console.log(res)
+          const openId = res.result.open_id;
+
+          wx.setStorageSync('open_id', JSON.stringify(openId));
+          resolve();
+        })
+        .catch(err => {
+          console.log('登陆失败');
+          console.log(err);
+          reject();
+        })
+        .finally(() => {
+          this.canRun = true;
+        });
+    });
   },
 
   /**
@@ -141,7 +187,7 @@ App({
     this.globalData = {}
 
     
-    this.login();
+    // this.login();
   },
 
   onShow() {

@@ -30,6 +30,7 @@ exports.main = async (event) => {
       return await updatePlan(event, db)
     }
     case 'getPlanInfo': {
+      // 从数据库获取plan数据
       return await getPlanInfo(event, db)
     }
     case 'delPlan': {
@@ -55,82 +56,82 @@ exports.main = async (event) => {
 
 // 初始化数据格式
 
-const user = {
-  day: 1,                      // 天数 Number
-  open_id: event.openid,       // openid String
-  create_time: formatDate(),   // 生成时间 Date
-  update_imte: 1600073125840,  // 更新时间
-  // today_list: [],
-  // percentage: 0,
-  // progress: 0,
-  // total: 0,
-}
+// const user = {
+//   day: 1,                      // 天数 Number
+//   open_id: event.openid,       // openid String
+//   create_time: formatDate(),   // 生成时间 Date
+//   update_imte: 1600073125840,  // 更新时间
+//   // today_list: [],
+//   // percentage: 0,
+//   // progress: 0,
+//   // total: 0,
+// }
 
 
 /**
  * 每日计划
  */
-const plan = {
-  open_id: event.openid,        // openid String
-  create_time: formatDate(),    // 生成时间 Date
-  list: [                          // 
-    { 
-      id: 1,                       // id Number
-      title: '计划1',              // 标题 String
-      detail: '计划描述',           // 计划描述 String
-      state: false,                // 完成状态 Boolean
-      create_time: formatDate(),   // 生成时间 Date
-      update_imte: 1600073125840,  // 更新时间
-      is_today: true,              // 是否放到'我的一天' Boolean
-      closing_date: 1600073125840, // 截止时间(时间戳) Number
-      repeat: 0,                   // 重复周期 ??
-    }
-  ],
-  // progress: 0,                  // 进度 Number
-  // total: 0,                     // 计划数量 Number
-  // percentage: 0,                // 进度百分比值 Number
-}
+// const plan = {
+//   open_id: event.openid,        // openid String
+//   create_time: formatDate(),    // 生成时间 Date
+//   list: [                          // 
+//     { 
+//       id: 1,                       // id Number
+//       title: '计划1',              // 标题 String
+//       detail: '计划描述',           // 计划描述 String
+//       state: false,                // 完成状态 Boolean
+//       create_time: formatDate(),   // 生成时间 Date
+//       update_imte: 1600073125840,  // 更新时间
+//       is_today: true,              // 是否放到'我的一天' Boolean
+//       closing_date: 1600073125840, // 截止时间(时间戳) Number
+//       repeat: 0,                   // 重复周期 ??
+//     }
+//   ],
+//   // progress: 0,                  // 进度 Number
+//   // total: 0,                     // 计划数量 Number
+//   // percentage: 0,                // 进度百分比值 Number
+// }
 
 
-/**
- * 已完成的每日计划
- */
-const done_plan = {
-  open_id: event.openid,        // openid String
-  create_time: formatDate(),    // 生成时间 Date
-  list: [                          // 
-    { 
-      id: 1,                       // id Number
-      title: '计划1',              // 标题 String
-      detail: '计划描述',           // 计划描述 String
-      state: true,                 // 完成状态 Boolean
-      create_time: formatDate(),   // 生成时间 Date
-      update_imte: 1600073125840,  // 更新时间
-      is_today: true,              // 是否放到'我的一天' Boolean
-      closing_date: 1600073125840, // 截止时间(时间戳) Number
-      repeat: 0,                   // 重复周期 ??
-    }
-  ],
-}
+// /**
+//  * 已完成的每日计划
+//  */
+// const done_plan = {
+//   open_id: event.openid,        // openid String
+//   create_time: formatDate(),    // 生成时间 Date
+//   list: [                          // 
+//     { 
+//       id: 1,                       // id Number
+//       title: '计划1',              // 标题 String
+//       detail: '计划描述',           // 计划描述 String
+//       state: true,                 // 完成状态 Boolean
+//       create_time: formatDate(),   // 生成时间 Date
+//       update_imte: 1600073125840,  // 更新时间
+//       is_today: true,              // 是否放到'我的一天' Boolean
+//       closing_date: 1600073125840, // 截止时间(时间戳) Number
+//       repeat: 0,                   // 重复周期 ??
+//     }
+//   ],
+// }
 
 
-/**
- * 每日计划的步骤
- */
-const step_List = {
-  open_id: event.openid,           // openid String 
-  plan_id: 1,                      // 对应计划的id Number
-  create_time: formatDate(),       // 生成时间 Date
-  list: [
-    {
-      id: 1, 
-      title: 第一步, 
-      state: false,           
-      create_time: formatDate(),  
-      update_imte: 1600073125840
-    }
-  ]
-}
+// /**
+//  * 每日计划的步骤
+//  */
+// const step_List = {
+//   open_id: event.openid,           // openid String 
+//   plan_id: 1,                      // 对应计划的id Number
+//   create_time: formatDate(),       // 生成时间 Date
+//   list: [
+//     {
+//       id: 1, 
+//       title: 第一步, 
+//       state: false,           
+//       create_time: formatDate(),  
+//       update_imte: 1600073125840
+//     }
+//   ]
+// }
 
 
 /**
@@ -184,47 +185,47 @@ async function updatePlan(event, db) {
  * @param event - {openid}
  */
 async function getPlanInfo(event, db) {
-  const dbPlan = db.collection('plan')
+  const dbPlan = db.collection('plan');
+  const open_id = event.open_id;
 
   return dbPlan.where({
-    openid: event.openid
-  })
-  .get()
-  .then(res => {
-    console.log(res)
+    open_id,
+  }).get()
+    .then(res => {
+      console.log(res)
 
-    if (res.data.length == 0) return { plan: {} }
+      if (res.data.length == 0) return {};
 
-    return { plan: res.data[0] }
+      return { plan: res.data[0] }
 
-    // if (res.data.length > 0) return { plan: res.data[0], msg: 1 }
+      // if (res.data.length > 0) return { plan: res.data[0], msg: 1 }
 
-    // 数据库不存在数据
-    const plan = {
-      day: 1,
-      today_list: [],
-      openid: event.openid,
-      percentage: 0,
-      progress: 0,
-      total: 0,
-      create_time: formatDate()
-    }
+      // 数据库不存在数据
+      const plan = {
+        day: 1,
+        today_list: [],
+        openid: event.openid,
+        percentage: 0,
+        progress: 0,
+        total: 0,
+        create_time: formatDate()
+      }
 
-    return dbPlan.add({
-      data: plan
-    }).then(res => {
-      console.log(res);
-      plan._id = res._id;
+      return dbPlan.add({
+        data: plan
+      }).then(res => {
+        console.log(res);
+        plan._id = res._id;
 
-      return { plan, msg: 1 };
-    }).catch(err => {
-      console.log(err);
+        return { plan, msg: 1 };
+      }).catch(err => {
+        console.log(err);
+        return { msg: 0 }
+      })
+    })
+    .catch(err => {
       return { msg: 0 }
     })
-  })
-  .catch(err => {
-    return { msg: 0 }
-  })
 }
 
 /**
