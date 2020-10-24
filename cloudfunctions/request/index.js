@@ -185,47 +185,62 @@ async function updatePlan(event, db) {
  * @param event - {openid}
  */
 async function getPlanInfo(event, db) {
-  const dbPlan = db.collection('plan');
   const open_id = event.open_id;
 
-  return dbPlan.where({
+  // 查询计划列表
+  return db.collection('plan').where({
     open_id,
-  }).get()
-    .then(res => {
-      console.log(res)
+  }).get().then(res => {
+    console.log(res)
+    let plan = {};
+    let todayPlan = {};
 
-      if (res.data.length == 0) return {};
-
-      return { plan: res.data[0] }
-
-      // if (res.data.length > 0) return { plan: res.data[0], msg: 1 }
-
-      // 数据库不存在数据
-      const plan = {
-        day: 1,
-        today_list: [],
-        openid: event.openid,
-        percentage: 0,
-        progress: 0,
-        total: 0,
-        create_time: formatDate()
+    if (res.data.length > 0) {
+      plan = res.data[0];
+    } else {
+      // 数据库不存在数据 进行初始化
+      // -> 初始化数据
+      
+      plan = {
+        open_id,        // openid String
+        list: [],                     // 计划列表
+        create_time: new Date().getTime(),    // 生成时间 Date
+        update_time: new Date().getTime(),    // 更新时间 Date
       }
 
-      return dbPlan.add({
+      db.collection('plan').add({
         data: plan
-      }).then(res => {
-        console.log(res);
-        plan._id = res._id;
+      });
+    }
 
-        return { plan, msg: 1 };
-      }).catch(err => {
-        console.log(err);
-        return { msg: 0 }
-      })
+    // 查询“我的一天计划列表”
+    return db.collection('today_plan').where({
+      open_id,
+    }).get().then(result => {
+
+      if (result.data.length > 0) {
+        todayPlan = result.data[0];
+      } else {
+        // 数据库不存在数据 
+        // -> 初始化数据
+        todayPlan = {
+          open_id,
+          list: [],
+          progress: 0,                  // 进度 Number
+          total: 0,                     // 计划数量 Number
+          percentage: 0,                // 进度百分比值 Number
+          create_time: new Date().getTime(),    // 生成时间 Number
+          update_time: new Date().getTime(),    // 更新时间 Number
+        }
+
+        db.collection('today_plan').add({
+          data: todayPlan
+        });
+      };
+
+      return { plan, today_plan: todayPlan };
     })
-    .catch(err => {
-      return { msg: 0 }
-    })
+  })
 }
 
 /**

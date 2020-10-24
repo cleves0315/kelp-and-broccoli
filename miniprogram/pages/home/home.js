@@ -10,6 +10,7 @@ Page({
    */
   data: {
     plan: {},
+    todayPlan: {},
     isShowLoginCase: 0,
     userInfo: null,
     bannerTitle: '先登陆后查看'
@@ -80,6 +81,17 @@ Page({
   },
   
   onShow () {
-    app.getPlanStorage();
+    this.setData({
+      plan: JSON.parse(wx.getStorageSync('plan')),
+      todayPlan: JSON.parse(wx.getStorageSync('today_plan'))
+    })
+
+    app.getPlanStorage()
+      .then(() => {
+        this.setData({
+          plan: JSON.parse(wx.getStorageSync('plan')),
+          todayPlan: JSON.parse(wx.getStorageSync('today_plan'))
+        })
+      })
   },
 })
