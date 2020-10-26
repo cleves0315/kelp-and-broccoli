@@ -5,14 +5,48 @@ cloud.init()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext();
+  let user = {};
   const db = cloud.database();
-  const dbUser = db.collection('user');
+  // const wxContext = cloud.getWXContext();
+  
 
-  return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
-  }
+  // 查询是否用户是否第一次创建
+  return db.collection('user_info').where({
+    open_id: event.open_id,
+  }).get().then(res => {
+
+    if (res.data.length > 0) {
+      user = res.data[0];
+
+      const today = new Date();
+      const updateTime = new Date(user.update_time);
+
+      // 如果在新的一天登录，天数加1
+      if (today.getDate() !== updateTime.getDate() 
+        || today.getMonth() !== updateTime.getMonth() 
+        || today.getFullYear() !== updateTime.getFullYear()) {
+        user.day += 1;
+        user.update_time = today.getTime();
+      }
+    } else {
+      // 数据库不存在该用户
+
+      // 生成用户信息模板
+      user = {
+        day: 1,        // 天数 Number
+        open_id: event.open_id,       // openid String
+        create_time: new Date().getTime(),   // 生成时间 Number
+        update_time: new Date().getTime(),   // 更新时间 Number
+      };
+    }
+
+    return {
+      code: '1',
+      message: 'ok',
+      data: {
+        user,
+      },
+    };
+
+  });
 }

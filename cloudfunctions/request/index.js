@@ -187,7 +187,7 @@ async function updatePlan(event, db) {
 async function getPlanInfo(event, db) {
   const open_id = event.open_id;
 
-  // 查询计划列表
+  // 查询计划
   return db.collection('plan').where({
     open_id,
   }).get().then(res => {
@@ -213,7 +213,7 @@ async function getPlanInfo(event, db) {
       });
     }
 
-    // 查询“我的一天计划列表”
+    // 查询“我的一天计划”
     return db.collection('today_plan').where({
       open_id,
     }).get().then(result => {
@@ -238,7 +238,15 @@ async function getPlanInfo(event, db) {
         });
       };
 
-      return { plan, today_plan: todayPlan };
+      // return { plan, today_plan: todayPlan };
+      return {
+        code: '1',
+        message: 'ok',
+        data: {
+          plan,
+          today_plan: todayPlan,
+        },
+      }
     })
   })
 }
