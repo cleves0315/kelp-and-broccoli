@@ -13,7 +13,32 @@ Page({
     todayPlan: {},
     isShowLoginCase: 0,
     userInfo: null,
-    bannerTitle: '先登陆后查看'
+    bannerTitle: '我的一天'
+  },
+
+  /**
+   * 获取最新plan数据
+   */
+  getLatestPlan() {
+    app.getPlanToStorage()
+      .then(() => {
+        this.setData({
+          plan: JSON.parse(wx.getStorageSync('plan')),
+          todayPlan: JSON.parse(wx.getStorageSync('today_plan'))
+        });
+      });
+  },
+
+  /**
+   * 获取最新用户信息
+   */
+  getLatestUserInfo() {
+    app.getUserInfoToStorage()
+      .then(() => {
+        this.setData({
+          userInfo: JSON.parse(wx.getStorageSync('user_info'))
+        });
+      });
   },
 
 
@@ -79,19 +104,25 @@ Page({
 
 
   },
+
+  onReady() {
+    // this.setData({
+    //   plan: JSON.parse(wx.getStorageSync('plan')),
+    //   todayPlan: JSON.parse(wx.getStorageSync('today_plan'))
+    // })
+
+    if (wx.getStorageSync('user_info')) {
+      this.setData({
+        userInfo: JSON.parse(wx.getStorageSync('user_info'))
+      });
+    }
+  },
   
   onShow () {
-    this.setData({
-      plan: JSON.parse(wx.getStorageSync('plan')),
-      todayPlan: JSON.parse(wx.getStorageSync('today_plan'))
-    })
-
-    app.getPlanStorage()
-      .then(() => {
-        this.setData({
-          plan: JSON.parse(wx.getStorageSync('plan')),
-          todayPlan: JSON.parse(wx.getStorageSync('today_plan'))
-        })
-      })
+    // 获取plan数据
+    this.getLatestPlan();
+    
+    // 获取用户信息
+    this.getLatestUserInfo();
   },
 })

@@ -7,7 +7,7 @@ App({
   /**
    * 请求后台和缓存数据对比，把最新数据放入缓存
    */
-  getPlanStorage() {
+  getPlanToStorage() {
     const openId = wx.getStorageSync('open_id');
     const planStorg = wx.getStorageSync('plan');
     const todayPlanStorg = wx.getStorageSync('today_plan');
@@ -95,7 +95,7 @@ App({
   /**
    * 从云端获取用户信息
    */
-  getUserInfo() {
+  getUserInfoToStorage() {
     const openId = wx.getStorageSync('open_id');
 
     // 如果缓存不存在openId，则先登陆后再次获取数据
@@ -108,7 +108,7 @@ App({
       callFunction({
         name: 'userinfo',
         data: {
-          open_id: openId
+          open_id: JSON.parse(openId)
         }
       }).then(res => {
         console.log(res);
@@ -116,26 +116,22 @@ App({
   
         const data = res.result.data;
 
-        wx.setStorageSync('user', JSON.stringify(data.user));
+        wx.setStorageSync('user_info', JSON.stringify(data.user));
         resolve();
       });
     });
   },
 
   onLaunch: function () {
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
-      wx.cloud.init({
-        // env 参数说明：
-        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
-        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
-        //   如不填则使用默认环境（第一个创建的环境）
-        env: 'test-7t28x',
-        traceUser: true,
-        timeout: 5000
-      })
-    }
+    wx.cloud.init({
+      // env 参数说明：
+      //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
+      //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
+      //   如不填则使用默认环境（第一个创建的环境）
+      env: 'test-7t28x',
+      traceUser: true,
+      timeout: 5000
+    })
 
     this.globalData = {}
 
@@ -144,8 +140,7 @@ App({
   },
 
   onShow() {
-    // 小程序每从后台展示出，就加载一次用户信息
-    this.getUserInfo();
+    
   },
 
   onHide() {
