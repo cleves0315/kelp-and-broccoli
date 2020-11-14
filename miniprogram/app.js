@@ -1,60 +1,8 @@
 //app.js
-import { callFunction, getAuthGetting } from './utils/util';
+import { login } from './api/app';
 
 App({
   canRun: true,   // 节流开关
-
-  /**
-   * 请求后台和缓存数据对比，把最新数据放入缓存
-   */
-  getPlanToStorage() {
-    const openId = wx.getStorageSync('open_id');
-    const planStorg = wx.getStorageSync('plan');
-    const todayPlanStorg = wx.getStorageSync('today_plan');
-
-    // 如果缓存不存在openId，则先登陆后再次获取数据
-    if (openId === '') {
-      this.login()
-        .then(() => {
-          console.log('login -> then');
-          this.getPlanStorage()
-        });
-      return;
-    }
-
-    return new Promise((resolve) => {
-      // 加载后台数据
-      callFunction({
-        name: 'request',
-        data: {
-          action: 'getPlanInfo',
-          open_id: JSON.parse(openId),
-        }
-      }).then(res => {
-        console.log(res);
-
-        if (res.result.code !== '1') return;
-
-        const data = res.result.data;
-        
-        // 更新最新'plan'到缓存
-        if (planStorg === '' || data.plan.update_time > JSON.parse(planStorg).update_time) {
-          wx.setStorageSync('plan', JSON.stringify(data.plan));
-        }
-
-        // 更新最新'today_plan'到缓存
-        if (todayPlanStorg === '' || data.today_plan.update_time > JSON.parse(todayPlanStorg).update_time) {
-          wx.setStorageSync('today_plan', JSON.stringify(data.today_plan));
-        }
-
-        resolve();
-      }).catch(() => {
-        wx.showToast({
-          title: '数据加载失败',
-        })
-      });
-    });
-  },
 
   /**
    * 登录
@@ -68,56 +16,21 @@ App({
 
       console.log('login');
 
-      callFunction({
-        name: 'login'
-      })
-        .then(res => {
-          console.log(res)
+      return login().then(res => {
+        console.log(res)
 
-          if (res.result.code !== '1') return;
-
-          const openId = res.result.data.open_id;
-
-          wx.setStorageSync('open_id', JSON.stringify(openId));
-          resolve();
-        })
-        .catch(err => {
-          console.log('登陆失败');
-          console.log(err);
-          reject();
-        })
-        .finally(() => {
-          this.canRun = true;
-        });
-    });
-  },
-
-  /**
-   * 从云端获取用户信息
-   */
-  getUserInfoToStorage() {
-    const openId = wx.getStorageSync('open_id');
-
-    // 如果缓存不存在openId，则先登陆后再次获取数据
-    if (openId === '') {
-      this.login().then(() => this.getUserInfo());
-      return;
-    }
-
-    return new Promise((resolve, reject) => {
-      callFunction({
-        name: 'userinfo',
-        data: {
-          open_id: JSON.parse(openId)
-        }
-      }).then(res => {
-        console.log(res);
         if (res.result.code !== '1') return;
-  
-        const data = res.result.data;
 
-        wx.setStorageSync('user_info', JSON.stringify(data.user));
+        const openId = res.result.data.open_id;
+
+        wx.setStorageSync('open_id', JSON.stringify(openId));
         resolve();
+      }).catch(err => {
+        console.log('登陆失败');
+        console.log(err);
+        reject();
+      }).finally(() => {
+        this.canRun = true;
       });
     });
   },
@@ -136,7 +49,7 @@ App({
     this.globalData = {}
 
     
-    // this.login();
+    this.login();
   },
 
   onShow() {

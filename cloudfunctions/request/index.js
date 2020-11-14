@@ -2,58 +2,11 @@
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV,
+  // env: cloud.DYNAMIC_CURRENT_ENV,
   env: 'test-7t28x',
   timeout: 10000
 })
 
-/**
- * 格式化时间格式 xxxx-xx-xx xx:xx:xx
- * @param {*} date 
- */
-function formatDate(d = new Date()) {
-  const date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes()  + ':' + d.getSeconds();
-
-  console.log(date)
-  return date;
-}
-
-// 云函数入口函数
-exports.main = async (event) => {
-  // const wxContext = await cloud.getWXContext()
-  const db = cloud.database();
-
-  switch (event.action) {
-    case 'initPlan': {
-      return await initPlan(event, db)
-    }
-    case 'update_plan': {
-      return await updatePlan(event, db)
-    }
-    case 'getPlanInfo': {
-      // 从数据库获取plan数据
-      return await getPlanInfo(event, db)
-    }
-    case 'delPlan': {
-      return await delPlan(event, db);
-    }
-    case 'addPlan': {
-      return await addPlan(event, db);
-    }
-    case 'setUserInfo': {
-      return setUserInfo(event, db);
-    }
-    case 'chanPlangress': {
-      return chanPlangress(event, db);
-    }
-    case 'editPlan': {
-      return editPlan(event, db);
-    }
-    default: {
-      return
-    }
-  }
-}
 
 // 初始化数据格式
 
@@ -69,14 +22,6 @@ exports.main = async (event) => {
 // }
 
 
-/**
- * 每日计划
- */
-// const plan = {
-//   open_id: event.openid,        // openid String
-//   create_time: formatDate(),    // 生成时间 Date
-//   list: [                          // 
-//     { 
 //       id: 1,                       // id Number
 //       title: '计划1',              // 标题 String
 //       detail: '计划描述',           // 计划描述 String
@@ -87,6 +32,15 @@ exports.main = async (event) => {
 //       closing_date: 1600073125840, // 截止时间(时间戳) Number
 //       repeat: 0,                   // 重复周期 ??
 //     }
+/*
+ * 每日计划
+ */
+// const plan = {
+//   open_id: event.openid,        // openid String
+//   create_time: formatDate(),    // 生成时间 Date
+//   list: [                          // 
+//     { 
+
 //   ],
 //   // progress: 0,                  // 进度 Number
 //   // total: 0,                     // 计划数量 Number
@@ -115,24 +69,80 @@ exports.main = async (event) => {
 //   ],
 // }
 
-
-// /**
-//  * 每日计划的步骤
-//  */
-// const step_List = {
-//   open_id: event.openid,           // openid String 
-//   plan_id: 1,                      // 对应计划的id Number
-//   create_time: formatDate(),       // 生成时间 Date
-//   list: [
-//     {
-//       id: 1, 
-//       title: 第一步, 
-//       state: false,           
-//       create_time: formatDate(),  
-//       update_imte: 1600073125840
+const planInit = {
+  open_id: '',
+  list: [
+//       id: 1,                       // id Number
+//       title: '计划1',              // 标题 String
+//       detail: '计划描述',           // 计划描述 String
+//       state: false,                // 完成状态 Boolean
+//       create_time: 1600073125840,   // 生成时间 Date
+//       update_imte: 1600073125840,  // 更新时间
+//       organize: 'today',           // 属于'我的一天'项目 
+//       closing_date: 1600073125840, // 截止时间(时间戳) Number
+//       repeat: 0,                   // 重复周期 ??
 //     }
-//   ]
-// }
+  ],
+  create_time: new Date().getTime(),    // 生成时间 Number
+  update_time: new Date().getTime(),    // 更新时间 Number
+};
+
+/**
+ * 格式化时间格式 xxxx-xx-xx xx:xx:xx
+ * @param {*} date 
+ */
+function formatDate(d = new Date()) {
+  const date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes()  + ':' + d.getSeconds();
+
+  console.log(date)
+  return date;
+}
+
+// 云函数入口函数
+exports.main = async (event) => {
+  // const wxContext = await cloud.getWXContext()
+  const db = cloud.database();
+
+  switch (event.action) {
+    case 'initPlan': {
+      return await initPlan(event, db)
+    }
+    case 'update_plan': {
+      return await updatePlan(event, db)
+    }
+    case 'getPlanInfo': {
+      // 从数据库获取plan数据
+      return await getPlanInfo(event, db)
+    }
+    case 'get_today_plan': {
+      // 从数据库获取plan数据
+      return await get_today_plan(event, db)
+    }
+    case 'delPlan': {
+      return await delPlan(event, db);
+    }
+    case 'addPlan': {
+      return await addPlan(event, db);
+    }
+    case 'setUserInfo': {
+      return setUserInfo(event, db);
+    }
+    case 'chanPlangress': {
+      return chanPlangress(event, db);
+    }
+    case 'editPlan': {
+      return editPlan(event, db);
+    }
+    default: {
+      return
+    }
+  }
+}
+
+
+
+
+
 
 
 /**
@@ -183,7 +193,7 @@ async function updatePlan(event, db) {
 
 /**
  * 获取plan数据
- * @param event - {openid}
+ * @param event - {open_id}
  */
 async function getPlanInfo(event, db) {
   const open_id = event.open_id;
@@ -194,7 +204,6 @@ async function getPlanInfo(event, db) {
   }).get().then(res => {
     console.log(res)
     let plan = {};
-    let todayPlan = {};
 
     if (res.data.length > 0) {
       plan = res.data[0];
@@ -213,42 +222,46 @@ async function getPlanInfo(event, db) {
         data: plan
       });
     }
+    
+    return {
+      code: '1',
+      message: '获取成功',
+      data: { plan },
+    }
+  })
+}
 
-    // 查询“我的一天计划”
-    return db.collection('today_plan').where({
-      open_id,
-    }).get().then(result => {
+/**
+ * 获取"我的一天"数据
+ * @param event - { open_id }
+ */
+async function get_today_plan(event, db) {
+  const open_id = event.open_id;
 
-      if (result.data.length > 0) {
-        todayPlan = result.data[0];
-      } else {
-        // 数据库不存在数据 
-        // -> 初始化数据
-        todayPlan = {
-          open_id,
-          list: [],
-          progress: 0,                  // 进度 Number
-          total: 0,                     // 计划数量 Number
-          percentage: 0,                // 进度百分比值 Number
-          create_time: new Date().getTime(),    // 生成时间 Number
-          update_time: new Date().getTime(),    // 更新时间 Number
-        }
+  return db.collection('today_plan').where({
+    open_id
+  }).get().then(res => {
+    let todayPlan = {};
 
-        db.collection('today_plan').add({
-          data: todayPlan
-        });
-      };
+    // 如果不存在数据库，使用定义好的模板初始化数据
+    if (res.data.length > 0) {
+      todayPlan = res.data[0];
+    } else {
+      // 数据库不存在数据 
+      // -> 初始化数据
+      todayPlan = todayPlanInit;
+      todayPlan.open_id = open_id;
 
-      // return { plan, today_plan: todayPlan };
-      return {
-        code: '1',
-        message: 'ok',
-        data: {
-          plan,
-          today_plan: todayPlan,
-        },
-      }
-    })
+      db.collection('today_plan').add({
+        data: todayPlan
+      });
+    }
+
+    return {
+      code: '1',
+      message: '获取成功',
+      data: { today_plan: todayPlan },
+    }
   })
 }
 

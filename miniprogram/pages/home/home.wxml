@@ -5,5 +5,5 @@
   <content progress="{{plan.progress}}" total="{{plan.total}}" />
   <btn txt="设置计划" bind:tapbtn="handleToIntoPlan" />
   <!-- 授权登陆痰喘 -->
-  <login-case isShow="{{isShowLoginCase}}" bind:getuserinfo="handleToGetuserInfo" />
+  <!-- <login-case isShow="{{isShowLoginCase}}" bind:getuserinfo="handleToGetuserInfo" /> -->
 </view>

@@ -1,5 +1,5 @@
 // pages/home/home.js
-import { getAuthGetting, callFunction } from '../../utils/util';
+import { getUserInfo, getTodayPlan } from '../../api/home';
 
 const app = getApp();
 
@@ -9,66 +9,61 @@ Page({
    * 页面的初始数据
    */
   data: {
-    plan: {},
-    todayPlan: {},
+    plan: null,
     isShowLoginCase: 0,
     userInfo: null,
     bannerTitle: '我的一天'
   },
 
   /**
-   * 获取最新plan数据
+   * 获取缓存用户信息
    */
-  getLatestPlan() {
-    app.getPlanToStorage()
-      .then(() => {
-        this.setData({
-          plan: JSON.parse(wx.getStorageSync('plan')),
-          todayPlan: JSON.parse(wx.getStorageSync('today_plan'))
-        });
+  getStorageUserInfo() {
+    if (wx.getStorageSync('user_info')) {
+      this.setData({
+        userInfo: JSON.parse(wx.getStorageSync('user_info'))
       });
+    }
   },
 
   /**
    * 获取最新用户信息
    */
   getLatestUserInfo() {
-    app.getUserInfoToStorage()
-      .then(() => {
-        this.setData({
-          userInfo: JSON.parse(wx.getStorageSync('user_info'))
-        });
-      });
-  },
+    console.log('getLatestUserInfo');
 
+    const openId = wx.getStorageSync('open_id');
+    if (!openId) {
+      app.login();
 
-  /**
-   * 
-   */
-  getUserInfo() {
-    if (!this.data.userInfo) {
-      wx.getUserInfo({
-        success: (res) => this.setData({ userInfo: res.userInfo, bannerTitle: res.userInfo.nickName + '的每日计划' })
-      })
+      setTimeout(() => {
+        this.getLatestUserInfo();
+      }, 1000);
+      return;
     }
-  },
 
-  /**
-   * 用户同意授权·用户信息callback
-   */
-  handleToGetuserInfo(e) {
-    const userInfo = e.detail.userInfo;
+    getUserInfo(JSON.parse(openId))
+      .then(res => {
+        console.log(res);
+        const data = res.result;
 
-    callFunction({
-      name: 'request',
-      data: {
-        action: 'setUserInfo',
-        openid: JSON.parse(wx.getStorageSync('openid')),
-        userInfo
-      }
-    })
+        if (data.code !== '1') {
+          wx.showToast({ icon: 'none', title: data.message, });
+          return;
+        }
 
-    this.setData({ userInfo, bannerTitle: userInfo.nickName + '的每日计划' })
+        const userInfo = this.data.userInfo;
+        if (!userInfo || data.user.update_time > userInfo.update_time) {
+          this.setData({
+            userInfo: data.user
+          });
+
+          wx.setStorage({
+            data: JSON.stringify(data.user),
+            key: 'user_info',
+          })
+        }
+      })
   },
 
   /**
@@ -106,23 +101,13 @@ Page({
   },
 
   onReady() {
-    // this.setData({
-    //   plan: JSON.parse(wx.getStorageSync('plan')),
-    //   todayPlan: JSON.parse(wx.getStorageSync('today_plan'))
-    // })
-
-    if (wx.getStorageSync('user_info')) {
-      this.setData({
-        userInfo: JSON.parse(wx.getStorageSync('user_info'))
-      });
-    }
+    // 从缓存获取用户信息
+    this.getStorageUserInfo();
+    // 获取最新用户信息
+    this.getLatestUserInfo();
   },
   
   onShow () {
-    // 获取plan数据
-    this.getLatestPlan();
     
-    // 获取用户信息
-    this.getLatestUserInfo();
   },
 })

@@ -7,11 +7,26 @@ cloud.init({
   timeout: 10000
 })
 
+
+const userInit = {
+  day: 1,        // 天数 Number
+  open_id: '',       // openid String
+  create_time: new Date().getTime(),   // 生成时间 Number
+  update_time: new Date().getTime(),   // 更新时间 Number
+};
+
 // 云函数入口函数
 exports.main = async (event, context) => {
   let user = {};
   const db = cloud.database();
   // const wxContext = cloud.getWXContext();  
+
+  if (event.open_id === '') {
+    return {
+      code: 0,
+      message: '获取失败'
+    };
+  }
 
   // 查询是否用户是否第一次创建
   return db.collection('user_info').where({
@@ -32,35 +47,34 @@ exports.main = async (event, context) => {
         || today.getFullYear() !== updateTime.getFullYear()) {
         user.day += 1;
         user.update_time = today.getTime();
+
+        db.collection('user_info')
+          .where({ 
+            open_id: event.open_id
+          })
+          .update({
+            data: {
+              day: user.day,
+              update_time: user.update_time,
+            }
+          });
       }
     } else {
       console.log('数据库不存在该用户');
       // 数据库不存在该用户
-
       // 生成用户信息模板
-      user = {
-        day: 1,        // 天数 Number
-        open_id: event.open_id,       // openid String
-        create_time: new Date().getTime(),   // 生成时间 Number
-        update_time: new Date().getTime(),   // 更新时间 Number
-      };
+      user = userInit;
+      user.open_id = event.open_id;
 
-      // 第一次生成用户信息存入数据库
       db.collection('user_info').add({
         data: user
-      }).then(res => {
-        console.log(res);
-      }).catch(err => {
-        console.log(err);
-      });
+      })
     }
 
     return {
+      user,
       code: '1',
-      message: 'ok',
-      data: {
-        user,
-      },
+      message: '获取成功',
     };
 
   });
