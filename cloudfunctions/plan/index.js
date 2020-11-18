@@ -12,7 +12,7 @@ const planInit = {
 //       id: 1,                       // id Number
 //       title: '计划1',              // 标题 String
 //       detail: '计划描述',           // 计划描述 String
-//       state: false,                // 完成状态 Boolean
+//       is_finish: false,            // 完成状态 Boolean
 //       create_time: 1600073125840,   // 生成时间 Date
 //       update_imte: 1600073125840,  // 更新时间
 //       organize: 'today',           // 属于'我的一天'项目 

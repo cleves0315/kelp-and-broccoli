@@ -7,6 +7,7 @@ App({
   /**
    * 登录
    * @method
+   * @returns Promise
    */
   login() {
     return new Promise((resolve, reject) => {
@@ -48,7 +49,7 @@ App({
 
     this.globalData = {}
 
-    
+
     this.login();
   },
 
