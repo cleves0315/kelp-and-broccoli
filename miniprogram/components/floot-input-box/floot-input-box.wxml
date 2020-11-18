@@ -6,6 +6,8 @@
       maxlength="{{maxlength}}"
       placeholder-style="color: {{cursorSpacing > 0 ? '#767678;' : '#fff'}};"
       adjust-position="{{adjustPosition}}"
+      bindblur="handleBlur"
+      bindconfirm="handleConfim"
       bindkeyboardheightchange="handleKeyboardheightchange">
       <view class="input-place">
         <image wx:if="{{cursorSpacing == 0}}" class="blur-icon" src="{{inputPlaceIcon}}"></image>

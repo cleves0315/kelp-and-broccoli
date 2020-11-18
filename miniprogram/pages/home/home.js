@@ -221,8 +221,11 @@ Page({
    * 进入*设置计划
    */
   handleToIntoPlan() {
+    // wx.navigateTo({
+    //   url: '/pages/plan/plan',
+    // })
     wx.navigateTo({
-      url: '/pages/plan/plan',
+      url: '/pages/my-plan/my-plan',
     })
   },
 

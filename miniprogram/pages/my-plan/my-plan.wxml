@@ -1,8 +1,8 @@
 <!--miniprogram/pages/my-plan/my-plan.wxml-->
 <view class="my-plan">
   <view class="container" style="padding-bottom: 420rpx;">
-    <header background="#70C59E" bubColor="#70C59E" />
-    <plan-list bind:btnchange="handleToChangePlan" bind:tapItem="handleToTapPlanItem" />
-    <floot-input-box isIphoneX="{{isIphoneX}}" background="#70C59E" />
+    <header title="计划列表" background="#70C59E" bubColor="#70C59E" />
+    <plan-list list="{{planList}}" bind:btnchange="handleToChangePlan" bind:tapItem="handleToTapPlanItem" />
+    <floot-input-box isIphoneX="{{isIphoneX}}" background="#70C59E" bind:confim="handleCreatPlan" />
   </view>
 </view>

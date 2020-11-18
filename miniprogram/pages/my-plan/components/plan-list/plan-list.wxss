@@ -39,16 +39,6 @@
   /* margin-top: 20rpx; */
 }
 
-.tips {
-  position: absolute;
-  top: 40%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: #888;
-  font-size: 28rpx;
-}
-
 .funt-wap {
   align-self: center;
   margin-right: 30rpx;

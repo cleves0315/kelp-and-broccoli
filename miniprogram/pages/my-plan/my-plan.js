@@ -10,7 +10,30 @@ Page({
    */
   data: {
     isIphoneX: 0,
-    plan: null
+    planList: [],
+  },
+
+  getStoragePlan() {
+    const storPlan = wx.getStorageSync('plan');
+
+    if (storPlan) {
+      this.setData({
+        planList: JSON.parse(storPlan).list
+      })
+    }
+  },
+
+  /**
+   * 创建一条计划
+   * @callback 回车按钮
+   */
+  handleCreatPlan(e) {
+    console.log(e);
+    const title = e.detail.value;
+
+    this.setData({
+      planList
+    })
   },
   
 
@@ -21,37 +44,6 @@ Page({
   handleToChangePlan(e) {
     const value = e.detail.value;
     console.log(e)
-
-    return;
-
-    wx.showLoading({
-      mask: true,
-      title: '操作中...'
-    });
-
-    callFunction({
-      name: 'request',
-      data: {
-        action: 'chanPlangress',
-        id: e.detail.id,
-        openid: JSON.parse(wx.getStorageSync('openid')),
-        value
-      }
-    }).then(res => {
-      console.log(res)
-      if (res.result.msg == 0) {
-        wx.hideLoading();
-        wx.showToast({  icon: 'none', title: '操作失败' });
-      }
-
-      wx.hideLoading();
-      app.handleReqPlanInfo();  // 重新从后台加载plan数据
-    }).catch(err => {
-      console.log(err)
-      wx.hideLoading({
-        success: (res) => wx.showToast({  icon: 'none', title: '操作失败' })
-      })
-    })
   },
 
   /**
@@ -73,6 +65,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       isIphoneX: judgeIphoneX()
-    })
+    });
+
+    this.getStoragePlan();
   },
 })

@@ -41,15 +41,35 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    /**
+     * 失焦
+     */
+    handleBlur() {
+      this.setData({
+        cursorSpacing: 0
+      });
+    },
+
+    /**
+     * 监听提交
+     */
+    handleConfim(e) {
+      const value = e.detail.value;
+
+      this.triggerEvent('confim', { value });
+    },
 
     /**
      * 监听键盘高度变化
      */
     handleKeyboardheightchange(e) {
-      console.log(e)
-      this.setData({
-        cursorSpacing: e.detail.height
-      })
+      // console.log(e)
+      const height = e.detail.height;
+      if (height > 0) {
+        this.setData({
+          cursorSpacing: e.detail.height
+        })
+      }
     },
   }
 })
