@@ -2,6 +2,7 @@
 <view class="floot-input-box {{isIphoneX ? 'iphone-x' : ''}} {{cursorSpacing ? 'change-height' : ''}}" style="background: {{background}}; bottom: {{cursorSpacing || ''}}px;">
   <view class="container {{cursorSpacing ? 'container-change-height' : ''}}">
     <input class="input-box {{cursorSpacing ? 'input-box-change-height' : ''}}"
+      value="{{inputValue}}"
       placeholder="{{inputPlaceTxt}}" 
       maxlength="{{maxlength}}"
       placeholder-style="color: {{cursorSpacing > 0 ? '#767678;' : '#fff'}};"

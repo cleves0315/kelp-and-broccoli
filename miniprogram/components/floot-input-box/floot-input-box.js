@@ -34,6 +34,7 @@ Component({
    * 组件的初始数据
    */
   data: {
+    inputValue: '',     // 设置输入框的值
     cursorSpacing: 0,   // 获取键盘高度值
   },
 
@@ -42,12 +43,24 @@ Component({
    */
   methods: {
     /**
+     * 设置输入框的值
+     * @param  value 
+     */
+    handleSetValue(value) {
+      this.setData({
+        inputValue: value
+      });
+    },
+
+    /**
      * 失焦
      */
     handleBlur() {
-      this.setData({
-        cursorSpacing: 0
-      });
+      if (this.data.cursorSpacing !== 0) {
+        this.setData({
+          cursorSpacing: 0
+        });
+      }
     },
 
     /**

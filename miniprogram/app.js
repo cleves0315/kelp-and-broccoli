@@ -50,7 +50,7 @@ App({
     this.globalData = {}
 
 
-    this.login();
+    // this.login();
   },
 
   onShow() {

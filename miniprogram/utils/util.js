@@ -56,8 +56,6 @@ function throttle(fn, interval = 300) {
 function judgeIphoneX() {
   const res = wx.getSystemInfoSync();
 
-  console.log(res)
-
   const model = res.model;
 
   if (model.search('iPhone X') != -1 || model.search('iPhone 11') != -1) {
@@ -68,8 +66,36 @@ function judgeIphoneX() {
 }
 
 
+/**
+ * 生成随机码 
+ */
+function drawCode() {
+  const a = [
+    'a', 'b', 'c', 'd', 'e', 
+    'f', 'g', 'h', 'i', 'j',
+    'k', 'l', 'm', 'n', 'o',
+    'p', 'q', 'r', 's', 't',
+    'u', 'v', 'w', 'x', 'y',
+    'z',
+  ];
 
+  let s = '';
+  let drawNum = 0;
+  
+  for (let i = 0; i < 5; i++) {
+    drawNum = parseInt(Math.random() * a.length);
 
+    if (i % 2 !== 0) {
+      s += a[drawNum].toLocaleUpperCase();
+    } else {
+      s += a[drawNum];
+    }
+  }
+
+  s += new Date().getTime();
+
+  return s;
+}
 
 
 
@@ -77,5 +103,6 @@ module.exports = {
   throttle,
   callFunction,
   getAuthGetting,
-  judgeIphoneX
+  judgeIphoneX,
+  drawCode,
 }

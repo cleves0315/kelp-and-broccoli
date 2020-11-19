@@ -1,5 +1,6 @@
 // pages/home/home.js
-import { getUserInfo, getPlan } from '../../api/home';
+import { getUserInfo } from '../../api/user';
+import { getPlan } from '../../api/plan';
 
 const app = getApp();
 
@@ -11,7 +12,7 @@ Page({
   data: {
     onesRequest: 1,    // 页面一次的请求
     bannerTitle: '我的一天',
-    planList: null,    // 所有计划列表
+    planList: [],    // 所有计划列表
     todayPlan: {       // 我的一天
       progress: 0,
       percentage: 0,
@@ -51,14 +52,6 @@ Page({
    */
   getLatestUserInfo() {
     const openId = wx.getStorageSync('open_id');
-    if (!openId) {
-      app.login();
-
-      setTimeout(() => {
-        this.getLatestUserInfo();
-      }, 1000);
-      return;
-    }
 
     return new Promise(resolve => {
       getUserInfo(JSON.parse(openId))
@@ -71,7 +64,7 @@ Page({
             wx.showToast({ icon: 'none', title: data.message, });
             return;
           }
-  
+
           const userInfo = this.data.userInfo;
           if (!userInfo || data.user.update_time > userInfo.update_time) {
             this.setData({
@@ -92,14 +85,6 @@ Page({
    */
   getLatestPlan() {
     const openId = wx.getStorageSync('open_id');
-    if (!openId) {
-      app.login();
-
-      setTimeout(() => {
-        this.getLatestUserInfo();
-      }, 1000);
-      return;
-    }
 
     return new Promise(resolve => {
       getPlan(JSON.parse(openId))     // 获取云端数据和本地缓存比较 -> 渲染视图
@@ -114,6 +99,10 @@ Page({
           const storPlan = wx.getStorageSync('plan');
 
           if (data.code !== '1') {
+            wx.showToast({
+              icon: 'none',
+              title: '获取计划失败',
+            })
             return;
           }
 
@@ -213,7 +202,7 @@ Page({
    */
   handleToIntoMyPlan() {
     wx.navigateTo({
-      url: '/pages/my-plan/my-plan',
+      url: '/pages/my-plan/my-plan?organize=today',
     })
   },
 
@@ -225,7 +214,7 @@ Page({
     //   url: '/pages/plan/plan',
     // })
     wx.navigateTo({
-      url: '/pages/my-plan/my-plan',
+      url: '/pages/my-plan/my-plan?organize=normal',
     })
   },
 
@@ -242,15 +231,24 @@ Page({
     this.getStoragePlan();
 
 
-    // 获取最新plan
-    // 获取最新用户信息
-    Promise.all([
-      this.getLatestPlan(), 
-      this.getLatestUserInfo()
-    ]).then(() => {
-      this.data.onesRequest = 0;
+    const openId = wx.getStorageSync('open_id');
 
-      this.todayPlanInit();
+    // 登陆
+    new Promise(resolve => {
+      if (!openId)  {
+        app.login().then(() => resolve());
+      } else {
+        resolve();
+      }
+    }).then(() => {
+      // 获取最新plan
+      // 获取最新用户信息
+      Promise.all([this.getLatestPlan(), this.getLatestUserInfo()])
+        .then(() => {
+          this.data.onesRequest = 0;
+  
+          this.todayPlanInit();
+        })
     })
   },
   

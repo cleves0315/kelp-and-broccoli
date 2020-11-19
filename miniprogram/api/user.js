@@ -12,17 +12,3 @@ export function getUserInfo(openId) {
     }
   });
 }
-
-/**
- * 获取plan数据
- * @param { String } openId
- */
-export function getPlan(openId) {
-  return callFunction({
-    name: 'plan',
-    data: {
-      action: 'get_plan',
-      open_id: openId
-    }
-  });
-}
