@@ -34,3 +34,20 @@ export function addPlan(openId, title, organize) {
     data,
   });
 }
+
+
+/**
+ * 编辑plan
+ */
+export function editPlan(openId, options) {
+  const data = {
+    action: 'edit_plan',
+    open_id: openId,
+    options
+  };
+
+  return callFunction({
+    name: 'plan',
+    data
+  });
+}

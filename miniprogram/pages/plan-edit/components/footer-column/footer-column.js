@@ -10,7 +10,7 @@ Component({
     },
     txt: {                        // 文本内容
       type: String, 
-      value: '创建于 8月25日 周二'
+      value: '8月25日 周二'
     },
     txtColor: {                   // 文本颜色
       type: String,

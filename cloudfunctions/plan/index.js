@@ -36,6 +36,7 @@ function init_plan_list(options) {
     update_imte: new Date().getTime(),    // 更新时间
     organize: options.organize || 'normal',  // 属于'我的一天'项目 
     closing_date: options.closing_date || 0, // 截止时间(时间戳) Number
+    stepList: options.stepList || [],      // 子计划列表
     // repeat: 0,                   // 重复周期 ??
   }
 
@@ -52,6 +53,8 @@ exports.main = async (event) => {
       return await get_plan(event, db);
     case 'add_plan':
       return await add_plan(event, db);
+    case 'edit_plan':
+      return await edit_plan(event, db);
   }
 }
 
@@ -103,17 +106,10 @@ async function get_plan(event, db) {
 async function add_plan(event, db) {
   const openId = event.open_id;
 
-  if (!openId) {
+  if (!openId || !event.title) {
     return {
       code: '0',
       message: '获取失败'
-    }
-  }
-
-  if (!event.title) {
-    return {
-      code: '0',
-      message: '操作失败'
     }
   }
 
@@ -165,4 +161,14 @@ async function add_plan(event, db) {
       }
     })
   });
+}
+
+
+/**
+ * 修改计划
+ */
+async function edit_plan(event, db) {
+  const openId = event.open_id;
+  const editKeys = event.edit_keys;
+  const 
 }

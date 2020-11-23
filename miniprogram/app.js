@@ -25,13 +25,13 @@ App({
         const openId = res.result.data.open_id;
 
         wx.setStorageSync('open_id', JSON.stringify(openId));
+        this.canRun = true;
         resolve();
       }).catch(err => {
         console.log('登陆失败');
         console.log(err);
-        reject();
-      }).finally(() => {
         this.canRun = true;
+        reject();
       });
     });
   },
@@ -48,7 +48,9 @@ App({
     })
 
     this.globalData = {}
-
+    wx.setStorageSync('user_info', '');
+    wx.setStorageSync('plan', '');
+    wx.setStorageSync('open_id', '');
 
     // this.login();
   },

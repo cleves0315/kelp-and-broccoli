@@ -1,5 +1,6 @@
 // pages/plan-edit/plan-edit.js
 import { judgeIphoneX } from '../../utils/util';
+import { editPlan } from '../../api/plan';
 
 Page({
 
@@ -7,21 +8,12 @@ Page({
    * 页面的初始数据
    */
   data: {
+    plan: {},
+    openId: '',
     disabled: false,
-    stepList: [
-      { id: 1, title: '第一步' },
-      { id: 2, title: '第二步' },
-      { id: 3, title: '第三步' },
-      { id: 4, title: '第四步' },
-      { id: 5, title: '第五步' },
-    ],
-    isTodayFutLive: false,                 // 控制"添加到我的一天"按钮是否被激活
-    todayFuntTxt: '添加到“我的一天”',      
-    todayFuntIcon: '/static/images/plan-edit/sunlight.svg',
+    todayFuntIcon: '/static/images/plan-edit/sunlight.svg',             // 我的一天图标
     todayFuntLiveIcon: '/static/images/plan-edit/sunlight_live.svg',
-    isdateFutLive: false,                 // 控制"添加截止日期"按钮是否被激活
-    dateFuntTxt: '添加截止日期',           
-    dateFuntIcon: '/static/images/plan-edit/date.svg',
+    dateFuntIcon: '/static/images/plan-edit/date.svg',                  // 截止日期图标
     dateFuntLiveIcon: '/static/images/plan-edit/date_live.svg',
     isRepeatFutLive: false,                // 控制"重复"按钮是否被激活
     repeatFuntTxt: '重复',
@@ -202,6 +194,37 @@ Page({
 
 
   /**
+   * 编辑计划详情
+   * @param e
+   * @callback blur
+   */
+  handleEditDetailEnd(e) {
+    const val = e.detail.value;
+    const plan = this.data.plan;
+    const storPlan = wx.getStorageSync('plan');
+    const planList = JSON.parse(storPlan);
+    
+    if (!storPlan) return;
+
+    plan.detail = val;
+    
+    planList.list.forEach((item, index) => {
+      if (item.id === plan.id) {
+        planList.list[index] = plan;
+      }
+    });
+
+    wx.setStorageSync('plan', JSON.stringify(planList));
+
+    editPlan(this.data.openId,{
+        detail: val
+      }).then(res => {
+        console.log(res);
+      });
+  },
+
+
+  /**
    * 删除计划
    * @callback 点击底部删除按钮
    */
@@ -220,8 +243,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
+    const data = JSON.parse(options.data);
+    
+    this.data.plan = data;
+    this.data.openId = wx.getStorageSync('open_id') && JSON.parse(wx.getStorageSync('open_id'));
+    
     // 适配IphoneX
     this.adaptationIphoneX();
-  }
+  },
+
+  onReady() {
+    this.setData({
+      plan: this.data.plan
+    });
+  },
 })

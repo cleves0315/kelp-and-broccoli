@@ -56,7 +56,7 @@ Page({
 
 
     data.title = title;
-    data.temId = drawCode();   // 生成零时随机id
+    data.temId = drawCode();   // 生成临时随机id
     data.organize = organize;
 
     planList.push(data);
@@ -130,13 +130,17 @@ Page({
    */
   onLoad: function (options) {
     this.data.organize = options.organize;
+    
+    this.data.flootInput = this.selectComponent('#flootInput');
+  },
 
+  onReady() {
     this.setData({
       isIphoneX: judgeIphoneX()
     });
-
-    this.getStoragePlan();
-
-    this.data.flootInput = this.selectComponent('#flootInput');
   },
+  
+  onShow() {
+    this.getStoragePlan();
+  }
 })

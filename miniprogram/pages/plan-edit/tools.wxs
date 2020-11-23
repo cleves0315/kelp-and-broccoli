@@ -1,0 +1,52 @@
+/**
+ *  根据传入的时间戳返回一定格式的日期文字
+ * @param { Number } d
+ * @todo xx年xx月xx日 周x
+ */
+function conversionDate(d) {
+  var date = getDate(d);
+  var y = date.getFullYear();
+  var m = date.getMonth() + 1;
+  var d = date.getDate();
+  var w = date.getDay();
+  var wee = '';
+
+  var dateString = '';
+
+  switch (w) {
+    case 0:
+      wee = '周一';
+      break;
+    case 1:
+      wee = '周二';
+      break;
+    case 2:
+      wee = '周三';
+      break;
+    case 3:
+      wee = '周四';
+      break;
+    case 4:
+      wee = '周五';
+      break;
+    case 5:
+      wee = '周六';
+      break;
+    case 6:
+      wee = '周日';
+      break;
+  }
+
+  
+  if (y !== getDate().getFullYear()) {
+    dateString = y + '年' + m + '月' + d + '日 ' + wee;
+  } else {
+    dateString = m + '月' + d + '日 ' + wee;
+  }
+
+  return dateString;
+}
+
+module.exports = {
+  conversionDate: conversionDate
+}

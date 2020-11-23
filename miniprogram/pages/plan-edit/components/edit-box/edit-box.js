@@ -25,6 +25,8 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    handleBlur(e) {
+      this.triggerEvent('blur', e.detail);
+    }
   }
 })
