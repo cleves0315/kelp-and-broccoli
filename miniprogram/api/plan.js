@@ -7,7 +7,7 @@ import { callFunction } from '../utils/util';
  */
 export function getPlan(openId) {
   return callFunction({
-    name: 'plan',
+    name: 'planinfo',
     data: {
       action: 'get_plan',
       open_id: openId
@@ -30,7 +30,7 @@ export function addPlan(openId, title, organize) {
   };
 
   return callFunction({
-    name: 'plan',
+    name: 'planinfo',
     data,
   });
 }
@@ -47,7 +47,7 @@ export function editPlan(openId, options) {
   };
 
   return callFunction({
-    name: 'plan',
+    name: 'planinfo',
     data
   });
 }

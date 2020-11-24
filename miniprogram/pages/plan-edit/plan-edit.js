@@ -216,7 +216,8 @@ Page({
 
     wx.setStorageSync('plan', JSON.stringify(planList));
 
-    editPlan(this.data.openId,{
+    editPlan(this.data.openId, {
+        id: plan.id,
         detail: val
       }).then(res => {
         console.log(res);

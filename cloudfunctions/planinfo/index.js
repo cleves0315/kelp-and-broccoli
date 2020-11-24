@@ -72,7 +72,7 @@ async function get_plan(event, db) {
     }
   }
 
-  return db.collection('plan').where({
+  return db.collection('plan_info').where({
     open_id: openId
   }).get().then(res => {
     let plan = {};
@@ -82,7 +82,7 @@ async function get_plan(event, db) {
     } else {
       const planInit = init_plan(openId);
 
-      db.collection('plan').add({
+      db.collection('plan_info').add({
         data: planInit
       });
     }
@@ -113,7 +113,7 @@ async function add_plan(event, db) {
     }
   }
 
-  return db.collection('plan').where({
+  return db.collection('plan_info').where({
     open_id: openId
   }).get().then(res => {
     let plan = {};
@@ -139,7 +139,7 @@ async function add_plan(event, db) {
 
     plan.list.push(data);
 
-    return db.collection('plan').where({
+    return db.collection('plan_info').where({
       open_id: openId
     }).update({
       data: {
@@ -166,9 +166,55 @@ async function add_plan(event, db) {
 
 /**
  * 修改计划
+ * @param open_id
+ * @param {Object} options {title,detail,...}
  */
 async function edit_plan(event, db) {
+  let keys = [];
   const openId = event.open_id;
-  const editKeys = event.edit_keys;
-  const 
+  const options = event.options;
+
+  if (!openId || !options) {
+    return {
+      code: '0',
+      message: '获取失败'
+    };
+  }
+
+  keys = Object.getOwnPropertyNames(options);
+  if (keys.length === 0) {
+    return {code: '0', message: '获取失败'};
+  }
+
+  db.collection('plan_info').where({
+    open_id: openId
+  }).get().then(res => {
+    if (res.data.length > 0) {
+      const planInfo = res.data[0];
+      const list = planInfo.list;
+      const plan = {};
+
+      list.forEach(item => {
+        if (item.id === options.id) {
+          plan = item;
+          break;
+        }
+      });
+
+      if (JSON.stringify(plan) === '{}') {
+        return {code: '0', message: '获取失败'};
+      }
+
+      keys.forEach(key => {
+        plan[key] = options[key];
+      });
+
+      
+
+      
+    } else {
+      return { code: '0', message: '获取失败' };
+    }
+  })
+
 }
