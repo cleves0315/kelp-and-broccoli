@@ -87,11 +87,11 @@ Page({
         resolve();
       }
     }).then(() => {
-      addPlan(
-        JSON.parse(wx.getStorageSync('open_id')), 
+      addPlan({
+        open_id: JSON.parse(wx.getStorageSync('open_id')),
         title,
         organize,
-      ).then(res => {
+      }).then(res => {
           console.log(res);
           if (res.result.code === '1') {
             plan.list[plan.list.length - 1] = res.result.data;

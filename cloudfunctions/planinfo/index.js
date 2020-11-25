@@ -28,7 +28,7 @@ function init_plan(openId) {
  */
 function init_plan_list(options) {
   const data = {
-    id: options.id,                       // id Number *
+    open_id: options.open_id,
     title: options.title,                 // 标题 String *
     detail: options.detail || '',         // 计划描述 String
     is_finish: false,                     // 完成状态 Boolean
@@ -98,69 +98,30 @@ async function get_plan(event, db) {
 
 /**
  * 添加一条计划 
- * @param title 标题 * (*必传)
- * @param detail 详情
- * @param organize  归属项目
- * @param closing_date  截止时间
+ * @param {object} options {title*, detail, organize*, closing_date}
  */
 async function add_plan(event, db) {
-  const openId = event.open_id;
+  const plan = event.plan;
 
-  if (!openId || !event.title) {
+  if (!plan || !plan.open_id || !plan.title || !plan.organize) {
     return {
       code: '0',
       message: '获取失败'
     }
   }
 
-  return db.collection('plan_info').where({
-    open_id: openId
-  }).get().then(res => {
-    let plan = {};
+  // const keys = Object.getOwnPropertyNames(plan);
 
-    if (res.data.length === 0) {
+  const data = init_plan_list(plan);
+  
+  return db.collection('plan_list')
+    .add({ data })
+    .then(res => {
       return {
-        code: '0',
-        message: '不存在该用户'
+        code: '1',
+        res: res
       };
-    }
-
-    plan = res.data[0];
-
-    plan.memory += 1;
-    const data = init_plan_list({
-      id: plan.memory,
-      title: event.title,
-      detail: event.detail,           // 计划描述 String
-      organize: event.organize,       // 属于'我的一天'项目 
-      closing_date: event.closing_date,    // 截止时间(时间戳) Number
-      // repeat: 0,                   // 重复周期 ??
     });
-
-    plan.list.push(data);
-
-    return db.collection('plan_info').where({
-      open_id: openId
-    }).update({
-      data: {
-        memory: plan.memory,
-        list: plan.list
-      }
-    }).then(res => {
-      if (res.stats.updated !== 0) {
-        return {
-          code: '1',
-          message: '添加成功',
-          data
-        };
-      } else {
-        return {
-          code: '0',
-          message: '更新失败'
-        };
-      }
-    })
-  });
 }
 
 

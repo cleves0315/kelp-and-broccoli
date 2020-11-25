@@ -21,12 +21,10 @@ export function getPlan(openId) {
  * @param { String } title 标题
  * @param { String } organize 栏目
  */
-export function addPlan(openId, title, organize) {
+export function addPlan(options) {
   const data = {
     action: 'add_plan',
-    open_id: openId,
-    title,
-    organize,
+    plan: options
   };
 
   return callFunction({
@@ -39,11 +37,10 @@ export function addPlan(openId, title, organize) {
 /**
  * 编辑plan
  */
-export function editPlan(openId, options) {
+export function editPlan(options) {
   const data = {
     action: 'edit_plan',
-    open_id: openId,
-    options
+    plan: options
   };
 
   return callFunction({
