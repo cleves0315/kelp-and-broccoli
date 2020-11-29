@@ -7,20 +7,6 @@ cloud.init({
 })
 
 
-/**
- * 初始化plan
- */
-function init_plan(openId) {
-  const planInit = {
-    open_id: openId,    // open_id String
-    list: [],       // 计划列表
-    memory: 0,                            // 记录list id索引，
-    create_time: new Date().getTime(),    // 生成时间 Number
-    update_time: new Date().getTime(),    // 更新时间 Number
-  };
-
-  return planInit;
-}
 
 /**
  * 初始化plan_list
@@ -29,12 +15,12 @@ function init_plan(openId) {
 function init_plan_list(options) {
   const data = {
     open_id: options.open_id,
-    title: options.title,                 // 标题 String *
+    title: options.title.trim(),          // 标题 String *
     detail: options.detail || '',         // 计划描述 String
     is_finish: false,                     // 完成状态 Boolean
     create_time: new Date().getTime(),    // 生成时间 Date
-    update_imte: new Date().getTime(),    // 更新时间
-    organize: options.organize || 'normal',  // 属于'我的一天'项目 
+    update_time: new Date().getTime(),    // 更新时间
+    organize: options.organize || 'normal',  // 属于'我的一天'项目
     closing_date: options.closing_date || 0, // 截止时间(时间戳) Number
     stepList: options.stepList || [],      // 子计划列表
     // repeat: 0,                   // 重复周期 ??
@@ -49,12 +35,12 @@ exports.main = async (event) => {
   const db = cloud.database();
   
   switch (event.action) {
-    case 'get_plan':
-      return await get_plan(event, db);
-    case 'add_plan':
-      return await add_plan(event, db);
-    case 'edit_plan':
-      return await edit_plan(event, db);
+    case 'get_plan_list':
+      return await get_plan_list(event, db);
+    case 'add_plan_list':
+      return await add_plan_list(event, db);
+    case 'update_plan_list':
+      return await update_plan_list(event, db);
   }
 }
 
@@ -62,7 +48,7 @@ exports.main = async (event) => {
 /**
  * 获取计划数据
  */
-async function get_plan(event, db) {
+async function get_plan_list(event, db) {
   const openId = event.open_id;
 
   if (!openId || openId[0] === '"') {
@@ -72,23 +58,15 @@ async function get_plan(event, db) {
     }
   }
 
-  return db.collection('plan_info').where({
+  return db.collection('plan_list').where({
     open_id: openId
   }).get().then(res => {
-    let plan = {};
+    const planList = res.data;
 
-    if (res.data.length > 0) {
-      plan = res.data[0];
-    } else {
-      const planInit = init_plan(openId);
-
-      db.collection('plan_info').add({
-        data: planInit
-      });
-    }
+    
 
     return {
-      plan,
+      planList,
       code: '1',
       message: '获取成功',
     };
@@ -97,29 +75,39 @@ async function get_plan(event, db) {
 
 
 /**
- * 添加一条计划 
- * @param {object} options {title*, detail, organize*, closing_date}
+ * 添加计划 
+ * @param {Array} plan_list {open_id*, title*, detail, organize*, closing_date}
  */
-async function add_plan(event, db) {
-  const plan = event.plan;
+async function add_plan_list(event, db) {
+  let planList = event.plan_list;
 
-  if (!plan || !plan.open_id || !plan.title || !plan.organize) {
+  if (!planList || planList.length === 0) {
     return {
       code: '0',
-      message: '获取失败'
+      message: '添加失败'
     }
   }
 
-  // const keys = Object.getOwnPropertyNames(plan);
 
-  const data = init_plan_list(plan);
   
+  const addList = planList.map(item => {
+    const data = init_plan_list(item);
+
+    return data;
+  });
+      
   return db.collection('plan_list')
-    .add({ data })
+    .add({ data: addList })
     .then(res => {
+      console.log(res);
+      res._ids.forEach((item, index) => {
+        addList[index]['_id'] = item;
+      });
+
       return {
         code: '1',
-        res: res
+        message: '添加成功',
+        add_list: addList
       };
     });
 }
@@ -127,55 +115,25 @@ async function add_plan(event, db) {
 
 /**
  * 修改计划
- * @param open_id
- * @param {Object} options {title,detail,...}
+ * @param {Array} plan_list {open_id*, title*, detail, organize*, closing_date}
  */
-async function edit_plan(event, db) {
-  let keys = [];
-  const openId = event.open_id;
-  const options = event.options;
+async function update_plan_list(event, db) {
+  const planList = event.plan_list;
 
-  if (!openId || !options) {
+  if (!planList || planList.length === 0) {
     return {
       code: '0',
-      message: '获取失败'
+      message: '更新失败'
     };
   }
 
-  keys = Object.getOwnPropertyNames(options);
-  if (keys.length === 0) {
-    return {code: '0', message: '获取失败'};
-  }
+  planList.forEach((item) => {
+    const data = JSON.parse(JSON.stringify(item));
+    delete data['_id'];
 
-  db.collection('plan_info').where({
-    open_id: openId
-  }).get().then(res => {
-    if (res.data.length > 0) {
-      const planInfo = res.data[0];
-      const list = planInfo.list;
-      const plan = {};
-
-      list.forEach(item => {
-        if (item.id === options.id) {
-          plan = item;
-          break;
-        }
-      });
-
-      if (JSON.stringify(plan) === '{}') {
-        return {code: '0', message: '获取失败'};
-      }
-
-      keys.forEach(key => {
-        plan[key] = options[key];
-      });
-
-      
-
-      
-    } else {
-      return { code: '0', message: '获取失败' };
-    }
-  })
+    db.collection('plan_list')
+      .doc(item._id)
+      .update({ data });
+  });
 
 }

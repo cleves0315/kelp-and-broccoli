@@ -1,6 +1,5 @@
 // miniprogram/pages/my-plan/my-plan.js
-import { addPlan } from '../../api/plan';
-import { planInit } from '../../api/app';
+import { addPlanList } from '../../api/plan';
 import { judgeIphoneX, drawCode } from '../../utils/util';
 
 const app = getApp();
@@ -20,14 +19,14 @@ Page({
   getStoragePlan() {
     let planList = [];
     const organize = this.data.organize;
-    const storPlan = wx.getStorageSync('plan');
+    const jsonPlanList = wx.getStorageSync('plan_list');
 
-    if (!storPlan) return;
+    if (!jsonPlanList) return;
 
     if (organize === 'normal') {
-      planList = JSON.parse(storPlan).list;
+      planList = JSON.parse(jsonPlanList);
     } else {
-      JSON.parse(storPlan).list.forEach(item => {
+      JSON.parse(jsonPlanList).forEach(item => {
         if (item.organize === organize) {
           planList.push(item);
         }
@@ -44,19 +43,18 @@ Page({
    * @callback confim
    */
   handleCreatPlan(e) {
-    const data = planInit;
+    const data = {};
     const title = e.detail.value;
     const planList = this.data.planList;
     const organize = this.data.organize;
-    const storPlan = wx.getStorageSync('plan');
+    const storPlanList = wx.getStorageSync('plan_list');
 
-    if (title.trim() === '') {
+    if (title.trim() === '') {ist
       return;
     }
 
 
     data.title = title;
-    data.temId = drawCode();   // 生成临时随机id
     data.organize = organize;
 
     planList.push(data);
@@ -70,15 +68,14 @@ Page({
 
 
     let plan = {};
-    if (storPlan) {
-      plan = JSON.parse(storPlan);
-      plan.list.push(data);
+    if (storPlanList) {
+      plan = JSON.parse(storPlanList);
+      plan.push(data);
     } else {
-      plan.list = planList;
+      plan = planList;
     }
-    wx.setStorageSync('plan', JSON.stringify(plan));
+    wx.setStorageSync('plan_list', JSON.stringify(plan));
 
-    
     new Promise(resolve => {
       const storOpenId = wx.getStorageSync('open_id');
       if (!storOpenId) {
@@ -87,16 +84,18 @@ Page({
         resolve();
       }
     }).then(() => {
-      addPlan({
+      addPlanList([{
         open_id: JSON.parse(wx.getStorageSync('open_id')),
         title,
         organize,
-      }).then(res => {
+      }]).then(res => {
           console.log(res);
           if (res.result.code === '1') {
-            plan.list[plan.list.length - 1] = res.result.data;
+            plan[plan.length - 1] = res.result.add_list[0];
 
-            wx.setStorageSync('plan', JSON.stringify(plan));
+            wx.setStorageSync('plan_list', JSON.stringify(plan));
+          } else {
+            // 没有同步服务器
           }
         })
     })

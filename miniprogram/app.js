@@ -48,9 +48,9 @@ App({
     })
 
     this.globalData = {}
-    wx.setStorageSync('user_info', '');
-    wx.setStorageSync('plan', '');
-    wx.setStorageSync('open_id', '');
+    // wx.setStorageSync('user_info', '');
+    // wx.setStorageSync('plan_list', '');
+    // wx.setStorageSync('open_id', '');
 
     // this.login();
   },

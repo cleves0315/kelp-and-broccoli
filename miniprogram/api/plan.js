@@ -5,26 +5,26 @@ import { callFunction } from '../utils/util';
  * 获取plan数据
  * @param { String } openId
  */
-export function getPlan(openId) {
+export function getPlanList(openId) {
   return callFunction({
     name: 'planinfo',
     data: {
-      action: 'get_plan',
+      action: 'get_plan_list',
       open_id: openId
     }
   });
 }
 
 /**
- * 添加一条plan
+ * 添加planList
  * @param { String } openId open_id
  * @param { String } title 标题
  * @param { String } organize 栏目
  */
-export function addPlan(options) {
+export function addPlanList(planList) {
   const data = {
-    action: 'add_plan',
-    plan: options
+    action: 'add_plan_list',
+    plan_list: planList
   };
 
   return callFunction({
@@ -35,12 +35,12 @@ export function addPlan(options) {
 
 
 /**
- * 编辑plan
+ * 更新planList
  */
-export function editPlan(options) {
+export function updatePlanList(planList) {
   const data = {
-    action: 'edit_plan',
-    plan: options
+    action: 'update_plan_list',
+    plan_list: planList
   };
 
   return callFunction({
