@@ -127,13 +127,37 @@ async function update_plan_list(event, db) {
     };
   }
 
-  planList.forEach((item) => {
-    const data = JSON.parse(JSON.stringify(item));
-    delete data['_id'];
+  
+  let returnData = [];
+  return new Promise(resolve => {
+    planList.forEach((item, index) => {
+      delete item['notUpdated'];
+      item.update_time = new Date().getTime();
 
-    db.collection('plan_list')
-      .doc(item._id)
-      .update({ data });
+      let data = JSON.stringify(item);
+      data = JSON.parse(data);
+
+      delete data['_id'];
+  
+      db.collection('plan_list')
+        .doc(item._id)
+        .update({ data })
+        .then(res => {
+          if (res.stats.updated === 1) {
+            returnData.push(item);
+          }
+  
+          if (index === planList.length - 1) {
+            resolve();
+          }
+        })
+    });
+  }).then(() => {
+    return {
+      code: '1',
+      message: '更新成功',
+      data: returnData
+    };
   });
 
 }

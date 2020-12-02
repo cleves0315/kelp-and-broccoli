@@ -110,37 +110,52 @@ Page({
           } else {
             // 两端数据对比
             const loneList = [];     // 没有同步后台数据列表
-            const latestList = [];   // 两端数据对比后合并最新的列表
+            const latestList = [];   // 汇集没有同步后台的计划
             const stogPlanList = JSON.parse(jsonPlanList);
 
-            // 遍历缓存和后端数据
-            // 查找出[没有同步后端数据(没有_id)、两端对比之后最新数据、没有同步后端数据(有_id)]
-            stogPlanList.forEach(m => {
-              if (!m._id) {    // 数据没有同步后端
-                loneList.push(m);
-              } else {
-                let isSame = 0;
-                data.planList.forEach(item => {
-                  if (m._id === item._id) {
-                    isSame = 1;
-                    const isLatest = m.update_time > item.update_time;
-                    isLatest ? latestList.push(m) : latestList.push(item);
-                  }
-                });
+            // 找出未更新数据
+            stogPlanList.forEach(item => {
+              if (!item['_id']) loneList.push(item);
 
-                // 检测有_id字段，没有同步在后端的数据
-                if (isSame === 0) loneList.push(m);
-              }
+              if (item['notUpdated'] === 1) latestList.push(item);
             });
 
+            // 更新数据
+            latestList.forEach(item => {
+              data.planList.forEach((m, i) => {
+                if (m['_id'] === item['_id']) {
+                  data.planList[i] = item;
+                }
+              });
+            })
+
             // 更新视图层
-            const dataList = loneList.concat(latestList);
+            const dataList = data.planList.concat(loneList);
             this.data.planList = dataList;
             resolve();
 
-            // 最新数据更新到 缓存、后端
+
+            // 对未更新数据做同步处理👇
+
+            // 同步未更新到后端部分的数据
             wx.setStorageSync('plan_list', JSON.stringify(dataList));
-            updatePlanList(latestList);
+            if (latestList.length) {
+              updatePlanList(latestList)
+                .then(res => {
+                  // 更新成功后删除'notUpdated'字段
+                  if (res.result.code !== '1') return;
+                  const list = JSON.parse(wx.getStorageSync('plan_list'));
+                  res.result.data.forEach(item => {
+                    list.forEach((m, i) => {
+                      if (m['_id'] === item['_id']) {
+                        list[i] = item;
+                      }
+                    });
+                  });
+
+                  wx.setStorageSync('plan_list', JSON.stringify(list));
+                });
+            }
             
             // 存在未更新后端数据
             if (loneList.length > 0) {
@@ -150,7 +165,7 @@ Page({
                   if (res.result.code !== '1') return;
 
                   const addList = res.result.add_list;
-                  wx.setStorageSync('plan_list', JSON.stringify(addList.concat(latestList)));
+                  wx.setStorageSync('plan_list', JSON.stringify(data.planList.concat(addList)));
                 });
             }
 
@@ -161,6 +176,7 @@ Page({
 
   /**
    * 初始化被加入"我的一天"数据
+   * @todo 对planlist列表做运算渲染前端进度条
    */
   todayPlanInit() {
     const list = [];

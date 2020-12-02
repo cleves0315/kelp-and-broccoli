@@ -1,6 +1,6 @@
 // pages/plan-edit/plan-edit.js
 import { judgeIphoneX } from '../../utils/util';
-import { editPlan } from '../../api/plan';
+import { updatePlanList } from '../../api/plan';
 
 Page({
 
@@ -29,6 +29,32 @@ Page({
     this.setData({
       isIphoneX: judgeIphoneX()
     })
+  },
+
+  /**
+   * 更新单个计划前端缓存数据
+   * @method
+   * @param {string} stogName 缓存name
+   * @param {object} plan 单个plan数据
+   * @todo 更新数据到缓存，自动新增'notUpdated'字段
+   */
+  tobeUpStorage(stogName, plan) {
+    let data = JSON.stringify(plan);
+    data = JSON.parse(data);
+
+    data['notUpdated'] = 1;
+
+    const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+    planList.forEach((item, index) => {
+      if (data['_id'] && item['_id'] === data['_id']) {
+        planList[index] = data;
+      } else if (!data['_id'] && item['tempId'] === data['tempId']) {
+        planList[index] = data;
+      }
+    });
+
+    wx.setStorageSync(stogName, JSON.stringify(planList));
   },
 
   /**
@@ -201,27 +227,33 @@ Page({
   handleEditDetailEnd(e) {
     const val = e.detail.value;
     const plan = this.data.plan;
-    const storPlan = wx.getStorageSync('plan');
-    const planList = JSON.parse(storPlan);
     
-    if (!storPlan) return;
-
+    if (val === plan.detail) return;
+    
     plan.detail = val;
-    
-    planList.list.forEach((item, index) => {
-      if (item.id === plan.id) {
-        planList.list[index] = plan;
+
+
+    this.tobeUpStorage('plan_list', plan);
+
+    updatePlanList([plan]).then(res => {
+      console.log(res);
+      if (res.result.code === '1') {
+        const data = res.result.data;
+        const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+        data.forEach((item) => {
+          
+          planList.forEach((m, i) => {
+            if (m['_id'] === item['_id']) {
+              planList[i] = item;
+            }
+          });
+          
+        });
+
+        wx.setStorageSync('plan_list', JSON.stringify(planList));
       }
     });
-
-    wx.setStorageSync('plan', JSON.stringify(planList));
-
-    editPlan(this.data.openId, {
-        id: plan.id,
-        detail: val
-      }).then(res => {
-        console.log(res);
-      });
   },
 
 

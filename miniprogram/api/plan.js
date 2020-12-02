@@ -36,6 +36,7 @@ export function addPlanList(planList) {
 
 /**
  * 更新planList
+ * @param {Array} planList
  */
 export function updatePlanList(planList) {
   const data = {
