@@ -2,8 +2,18 @@
 import { judgeIphoneX } from '../../utils/util';
 import { updatePlanList } from '../../api/plan';
 
-Page({
+/**
+ * 当前页面存在问题
+ * 更新数据时，可能plan没有[_id]字段  后期得做相应处理
+ * 点击功能按钮操作时，例如添加到我的一天 操作过于频繁，后期做节流处理
+ * 
+ * （暂时关闭"副标题功能"）
+ * 
+ * 解决项： 简单对数据单个属性更改时，是否不必马上同步后台。
+ * 
+ */
 
+Page({
   /**
    * 页面的初始数据
    */
@@ -75,7 +85,7 @@ Page({
   },
 
   /**
-   * 输入完内容
+   * 输入完副标题内容 
    * @callback
    */
   handleToEdited(e) {
@@ -164,31 +174,36 @@ Page({
 
   /**
    * 添加到我的一天
+   * @callback 点击功能按钮
    */
   handleToAddMyToDay() {
-    const isLive = this.data.isTodayFutLive;
-    let txt = '';
+    let organize = '';
+    const plan = this.data.plan;
+    const isToday = plan.organize === 'today';
+    
+    organize = isToday ? 'normal' : 'today';
 
-    if (isLive) {
-      txt = '添加到"我的一天"';
-    } else {
-      txt = '已添加到"我的一天"';
-    }
-
+    plan.organize = organize;
     this.setData({
-      isTodayFutLive: !isLive,
-      todayFuntTxt: txt,
-    })
+      plan
+    });
+
+    this.tobeUpStorage('plan_list', plan);
   },
 
   /**
    * 删除"我的一天"
+   * @callback 点击删除按钮
    */
   handleToDelMyToday() {
+    const plan = this.data.plan;
+    
+    plan.organize = 'normal';
     this.setData({
-      isTodayFutLive: false,
-      todayFuntTxt: '添加到"我的一天"',
-    })
+      plan
+    });
+
+    this.tobeUpStorage('plan_list', plan);
   },
 
   /**

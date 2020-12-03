@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "ident": "/components/ident/ident"
+  }
+}

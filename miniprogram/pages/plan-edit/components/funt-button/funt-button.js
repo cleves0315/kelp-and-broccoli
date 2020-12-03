@@ -26,8 +26,12 @@ Component({
     },
     txt: {                  // 显示的文本
       type: String,
-      value: '功能按钮'
-    }
+      value: '显示文本'
+    },
+    liveTxt: {
+      type: String,
+      value: '激活时文本'
+    },
   },
 
   /**

@@ -8,6 +8,10 @@ Component({
       type: String,
       value: '添加备注'
     },
+    value: {
+      type: String,
+      value: ''
+    },
     maxlength: {
       type: Number,
       value: -1

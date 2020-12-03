@@ -4,6 +4,7 @@
     <textarea class="edit"
      auto-height="true"
      maxlength="{{maxlength}}" 
+     value="{{value}}"
      placeholder="{{placeholder}}" 
      placeholder-style="color: #767678;"
      bind:blur="handleBlur">

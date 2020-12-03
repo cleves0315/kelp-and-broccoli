@@ -4,10 +4,6 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    mainTitle: {      // 计划标题
-      type: String,
-      value: '今日智投'
-    },
     stepList: {       // 步骤列表 数据
       type: Array,
       value: []
@@ -15,10 +11,6 @@ Component({
     addTxt: {         // 下一步输入框 placeholder值
       type: String,
       value: '添加步骤'
-    },
-    maxlength: {      // 输入框最大输入值
-      type: Number,
-      value: -1
     },
   },
 
@@ -38,15 +30,6 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    /**
-     * @callback
-     * 计划完成按钮切换事件
-     */
-    handleToChangeState(e) {
-      console.log(e)
-      const value = e.detail.value;   // true or false
-    },
-
     /**
      * @callback
      * 点击删除按钮
@@ -92,36 +75,16 @@ Component({
     },
 
     
-
-    /**
-     * @callback
-     * 键盘输入事件
-     */
-    handleToInput(e) {
-      // console.log(e)
-      const value = e.detail.value;
-      const index = e.currentTarget.dataset.index;
-      const data = e.currentTarget.dataset.data;
-      
-      // 当前输入回车
-      // if (value.indexOf('\n') != -1) {
-      //   this.setData({
-      //     stepBlur: { id: data.id, index: index }
-      //   })
-      // }
-    },
     
     /**
-     * 主标题、副标题表单 失焦
+     * 输入完主标题、副标题表单
      * @param {Object} e { type: main、sub }
-     * @callback
+     * @callback input blur
      */
     handleToInputBlur(e) {
-      console.log('blur')
-      console.log(e)
       const value = e.detail.value;
       const type = e.currentTarget.dataset.type;
-      const data = e.currentTarget.dataset.data;
+      const data = e.currentTarget.dataset.data;   // 副标题携带对象
 
       if (value == data.title) return;
 

@@ -9,3 +9,7 @@
 ## 参考文档
 
 - [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
+
+
+- 刚完善初始加载页面同步数据问题
+- 检查 添加计划时的逻辑

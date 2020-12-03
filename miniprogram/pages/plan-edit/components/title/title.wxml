@@ -1,0 +1,16 @@
+<!--pages/plan-edit/components/title/title.wxml-->
+<view class="title">
+  <view class="main">
+    <view class="main-wrap">
+      <view class="check-wrap">
+        <ident checked="false" bind:identTap="handleToChangeState" />
+      </view>
+      <view class="main-title">
+        <input class="main-input-title" data-type="main"
+          value="{{mainTitle}}" 
+          maxlength="{{maxlength}}" 
+          bindblur="handleToInputBlur"></input>
+      </view>  
+    </view>
+  </view>
+</view>

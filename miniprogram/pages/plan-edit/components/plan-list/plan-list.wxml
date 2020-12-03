@@ -1,21 +1,6 @@
 <!--pages/plan-edit/components/plan-list/plan-list.wxml-->
 <view class="plan-list">
   <view class="container">
-    <!-- 主标题 -->
-    <view class="main">
-      <view class="main-wrap">
-        <view class="check-wrap">
-          <ident checked="false" bind:identTap="handleToChangeState" />
-        </view>
-        <view class="main-title">
-          <input class="main-input-title" data-type="main"
-           value="{{mainTitle}}" 
-           maxlength="{{maxlength}}" 
-           bindblur="handleToInputBlur"
-           bindinput="handleToInput"></input>
-        </view>  
-      </view>
-    </view>
     <!-- 副标题 -->
     <view class="sub">
       <block wx:for="{{stepList}}" wx:key="id">
@@ -39,7 +24,7 @@
       </block>
     </view>
     <!-- 下一步按钮 -->
-    <view class="function-wrap">
+    <view class="function-wrap" wx:if="{{false}}">
       <view class="function" bindtap="handleToAddStep">
         <view class="icon-wrap"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
         <view class="add-txt">

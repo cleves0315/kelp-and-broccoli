@@ -1,0 +1,39 @@
+/* pages/plan-edit/components/title/title.wxss */
+.main {
+  padding: 0 40rpx;
+}
+
+.main-wrap {
+  display: flex;
+  align-items: center;
+  height: auto;
+  min-height: 50rpx;
+  overflow: hidden;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.check-wrap {
+  width: 50rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-wrap .main-title {
+  flex: 1;
+  margin-left: 30rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+  /* margin-bottom: 20rpx; */
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  min-height: 50rpx;
+  padding-right: 104rpx;
+}
+
+.main .main-title .main-input-title {
+  width: 100%;
+}

@@ -94,8 +94,6 @@ Page({
             plan[plan.length - 1] = res.result.add_list[0];
 
             wx.setStorageSync('plan_list', JSON.stringify(plan));
-          } else {
-            // 没有同步服务器
           }
         })
     })
