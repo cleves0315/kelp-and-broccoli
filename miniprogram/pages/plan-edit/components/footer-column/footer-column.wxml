@@ -1,7 +1,7 @@
 <!--pages/plan-edit/components/footer-column/footer-column.wxml-->
 <view class="footer-column {{isIphoneX ? 'iphone-x' : 'no-iphone-x'}}">
   <view class="container">
-    <view class="txt-wrap"><view class="txt" style="color: {{txtColor}};">创建于 {{txt}}</view></view>
+    <view class="txt-wrap"><view wx:if="{{txt}}" class="txt" style="color: {{txtColor}};">创建于 {{txt}}</view></view>
     <view class="btn-wrap" catchtap="handleToBtn"><image class="icon" src="{{btnUrl}}"></image></view>
   </view>
 </view>

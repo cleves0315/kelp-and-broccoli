@@ -29,9 +29,11 @@
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true
+    "minifyWXSS": true,
+    "bundle": false
   },
   "appid": "wx6bda92e5b6c4facf",
   "projectname": "%E6%B5%B7%E5%B8%A6%E4%B8%8E%E8%A5%BF%E5%85%B0%E8%8A%B1",

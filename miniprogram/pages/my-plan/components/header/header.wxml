@@ -1,6 +1,6 @@
 <!--pages/my-plan/components/header/header.wxml-->
 <view class="header">
-  <view class="container" style="background: {{background}};">
+  <view class="container">
     <view class="title">
       <view class="txt" style="color: {{titColor}};">{{title}}</view>
       <view class="bubble" style="color: {{bubColor}}; background: {{bubbleBackColor}};">{{bubbleTxt}}</view>

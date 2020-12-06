@@ -10,6 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    headerTitle: '',      // 标题
     organize: '',         // 计划分类的栏目
     isIphoneX: 0,
     planList: [],
@@ -77,7 +78,7 @@ Page({
     }
     wx.setStorageSync('plan_list', JSON.stringify(plan));
 
-
+    
     // 同步后台
     new Promise(resolve => {
       const storOpenId = wx.getStorageSync('open_id');
@@ -102,6 +103,14 @@ Page({
     })
   },
   
+  /**
+   * 导航栏返回按钮
+   * @todo 返回首页
+   */
+  handleToBackNavigation() {
+    wx.navigateBack()
+  },
+
 
   /**
    * @callback
@@ -130,6 +139,13 @@ Page({
    */
   onLoad: function (options) {
     this.data.organize = options.organize;
+    
+    const isToday = options.organize === 'today';
+    const headerTitle = isToday ? '我的一天' : '计划列表';
+    this.setData({
+      headerTitle
+    });
+    
     
     this.data.flootInput = this.selectComponent('#flootInput');
   },

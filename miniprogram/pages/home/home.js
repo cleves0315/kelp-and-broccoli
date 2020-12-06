@@ -192,7 +192,7 @@ Page({
             
             Promise.all([latestPromise, tobeDelPromise, lonePromise,])
               .then(res => {
-                console.log(res);
+                // console.log(res);
                 const latestResult = res[0];
                 const tobeDelResult = res[1];
                 const loneListResult = res[2];
@@ -312,7 +312,7 @@ Page({
 
 
   onLoad() {
-
+    console.log(wx.getSystemInfoSync());
   },
 
   onReady() {

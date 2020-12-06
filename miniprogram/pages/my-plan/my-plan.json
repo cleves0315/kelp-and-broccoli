@@ -1,9 +1,11 @@
 {
   "usingComponents": {
+    "navigation-bar": "/components/navigation-bar/navigation-bar",
     "header": "components/header/header",
     "plan-list": "components/plan-list/plan-list",
     "floot-input-box": "/components/floot-input-box/floot-input-box"
   },
+  "navigationStyle": "custom",
   "navigationBarTextStyle": "white",
   "navigationBarBackgroundColor": "#70C59E",
   "backgroundColorTop": "#70C59E",

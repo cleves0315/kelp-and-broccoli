@@ -18,6 +18,7 @@
 
 .container {
   position: relative;
+  min-height: 50rpx;
   line-height: 50rpx;
   overflow: hidden;
 }

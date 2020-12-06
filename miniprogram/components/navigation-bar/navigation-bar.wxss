@@ -1,0 +1,33 @@
+/* components/navigation-bar/navigation-bar.wxss */
+.navigation-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.navigation-bar-wrap {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 2px;
+}
+
+.left-side {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.title {
+  color: #fff;
+  text-align: center;
+}

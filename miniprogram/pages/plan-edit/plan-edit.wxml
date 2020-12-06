@@ -18,5 +18,5 @@
   <!-- 重复 -->
   <funt-button data-type="repeat" isFuntLive="{{isRepeatFutLive}}" iconUrl="{{repeatFuntIcon}}" iconLiveUrl="{{repeatFuntLiveIcon}}" txt="{{repeatFuntTxt}}" bind:changeState="handleToChangeState" bind:del="handleToDelFunt" />
   <edit-box value="{{plan.detail}}" bind:blur="handleEditDetailEnd" />
-  <footer-column txt="{{tools.conversionDate(plan.create_time)}}" isIphoneX="{{isIphoneX}}" bind:del="handleToDelPlan" />
+  <footer-column txt="{{plan.create_time ? tools.conversionDate(plan.create_time) : ''}}" isIphoneX="{{isIphoneX}}" bind:del="handleToDelPlan" />
 </view>
