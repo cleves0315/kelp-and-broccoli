@@ -1,6 +1,6 @@
 // pages/home/home.js
 import { getUserInfo } from '../../api/user';
-import { getPlanList, addPlanList, updatePlanList } from '../../api/plan';
+import { getPlanList, addPlanList, updatePlanList, deletePlanList } from '../../api/plan';
 
 const app = getApp();
 
@@ -105,19 +105,25 @@ Page({
           // console.log(jsonPlanList);
           if (!jsonPlanList) {
             this.data.planList = data.planList;
-
+            
             wx.setStorageSync('plan_list', JSON.stringify(this.data.planList));
           } else {
             // 两端数据对比
             const loneList = [];     // 没有同步后台数据列表
             const latestList = [];   // 汇集没有同步后台的计划
+            const tobeDelList = [];  // 待删除没有及时同步后台集合
             const stogPlanList = JSON.parse(jsonPlanList);
 
             // 找出未更新数据
             stogPlanList.forEach(item => {
-              if (!item['_id']) loneList.push(item);
+              if (!item['_id']) {
+                item.open_id = JSON.parse(openId);
+                loneList.push(item);
+              }
 
-              if (item['notUpdated'] === 1) latestList.push(item);
+              if (item['_id'] && item['tobeDeleted'] === 1) tobeDelList.push(item['_id']);
+
+              if (item['_id'] && item['notUpdated'] === 1) latestList.push(item);
             });
 
             // 更新数据
@@ -135,40 +141,106 @@ Page({
             resolve();
 
 
-            // 对未更新数据做同步处理👇
-
-            // 同步未更新到后端部分的数据
+            // 更新目前最新数据到缓存
             wx.setStorageSync('plan_list', JSON.stringify(dataList));
-            if (latestList.length) {
-              updatePlanList(latestList)
-                .then(res => {
-                  // 更新成功后删除'notUpdated'字段
-                  if (res.result.code !== '1') return;
-                  const list = JSON.parse(wx.getStorageSync('plan_list'));
-                  res.result.data.forEach(item => {
-                    list.forEach((m, i) => {
-                      if (m['_id'] === item['_id']) {
-                        list[i] = item;
-                      }
-                    });
-                  });
-
-                  wx.setStorageSync('plan_list', JSON.stringify(list));
-                });
-            }
             
-            // 存在未更新后端数据
-            if (loneList.length > 0) {
-              addPlanList(loneList)
-                .then(res => {
-                  console.log(res);
-                  if (res.result.code !== '1') return;
+            
+            // 对未更新数据做同步处理👇
+            const latestPromise = new Promise(resolve => {
+              // 同步未更新到后端部分的数据
+              if (latestList.length > 0) {
+                updatePlanList(latestList)
+                  .then(res => {
+                    if (res.result.code === '1') {
+                      resolve(res.result.data);
+                    } else {
+                      resolve([]);
+                    }
+                  });
+              } else {
+                resolve([]);
+              }
+            });
 
-                  const addList = res.result.add_list;
-                  wx.setStorageSync('plan_list', JSON.stringify(data.planList.concat(addList)));
+            const tobeDelPromise = new Promise(resolve => {
+              // 同步待删除数据
+              if (tobeDelList.length > 0) {
+                deletePlanList(tobeDelList)
+                  .then(() => {  
+                    resolve(tobeDelList);
+                  });
+              } else {
+                resolve([]);
+              }
+            });
+
+            const lonePromise = new Promise(resolve => {
+              // 存在未更新后端数据
+              if (loneList.length > 0) {
+                addPlanList(loneList)
+                  .then(res => {
+                    if (res.result.code === '1') {
+                      resolve(res.result.add_list);
+                    } else {
+                      resolve([]);
+                    }
+                  });
+              } else {
+                resolve([]);
+              }
+            });
+            
+            Promise.all([latestPromise, tobeDelPromise, lonePromise,])
+              .then(res => {
+                console.log(res);
+                const latestResult = res[0];
+                const tobeDelResult = res[1];
+                const loneListResult = res[2];
+                const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+                
+                // 删除tobeDelted字段数据
+                // 根据本次ajax参数 tobeDelResult
+                tobeDelResult.forEach(item => {
+                  for (let i = 0; i < planList.length; i++) {
+                    if (item === planList[i]['_id']) {
+                      planList.splice(i, 1);
+                      break;
+                    }
+                  }
                 });
-            }
 
+                // 删除tempId字段数据
+                // 根据本次ajax参数 loneList
+                if (loneListResult.length > 0) {
+                  loneList.forEach(item => {
+                    for (let i = 0; i < planList.length; i++) {
+                      if (item['tempId'] === planList[i]['tempId']) {
+                        planList.splice(i, 1);
+                        break;
+                      }
+                    }
+                  })
+                }
+
+                // 更新notUpdated字段数据
+                // 根据本次ajax参数 latestResult
+                latestResult.forEach(item => {
+                  for (let i = 0; i < planList.length; i++) {
+                    if (item['_id'] === planList[i]['_id']) {
+                      planList[i] = item;
+                      break;
+                    }
+                  }
+                });
+
+                // 新增更新后的 loneList 数据
+                loneListResult.forEach(item => {
+                  planList.push(item);
+                });
+
+                wx.setStorageSync('plan_list', JSON.stringify(planList));
+              });
           }
         })
     });

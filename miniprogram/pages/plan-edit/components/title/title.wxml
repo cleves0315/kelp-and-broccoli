@@ -6,7 +6,7 @@
         <ident checked="false" bind:identTap="handleToChangeState" />
       </view>
       <view class="main-title">
-        <input class="main-input-title" data-type="main"
+        <input class="main-input-title"
           value="{{mainTitle}}" 
           maxlength="{{maxlength}}" 
           bindblur="handleToInputBlur"></input>

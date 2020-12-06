@@ -49,3 +49,20 @@ export function updatePlanList(planList) {
     data
   });
 }
+
+
+/**
+ * 删除planList
+ * @param {Array} ids 
+ */
+export function deletePlanList(ids) {
+  const data = {
+    action: 'delete_plan_list',
+    ids
+  };
+
+  return callFunction({
+    name: 'planinfo',
+    data
+  });
+}

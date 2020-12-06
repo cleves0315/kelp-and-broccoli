@@ -54,6 +54,7 @@ Page({
     }
 
 
+    data.tempId = drawCode();
     data.title = title;
     data.organize = organize;
 
@@ -76,6 +77,8 @@ Page({
     }
     wx.setStorageSync('plan_list', JSON.stringify(plan));
 
+
+    // 同步后台
     new Promise(resolve => {
       const storOpenId = wx.getStorageSync('open_id');
       if (!storOpenId) {

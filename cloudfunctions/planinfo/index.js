@@ -41,6 +41,8 @@ exports.main = async (event) => {
       return await add_plan_list(event, db);
     case 'update_plan_list':
       return await update_plan_list(event, db);
+    case 'delete_plan_list':
+      return await delete_plan_list(event, db);
   }
 }
 
@@ -77,6 +79,7 @@ async function get_plan_list(event, db) {
 /**
  * 添加计划 
  * @param {Array} plan_list {open_id*, title*, detail, organize*, closing_date}
+ * @returns 带_id plan_list
  */
 async function add_plan_list(event, db) {
   let planList = event.plan_list;
@@ -90,32 +93,42 @@ async function add_plan_list(event, db) {
 
 
   
-  const addList = planList.map(item => {
-    const data = init_plan_list(item);
-
-    return data;
+  const addList = [];
+  planList.forEach(item => {
+    if (item['open_id']) {
+      const data = init_plan_list(item);
+      addList.push(data);
+    }
   });
       
-  return db.collection('plan_list')
-    .add({ data: addList })
-    .then(res => {
-      console.log(res);
-      res._ids.forEach((item, index) => {
-        addList[index]['_id'] = item;
-      });
+  if (addList.length > 0) {
+    return db.collection('plan_list')
+      .add({ data: addList })
+      .then(res => {
+        console.log(res);
+        res._ids.forEach((item, index) => {
+          addList[index]['_id'] = item;
+        });
 
-      return {
-        code: '1',
-        message: '添加成功',
-        add_list: addList
-      };
-    });
+        return {
+          code: '1',
+          message: '添加成功',
+          add_list: addList
+        };
+      });
+  } else {
+    return {
+      code: '0',
+      message: '添加失败',
+    };
+  }
 }
 
 
 /**
  * 修改计划
  * @param {Array} plan_list {open_id*, title*, detail, organize*, closing_date}
+ * @returns 更新成功值【数组】(未更新成功不在返回值里)
  */
 async function update_plan_list(event, db) {
   const planList = event.plan_list;
@@ -128,36 +141,84 @@ async function update_plan_list(event, db) {
   }
 
   
-  let returnData = [];
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
+    let returnData = [];
     planList.forEach((item, index) => {
-      delete item['notUpdated'];
-      item.update_time = new Date().getTime();
-
-      let data = JSON.stringify(item);
-      data = JSON.parse(data);
-
-      delete data['_id'];
+      if (item['_id']) {
+        delete item['notUpdated'];
+        item.update_time = new Date().getTime();
   
-      db.collection('plan_list')
-        .doc(item._id)
-        .update({ data })
-        .then(res => {
-          if (res.stats.updated === 1) {
-            returnData.push(item);
-          }
+        let data = JSON.stringify(item);
+        data = JSON.parse(data);
   
-          if (index === planList.length - 1) {
-            resolve();
-          }
-        })
+        delete data['_id'];
+    
+        db.collection('plan_list')
+          .doc(item._id)
+          .update({ data })
+          .then(res => {
+            if (res.stats.updated === 1) {
+              returnData.push(item);
+            }
+    
+            if (index === planList.length - 1) {
+              resolve(returnData);
+            }
+          });
+      } else {
+        if (index === planList.length - 1) {
+          resolve(returnData);
+        }
+      }
     });
-  }).then(() => {
-    return {
-      code: '1',
-      message: '更新成功',
-      data: returnData
-    };
+  }).then((returnData) => {
+    if (returnData.length > 0) {
+      return {
+        code: '1',
+        message: '更新成功',
+        data: returnData
+      };
+    } else {
+      return {
+        code: '0',
+        message: '更新失败',
+      };
+    }
   });
 
+}
+
+
+/**
+ * 删除计划
+ * @param {*} ids 删除的数据列表
+ */
+async function delete_plan_list(event, db) {
+  const _ = db.command;
+  const ids = event.ids;
+
+  if (!ids) {
+    return {
+      code: '0',
+      message: '删除失败'
+    }
+  }
+
+  try {
+    return db.collection('plan_list').where({
+      _id: _.in(ids)
+    }).remove()
+      .then(() => {
+        return {
+          code: '1',
+          message: '删除成功'
+        }
+      });
+  } catch(e) {
+    console.log(e)
+    return {
+      code: '0',
+      message: '删除失败'
+    }
+  }
 }

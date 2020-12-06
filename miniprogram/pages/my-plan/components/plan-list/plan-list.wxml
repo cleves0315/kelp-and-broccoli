@@ -2,7 +2,7 @@
 <view class="plan-list">
   <view class="container">
     <block wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="id">
-      <view class="plan-item" bindtap="handleToTap" data-data="{{item}}">
+      <view wx:if="{{item.tobeDeleted !== 1}}" class="plan-item" bindtap="handleToTap" data-data="{{item}}">
         <view class="funt-wap">
           <ident checked="{{item.finish ? true : false}}" detail="{{item}}" bind:identTap="handleToIdentTap" />
         </view>

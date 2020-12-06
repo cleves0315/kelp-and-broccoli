@@ -1,15 +1,16 @@
 // pages/plan-edit/plan-edit.js
 import { judgeIphoneX } from '../../utils/util';
-import { updatePlanList } from '../../api/plan';
+import { updatePlanList, deletePlanList } from '../../api/plan';
 
 /**
  * 当前页面存在问题
- * 更新数据时，可能plan没有[_id]字段  后期得做相应处理
- * 点击功能按钮操作时，例如添加到我的一天 操作过于频繁，后期做节流处理
+ * 问题：更新数据时，可能plan没有[_id]字段  后期得做相应处理
+ * 问题：点击功能按钮操作时，例如添加到我的一天 操作过于频繁，后期做节流处理
  * 
  * （暂时关闭"副标题功能"）
  * 
- * 解决项： 简单对数据单个属性更改时，是否不必马上同步后台。
+ * 该页面每做更新操作时都只先同步缓存数据并添加notUpdated字段
+ * 退出该页面时才做后台同步处理
  * 
  */
 
@@ -18,6 +19,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    actionUpdated: 0,       // 当前是否做了更新操作
+    actionDeleted: 0,       // 当前是否进行删除操作，如果值为1不做更新请求
     plan: {},
     openId: '',
     disabled: false,
@@ -46,25 +49,79 @@ Page({
    * @method
    * @param {string} stogName 缓存name
    * @param {object} plan 单个plan数据
-   * @todo 更新数据到缓存，自动新增'notUpdated'字段
+   * @todo 把单个plan数据更新到plan_list，自动新增'notUpdated'字段
    */
   tobeUpStorage(stogName, plan) {
-    let data = JSON.stringify(plan);
-    data = JSON.parse(data);
+    this.data.actionUpdated = 1;
+    plan['notUpdated'] = 1;
 
-    data['notUpdated'] = 1;
-
+    let sign = 0;
     const planList = JSON.parse(wx.getStorageSync('plan_list'));
 
-    planList.forEach((item, index) => {
-      if (data['_id'] && item['_id'] === data['_id']) {
-        planList[index] = data;
-      } else if (!data['_id'] && item['tempId'] === data['tempId']) {
-        planList[index] = data;
+    planList.some((item, index) => {
+      if (plan['_id'] && item['_id'] === plan['_id']) {
+        sign = index;
+        return true;
+      } else if (item['tempId'] && item['tempId'] === plan['tempId']) {
+        sign = index;
+        return true;
       }
     });
 
+    planList[sign] = plan;
+
     wx.setStorageSync(stogName, JSON.stringify(planList));
+  },
+
+  /**
+   * 给缓存相应数据添加tobeDeleted字段
+   * @method
+   * @param {string} stogName 缓存name
+   * @param {object} plan 单个plan数据
+   * @todo 缓存上对应传入plan数据，自动新增'tobeDeleted'字段、删除notUpdated字段；
+   */
+  tobeDelStorage(stogName, plan) {
+    this.data.actionDeleted = 1;
+    plan['tobeDeleted'] = 1;
+    
+    delete plan['notUpdated'];
+
+    let sign = 0;
+    const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+    planList.some((item, index) => {
+      if (plan['_id'] && item['_id'] === plan['_id']) {
+        sign = index;
+        return true;
+      } else if (item['tempId'] && item['tempId'] === plan['tempId']) {
+        sign = index;
+        return true;
+      }
+    });
+
+    planList[sign] = plan;
+
+    wx.setStorageSync(stogName, JSON.stringify(planList));
+  },
+
+
+  /**
+   * 输入完主标题
+   * (与原标题名相同时不会触发)
+   * @callback blur
+   */
+  handleEditedMainTitle(e) {
+    const plan = this.data.plan;
+    const value = e.detail.value.trim();
+
+    if (value !== '') {
+      plan.title = value;
+      this.tobeUpStorage('plan_list', plan);
+    }
+
+    this.setData({
+      plan
+    });
   },
 
   /**
@@ -84,24 +141,10 @@ Page({
     })
   },
 
-  /**
-   * 输入完副标题内容 
-   * @callback
-   */
-  handleToEdited(e) {
-    const type = e.detail.type;
-    const data = e.detail.data;
-
-    switch (type) {
-      case 'sub':
-        this.handleToEditStep(data);
-        break;
-    }
-  },
 
   /**
    * @callback
-   * 点击删除步骤按钮
+   * 点击删除步骤(副标题)按钮
    */
   handleToDelStep(e) {
     const data = e.detail.data;
@@ -137,7 +180,6 @@ Page({
    * 点击功能按钮状态
    */
   handleToChangeState(e) {
-    console.log(e)
     const type = e.currentTarget.dataset.type;
 
     switch (type) {
@@ -240,35 +282,14 @@ Page({
    * @callback blur
    */
   handleEditDetailEnd(e) {
-    const val = e.detail.value;
     const plan = this.data.plan;
+    const val = e.detail.value.trim();
     
     if (val === plan.detail) return;
     
     plan.detail = val;
 
-
     this.tobeUpStorage('plan_list', plan);
-
-    updatePlanList([plan]).then(res => {
-      console.log(res);
-      if (res.result.code === '1') {
-        const data = res.result.data;
-        const planList = JSON.parse(wx.getStorageSync('plan_list'));
-
-        data.forEach((item) => {
-          
-          planList.forEach((m, i) => {
-            if (m['_id'] === item['_id']) {
-              planList[i] = item;
-            }
-          });
-          
-        });
-
-        wx.setStorageSync('plan_list', JSON.stringify(planList));
-      }
-    });
   },
 
 
@@ -280,8 +301,45 @@ Page({
     wx.showActionSheet({
       itemList: ['删除任务'],
       itemColor: '#EA3927',
-      success: res => {
-        console.log(res);
+      success: () => {
+        const plan = this.data.plan;
+
+        if (plan['_id']) {
+          this.tobeDelStorage('plan_list', plan);
+
+          deletePlanList([plan['_id']])
+            .then(res => {
+              if (res.result.code !== '1') return;
+
+              let sign = -1;
+              const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+              planList.some((item, index) => {
+                if (item['_id'] === plan['_id']) {
+                  sign = index;
+                  return true;
+                }
+              });
+
+              if (sign !== -1) {
+                planList.splice(sign, 1);
+                wx.setStorageSync('plan_list', JSON.stringify(planList));
+              }
+            });
+        } else {
+          const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+          for (let i = 0; i < planList.length; i++) {
+            if (plan['tempId'] === planList[i]['tempId']) {
+              planList.splice(i, 1);
+              break;
+            }
+          }
+
+          wx.setStorageSync('plan_list', JSON.stringify(planList));
+        }
+
+        wx.navigateBack();
       }
     })
   },
@@ -304,5 +362,31 @@ Page({
     this.setData({
       plan: this.data.plan
     });
+  },
+
+  onUnload() {
+    return;
+    if (this.data.actionDeleted !== 1 && this.data.actionUpdated === 1) {
+      updatePlanList([this.data.plan])
+        .then(res => {
+          if (res.result.code !== '1') return;
+  
+          let sign = -1;
+          const data = res.result.data[0];
+          const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+          planList.some((item, index) => {
+            if (item['_id'] === data['_id']) {
+              sign = index;
+              return true;
+            }
+          });
+
+          if (sign !== -1) {
+            planList[sign] = data;
+            wx.setStorageSync('plan_list', JSON.stringify(planList));
+          }
+        });
+    }
   },
 })

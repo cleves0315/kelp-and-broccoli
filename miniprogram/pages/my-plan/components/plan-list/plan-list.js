@@ -8,25 +8,10 @@ Component({
       type: Boolean,
       value: false
     },
-    list: {
+    list: {    // 列表数据
       type: Array,
-      value: [
-        { title: '计划1' },
-        { title: '计划2' },
-        { title: '计划3' },
-        { title: '计划4' },
-        { title: '计划5' },
-        { title: '计划6' },
-        { title: '计划7' },
-        { title: '计划8' },
-        { title: '计划9' },
-        { title: '计划10' },
-        { title: '计划11' },
-        { title: '计划12' },
-        { title: '计划13' },
-        { title: '计划14' },
-      ]
-    }
+      value: []
+    },
   },
 
   /**

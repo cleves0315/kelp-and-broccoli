@@ -11,5 +11,12 @@
 - [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
 
 
-- 刚完善初始加载页面同步数据问题
-- 检查 添加计划时的逻辑
+- 完成编辑标题、删除单个计划 更新同步缓存
+- 新增： 创建plan时创建tempId（临时id） 
+- 删除单个计划时新增 tobeDeleted字段
+
+
+- 完成edit页面 更新同步数据库
+- 下一步新增删除
+- 初步完成3种状态(tempId、notUpdated、tobeDeleted)初始加载时的更新状态
+- 检查是否有bug

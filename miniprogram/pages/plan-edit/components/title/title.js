@@ -6,7 +6,7 @@ Component({
   properties: {
     mainTitle: {      // 计划标题
       type: String,
-      value: '今日智投'
+      value: '计划标题'
     },
     maxlength: {      // 输入框最大输入值
       type: Number,
@@ -35,20 +35,15 @@ Component({
     },
 
     /**
-     * 输入完主标题、副标题表单
-     * @param {Object} e { type: main、sub }
+     * 输入完主标题
      * @callback input blur
      */
     handleToInputBlur(e) {
       const value = e.detail.value;
-      const type = e.currentTarget.dataset.type;
-      const data = e.currentTarget.dataset.data;   // 副标题携带对象
 
-      if (value == data.title) return;
+      if (value === this.data.mainTitle) return;
 
-      data.title = e.detail.value;
-
-      this.triggerEvent('edited', { type, data })
+      this.triggerEvent('edited', { value })
     },
   }
 })
