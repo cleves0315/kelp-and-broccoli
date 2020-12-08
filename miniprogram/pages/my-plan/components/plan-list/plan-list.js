@@ -25,11 +25,18 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    handleToIdentTap(e) {
-      console.log(e)
-      const dataset = e.detail;
-      this.triggerEvent('btnchange', { value: dataset.value, id: dataset.id })
+    /**
+     * 切换状态
+     * @callback tap
+     */
+    handleChangeState(e) {
+      const index = e.currentTarget.dataset.index;
+      wx.vibrateShort({  // 震动
+        type: 'heavy'
+      });
+      this.triggerEvent('change-state', { index });
     },
+
 
     handleToTap(e) {
       this.triggerEvent('tapItem', e.currentTarget.dataset)

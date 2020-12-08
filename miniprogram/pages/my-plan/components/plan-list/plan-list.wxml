@@ -1,10 +1,10 @@
 <!--pages/my-plan/components/plan-list/plan-list.wxml-->
 <view class="plan-list">
   <view class="container">
-    <block wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="id">
+    <block wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="index">
       <view wx:if="{{item.tobeDeleted !== 1}}" class="plan-item" bindtap="handleToTap" data-data="{{item}}">
-        <view class="funt-wap">
-          <ident checked="{{item.finish ? true : false}}" detail="{{item}}" bind:identTap="handleToIdentTap" />
+        <view class="funt-wap" data-index="{{index}}" catchtap="handleChangeState">
+          <ident checked="{{item.is_finish}}" detail="{{item}}" />
         </view>
         <view class="content-wrap">
           <view class="title">{{item.title}}</view>

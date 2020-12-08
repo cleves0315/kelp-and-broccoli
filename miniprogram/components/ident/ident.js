@@ -30,7 +30,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isChecked: false,     // 当前是否选中  false->未选中
+
   },
 
   /**
@@ -38,21 +38,11 @@ Component({
    */
   methods: {
     handleToTap() {
-      const isChecked = this.data.isChecked;
 
-      wx.vibrateShort();
+      // wx.vibrateShort();  // 震动
 
-      this.setData({ 
-        isChecked: !isChecked
-      })
-
-      this.triggerEvent('identTap', { value: this.data.isChecked, data: this.data.detail })
+      // this.triggerEvent('identTap', { value: this.data.isChecked, data: this.data.detail })
+      this.triggerEvent('identTap')
     }
-  },
-
-  attached: function () {
-    this.setData({
-      isChecked: this.data.checked
-    })
   }
 })

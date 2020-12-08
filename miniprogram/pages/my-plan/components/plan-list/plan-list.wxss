@@ -17,7 +17,7 @@
   background: #fff;
   border-radius: 16rpx;
   margin-bottom: 4rpx;
-  padding: 0 30rpx;
+  padding-right: 30rpx;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
 }
 
@@ -40,6 +40,6 @@
 }
 
 .funt-wap {
+  padding: 30rpx;
   align-self: center;
-  margin-right: 30rpx;
 }

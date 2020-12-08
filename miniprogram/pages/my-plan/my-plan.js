@@ -5,15 +5,17 @@ import { judgeIphoneX, drawCode } from '../../utils/util';
 const app = getApp();
 
 Page({
-
+  navigationBar: null,   // 组件navigationBar实例
   /**
    * 页面的初始数据
    */
   data: {
+    isIphoneX: 0,
+    naviBarHeight: 0,     // 组件navigationBar高度
     headerTitle: '',      // 标题
     organize: '',         // 计划分类的栏目
-    isIphoneX: 0,
     planList: [],
+    scrollViewHiehgt: 0,  // scroll-view高度 Number
     flootInput: null,     // flootInput组件对象
   },
 
@@ -113,12 +115,19 @@ Page({
 
 
   /**
-   * @callback
-   * 改变每日计划状态
+   * 切换计划状态
+   * @callback tap
    */
-  handleToChangePlan(e) {
-    const value = e.detail.value;
+  handleToChangeState(e) {
     console.log(e)
+    const index = e.detail.index;
+    const planList = this.data.planList;
+
+    planList[index]['is_finish'] = !planList[index]['is_finish'];
+
+    this.setData({
+      planList
+    });
   },
 
   /**
@@ -153,6 +162,12 @@ Page({
   onReady() {
     this.setData({
       isIphoneX: judgeIphoneX()
+    });
+
+    this.navigationBar = this.selectComponent('#navigationBar');
+    const naviBarHeight = this.navigationBar.getHeight();
+    this.setData({
+      naviBarHeight
     });
   },
   

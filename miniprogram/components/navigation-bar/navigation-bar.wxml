@@ -1,12 +1,12 @@
 <!--components/navigation-bar/navigation-bar.wxml-->
-<view class="navigation-bar" style="height: {{height}};">
-  <view class="navigation-bar-wrap" style="height: {{height}};">
-    <view class="container" style="height: {{rectHieght}};">
-      <view class="left-side" bindtap="handleTapLeftSide" style="left: {{leftIconPosition}};">
+<view class="navigation-bar" style="height: {{height}}px;">
+  <view class="navigation-bar-wrap" style="height: {{height}}px;">
+    <view class="container" style="height: {{rectHieght}}px;">
+      <view class="left-side" bindtap="handleTapLeftSide">
         <image class="left-icon" 
           mode="widthFix"
           src="./sources/to_back.svg" 
-          style="width: {{iconSize}};"></image>
+          style="width: {{iconSize}}px;"></image>
         <view class="left-txt">{{lefSideTxt}}</view>
       </view>
       <view class="title">{{title}}</view>
