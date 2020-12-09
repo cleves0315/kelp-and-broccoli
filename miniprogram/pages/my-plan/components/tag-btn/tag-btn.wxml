@@ -1,0 +1,10 @@
+<!--pages/my-plan/components/tag-btn/tag-btn.wxml-->
+<view class="tag-btn">
+  <view class="container">
+    <image class="icon" 
+      src="{{imgUrl}}"
+      mode="widthFix" 
+      style="transform: rotate({{value ? '90deg':'0'}});"></image>
+    <view class="txt">{{txt}}</view>
+  </view>
+</view>

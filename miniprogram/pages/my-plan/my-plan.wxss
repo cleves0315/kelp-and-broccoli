@@ -11,5 +11,5 @@
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  background: url(https://7465-test-7t28x-1302613116.tcb.qcloud.la/3714dd88b2e32a36dd45bdf81bc46ee22222.jpg?sign=1b9ef9141c40edcdb476343bc668965d&t=1607256585) no-repeat 0/100% 100%;
+  background: no-repeat #70C59E 0/100% 100%;
 }

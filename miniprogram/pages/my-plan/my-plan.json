@@ -3,6 +3,7 @@
     "navigation-bar": "/components/navigation-bar/navigation-bar",
     "header": "components/header/header",
     "plan-list": "components/plan-list/plan-list",
+    "plan-list-finish": "components/plan-list-finish/plan-list-finish",
     "floot-input-box": "/components/floot-input-box/floot-input-box"
   },
   "navigationStyle": "custom",

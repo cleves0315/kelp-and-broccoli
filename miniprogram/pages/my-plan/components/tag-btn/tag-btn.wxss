@@ -1,0 +1,22 @@
+/* pages/my-plan/components/tag-btn/tag-btn.wxss */
+.container {
+  display: flex;
+  width: 140rpx;
+  height: 50rpx;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10rpx;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.icon {
+  width: 22rpx;
+  margin-right: 6rpx;
+  margin-left: -10rpx;
+  transition: .4s ease;
+}
+
+.txt {
+  color: #fff;
+  font-size: 26rpx;
+}

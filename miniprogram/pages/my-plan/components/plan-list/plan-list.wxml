@@ -2,7 +2,10 @@
 <view class="plan-list">
   <view class="container">
     <block wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="index">
-      <view wx:if="{{item.tobeDeleted !== 1}}" class="plan-item" bindtap="handleToTap" data-data="{{item}}">
+      <view wx:if="{{item.tobeDeleted !== 1}}"
+        class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
+        bindtap="handleToTap"
+        data-data="{{item}}">
         <view class="funt-wap" data-index="{{index}}" catchtap="handleChangeState">
           <ident checked="{{item.is_finish}}" detail="{{item}}" />
         </view>
