@@ -6,12 +6,41 @@
 }
 
 .header {
+  position: relative;
   margin: 20rpx 0;
+}
+
+.header .left,
+.header .right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.header .left {
+  left: 20rpx;
+}
+
+.header .right {
+  right: 20rpx;
+}
+
+.header .left-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.header .right-txt {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #07b45b;
 }
 
 .header .title {
   text-align: center;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 36rpx;
 }
 
@@ -46,15 +75,15 @@
 }
 
 .week-line {
-  border-top: 2rpx solid #c0c4c7;
-  border-bottom: 2rpx solid #939597;
+  border-top: 2rpx solid #EFEFEF;
+  border-bottom: 2rpx solid #D8D8D8;
   padding: 10rpx 0;
+  margin-bottom: 4rpx;
 }
 
 .week-line .item {
-  font-weight: 700;
-  /* color: #939597; */
-  color: #07b45b;
+  font-weight: 500;
+  color: #8C8E91;
   font-size: 28rpx;
 }
 
@@ -94,12 +123,12 @@
 /* 当天日期的颜色 */
 .calendar-case .day-box .today .day {
   color: #07b45b;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .calendar-case .day-box .today .day-cn {
   color: #07b45b;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 

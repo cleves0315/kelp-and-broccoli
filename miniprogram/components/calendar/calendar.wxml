@@ -1,7 +1,9 @@
 <!--pages/index/components/calendar/calendar.wxml-->
 <view class="calendar">
   <view class="header">
+    <view class="left" wx:if="{{showHeadFunts}}"><image class="left-icon" mode="widthFix" src="{{headLeftIcon}}"></image></view>
     <view class="title">{{thisCalendarYear}} 年 {{thisCalendarMonth}} 月</view>
+    <view class="right" wx:if="{{showHeadFunts}}"><view class="right-txt">{{headRightTxt}}</view></view>
   </view>
   <view class="week-line">
     <block wx:for="{{weekLineTxt}}" wx:key="index">

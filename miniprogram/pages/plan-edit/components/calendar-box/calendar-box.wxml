@@ -1,0 +1,6 @@
+<!--pages/plan-edit/components/calendar-box/calendar-box.wxml-->
+<view class="calendar-box">
+  <view class="container">
+    <calendar showHeadFunts="{{true}}" />
+  </view>
+</view>

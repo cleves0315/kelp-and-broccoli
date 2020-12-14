@@ -1,5 +1,5 @@
 // pages/index/components/calendar/calendar.js
-import { initCalendar } from './utils/calendar.js';
+import { initCalendar } from './sources/calendar.js';
 
 Component({
   /**
@@ -9,6 +9,18 @@ Component({
     lodingScope: {            // 初始化日历数据的范围[月]（默认加载当前时间为中心共5个月）
       type: Number,
       value: 5
+    },
+    headLeftIcon: {           // 标题栏左侧icon
+      type: String,
+      value: './sources/to_back.svg'
+    },
+    headRightTxt: {           // 标题栏右侧文本
+      type: String,
+      value: '设置'
+    },
+    showHeadFunts: {          // 显示标题栏工具按钮
+      type: Boolean,
+      value: false
     },
     activeIcon: {             // 被激活日期的图标
       type: String,
