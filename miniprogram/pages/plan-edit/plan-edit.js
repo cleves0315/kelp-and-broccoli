@@ -32,6 +32,7 @@ Page({
     repeatFuntTxt: '重复',
     repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
     repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
+    isShowCalenBox: false,        // 展示日历滑块组件
   },
 
   /**
@@ -257,8 +258,51 @@ Page({
       success: res => {
         console.log(res)
         const index = res.tapIndex;
+
+        switch (index) {
+          case 0:
+            
+            break;
+          case 1:
+            
+            break;
+          case 2:
+            
+            break;
+          case 3:
+            this.setData({
+              isShowCalenBox: true
+            });
+            break;
+        }
       }
     })
+  },
+  /** 点击日历盒子空白部分*/
+  handleCalendarTapblank() {
+    this.setData({
+      isShowCalenBox: false
+    });
+  },
+  /** 点击日历返回按钮 */
+  handleCalendarBack() {
+    this.setData({
+      isShowCalenBox: false
+    });
+    this.handleToSettingEndDate();
+  },
+  /** 点击日历设置按钮 */
+  handleTapSetup(e) {
+    const date = e.detail.date;
+
+    this.data.plan['closing_date'] = new Date(date).getTime();
+
+    this.tobeUpStorage('plan_list', this.data.plan);
+    this.data.actionUpdated = 1;
+
+    this.setData({
+      isShowCalenBox: false
+    });
   },
 
   /**
@@ -365,7 +409,7 @@ Page({
   },
 
   onUnload() {
-    return;
+    // 页面销毁根据操作同步数据
     if (this.data.actionDeleted !== 1 && this.data.actionUpdated === 1) {
       updatePlanList([this.data.plan])
         .then(res => {

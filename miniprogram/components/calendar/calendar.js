@@ -230,6 +230,16 @@ Component({
         selectDay: data
       })
     },
+
+    /**点击左边按钮 */
+    handleTapLeft() {
+      this.triggerEvent('tapleft');
+    },
+    /** 点击右边按钮 */
+    handleTapRight() {
+      const value = this.data.selectDay;
+      this.triggerEvent('tapright', { value });
+    },
   },
 
   attached() {

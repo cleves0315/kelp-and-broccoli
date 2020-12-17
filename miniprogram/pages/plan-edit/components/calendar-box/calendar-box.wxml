@@ -1,6 +1,8 @@
 <!--pages/plan-edit/components/calendar-box/calendar-box.wxml-->
-<view class="calendar-box">
-  <view class="container">
-    <calendar showHeadFunts="{{true}}" />
+<view class="calendar-box {{show ? 'show' : 'hide'}}" bindtap="handleTapBlank">
+  <view class="container {{show ? 'showbox' : 'hidebox'}}"
+    style="{{iphoneX ? 'padding-bottom: 68rpx;' : ''}}"
+    catchtap>
+    <calendar showHeadFunts="{{true}}" bind:tapleft="handleTapBack" bind:tapright="handleTapSetup" />
   </view>
 </view>

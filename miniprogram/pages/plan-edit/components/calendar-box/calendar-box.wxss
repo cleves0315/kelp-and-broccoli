@@ -1,8 +1,66 @@
 /* pages/plan-edit/components/calendar-box/calendar-box.wxss */
+@keyframes show {
+  0% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+.show {
+  animation: show .2s linear forwards;
+}
+@keyframes hide {
+  0% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+.hide {
+  animation: hide .2s linear forwards;
+}
+
+@keyframes showbox {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.showbox {
+  animation: showbox .2s linear forwards;
+}
+
+@keyframes hidebox {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+.hidebox {
+  animation: hidebox .2s linear forwards;
+}
+
 .calendar-box {
   position: fixed;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 9;
+  background: rgba(0, 0, 0, .4);
+}
+
+.container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 20rpx 20rpx 0 0;
 }
