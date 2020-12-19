@@ -1,7 +1,7 @@
 /**
  *  根据传入的时间戳返回一定格式的日期文字
  * @param { Number } d
- * @todo xx年xx月xx日 周x
+ * @return 返回格式 xx年xx月xx日 周x
  */
 function conversionDate(d) {
   var date = getDate(d);
@@ -15,25 +15,25 @@ function conversionDate(d) {
 
   switch (w) {
     case 0:
-      wee = '周一';
+      wee = '周日';
       break;
     case 1:
-      wee = '周二';
+      wee = '周一';
       break;
     case 2:
-      wee = '周三';
+      wee = '周二';
       break;
     case 3:
-      wee = '周四';
+      wee = '周三';
       break;
     case 4:
-      wee = '周五';
+      wee = '周四';
       break;
     case 5:
-      wee = '周六';
+      wee = '周五';
       break;
     case 6:
-      wee = '周日';
+      wee = '周六';
       break;
   }
 
@@ -47,6 +47,59 @@ function conversionDate(d) {
   return dateString;
 }
 
+/**
+ * 根据传入的时间展示文本
+ * @param {Number} d 
+ * @reutrn '今天' '明天' 一定格式日期文字
+ */
+function showDateText(d) {
+  var txt = '';
+  var date = getDate(d);
+  var today = getDate();
+
+  if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth()) {
+    if (date.getDate() === today.getDate()) {
+      txt = '今天';
+    } else if (date.getDate() === getDate(today.getTime() + 86400000).getDate()) {
+      txt = '明天';
+    }
+  }
+
+  return txt;
+}
+
+/**
+ * 判断是否当前年份
+ * @param {Number} d 
+ */
+function isTodayYear(d) {
+  var year = getDate(d).getFullYear();
+  var todayYear = getDate().getFullYear();
+
+  return year === todayYear;
+}
+
+
+/**
+ * 判断是否超时
+ * @param {Number} d 
+ * return Boolean
+ */
+function isOverTime(d) {
+  var today = getDate();
+  var date = getDate(d);
+  var isOver = false;
+
+  if (today.getFullYear() > date.getFullYear() || today.getMonth() > date.getMonth() || today.getDate() > date.getDate()) {
+    isOver = true;
+  }
+
+  return isOver;
+}
+
 module.exports = {
-  conversionDate: conversionDate
+  conversionDate: conversionDate,
+  isTodayYear: isTodayYear,
+  isOverTime: isOverTime,
+  showDateText: showDateText
 }

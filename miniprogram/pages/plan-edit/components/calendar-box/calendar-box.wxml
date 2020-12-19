@@ -3,6 +3,10 @@
   <view class="container {{show ? 'showbox' : 'hidebox'}}"
     style="{{iphoneX ? 'padding-bottom: 68rpx;' : ''}}"
     catchtap>
-    <calendar showHeadFunts="{{true}}" bind:tapleft="handleTapBack" bind:tapright="handleTapSetup" />
+    <calendar showHeadFunts="{{true}}" 
+      leftTohAnimEnd="{{true}}"
+      rightTohAnimEnd="{{true}}"
+      bind:tapleft="handleTapBack"
+      bind:tapright="handleTapSetup" />
   </view>
 </view>

@@ -28,6 +28,7 @@ Page({
     todayFuntLiveIcon: '/static/images/plan-edit/sunlight_live.svg',
     dateFuntIcon: '/static/images/plan-edit/date.svg',                  // 截止日期图标
     dateFuntLiveIcon: '/static/images/plan-edit/date_live.svg',
+    dateFuntOverIcon: '/static/images/plan-edit/date_over.svg',
     isRepeatFutLive: false,                // 控制"重复"按钮是否被激活
     repeatFuntTxt: '重复',
     repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
@@ -187,7 +188,7 @@ Page({
       case 'today':
         this.handleToAddMyToDay();
         break;
-      case 'date':
+      case 'closing':
         this.handleToSettingEndDate();
         break;
       case 'repeat':
@@ -204,10 +205,10 @@ Page({
 
     switch (type) {
       case 'today':
-        this.handleToDelMyToday();
+        this.delMyToday();
         break;
-      case 'date':
-        
+      case 'closing':
+        this.delClosingDate();
         break;
       case 'repeat':
         
@@ -234,14 +235,22 @@ Page({
     this.tobeUpStorage('plan_list', plan);
   },
 
-  /**
-   * 删除"我的一天"
-   * @callback 点击删除按钮
-   */
-  handleToDelMyToday() {
+  /** 删除"我的一天" */
+  delMyToday() {
     const plan = this.data.plan;
     
     plan.organize = 'normal';
+    this.setData({
+      plan
+    });
+
+    this.tobeUpStorage('plan_list', plan);
+  },
+  /** 删除截止日期 */
+  delClosingDate() {
+    const plan = this.data.plan;
+    
+    plan.closing_date = 0;
     this.setData({
       plan
     });
@@ -253,6 +262,8 @@ Page({
    * 添加截止日期
    */
   handleToSettingEndDate() {
+    let time = new Date().getTime();
+
     wx.showActionSheet({
       itemList: ['今天', '明天', '下周', '选择日期'],
       success: res => {
@@ -261,13 +272,15 @@ Page({
 
         switch (index) {
           case 0:
-            
+            this.setClosingDate(time);
             break;
           case 1:
-            
+            time += 86400000;    // 当前时间的明天'时间戳'
+            this.setClosingDate(time);
             break;
           case 2:
-            
+            time += 604800000;    // 当前时间的下周'时间戳'
+            this.setClosingDate(time);
             break;
           case 3:
             this.setData({
@@ -277,6 +290,24 @@ Page({
         }
       }
     })
+  },
+  /**
+   * 设置截止日期
+   * @param {Date} date
+   * @todo 同步缓存数据渲染视图
+   */
+  setClosingDate(date) {
+    this.data.plan['closing_date'] = new Date(date).getTime();
+    this.setData({
+      plan: this.data.plan
+    });
+
+    this.tobeUpStorage('plan_list', this.data.plan);
+    this.data.actionUpdated = 1;
+
+    this.setData({
+      isShowCalenBox: false
+    });
   },
   /** 点击日历盒子空白部分*/
   handleCalendarTapblank() {
@@ -295,14 +326,7 @@ Page({
   handleTapSetup(e) {
     const date = e.detail.date;
 
-    this.data.plan['closing_date'] = new Date(date).getTime();
-
-    this.tobeUpStorage('plan_list', this.data.plan);
-    this.data.actionUpdated = 1;
-
-    this.setData({
-      isShowCalenBox: false
-    });
+    this.setClosingDate(date);
   },
 
   /**
