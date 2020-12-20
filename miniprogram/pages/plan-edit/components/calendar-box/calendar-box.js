@@ -16,7 +16,9 @@ Component({
    * 组件的初始数据
    */
   data: {
+    height: 0,   // 容器高度 px
     iphoneX: false,
+    bottom: 0,   // 绝对定位bottom值 px
   },
 
   /**
@@ -26,9 +28,42 @@ Component({
     handleTapBlank() {
       this.triggerEvent('tapblank');
     },
+    handelTouchStart(e) {
+      const pageY = e.changedTouches[0].pageY;
+
+      this.data.startY = pageY;
+    },
+    handelTouchMove(e) {
+      const moveY = e.changedTouches[0].pageY;
+      let difY = moveY - this.data.startY;
+
+      if (difY <= 0) difY = 0;
+
+      this.setData({
+        bottom: difY
+      });
+    },
+    handelTouchEnd(e) {
+      const endY = e.changedTouches[0].pageY;
+
+      
+      if (endY - this.data.startY > 30) {
+        this.triggerEvent('close');
+        setTimeout(() => {
+          this.setData({
+            bottom: 0
+          });
+        }, 500);
+      } else {
+        this.setData({
+          bottom: 0
+        });
+      }
+    },
 
     /**点击返回按钮 */
     handleTapBack() {
+      console.log('handleTapBack')
       this.triggerEvent('tapback');
     },
     /** 点击设置按钮 */
@@ -44,7 +79,12 @@ Component({
     attached() {
       this.setData({
         iphoneX: judgeIphoneX()
-      })
+      });
+
+      const query = this.createSelectorQuery();
+      query.select('#container').boundingClientRect(rect => {
+        this.data.height = rect.height;
+      }).exec();
     },
   }
 })

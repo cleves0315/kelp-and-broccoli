@@ -310,13 +310,14 @@ Page({
     });
   },
   /** 点击日历盒子空白部分*/
-  handleCalendarTapblank() {
+  handleCloseCalendar() {
     this.setData({
       isShowCalenBox: false
     });
   },
   /** 点击日历返回按钮 */
   handleCalendarBack() {
+    console.log('handleCalendarBack')
     this.setData({
       isShowCalenBox: false
     });

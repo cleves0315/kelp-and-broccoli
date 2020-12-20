@@ -1,8 +1,13 @@
 <!--pages/plan-edit/components/calendar-box/calendar-box.wxml-->
-<view class="calendar-box {{show ? 'show' : 'hide'}}" bindtap="handleTapBlank">
-  <view class="container {{show ? 'showbox' : 'hidebox'}}"
-    style="{{iphoneX ? 'padding-bottom: 68rpx;' : ''}}"
+<view class="calendar-box {{show ? 'show' : 'hide'}}" 
+  bindtap="handleTapBlank">
+  <view id="container" class="container {{show ? 'showbox' : 'hidebox'}}"
+    style="{{iphoneX ? 'padding-bottom: 68rpx;' : ''}} bottom: -{{bottom}}px;"
+    bindtouchstart="handelTouchStart"
+    catchtouchmove="handelTouchMove"
+    catchtouchend="handelTouchEnd"
     catchtap>
+    <view class="marking-line"></view>
     <calendar showHeadFunts="{{true}}" 
       leftTohAnimEnd="{{true}}"
       rightTohAnimEnd="{{true}}"

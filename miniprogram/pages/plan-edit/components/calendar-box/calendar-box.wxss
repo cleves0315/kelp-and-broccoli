@@ -46,6 +46,15 @@
   animation: hidebox .2s linear forwards;
 }
 
+
+.marking-line {
+  width: 66rpx;
+  height: 8rpx;
+  background: #8D8D8D;
+  border-radius: 100rpx;
+  margin: 16rpx auto 0;
+}
+
 .calendar-box {
   position: fixed;
   top: 0;
