@@ -200,7 +200,7 @@ async function delete_plan_list(event, db) {
   if (!ids) {
     return {
       code: '0',
-      message: '删除失败'
+      message: '删除失败，没有传递id'
     }
   }
 
@@ -218,7 +218,7 @@ async function delete_plan_list(event, db) {
     console.log(e)
     return {
       code: '0',
-      message: '删除失败'
+      message: '删除失败le'
     }
   }
 }

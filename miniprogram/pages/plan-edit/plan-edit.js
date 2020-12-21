@@ -378,6 +378,7 @@ Page({
 
           deletePlanList([plan['_id']])
             .then(res => {
+              console.log(res);
               if (res.result.code !== '1') return;
 
               let sign = -1;

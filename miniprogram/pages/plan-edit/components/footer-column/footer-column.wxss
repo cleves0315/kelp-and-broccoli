@@ -34,8 +34,8 @@
   top: 50%;
   right: 40rpx;
   transform: translateY(-50%);
-  width: 36rpx;
-  height: 36rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 
 .btn-wrap .icon {

@@ -26,7 +26,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-
+    touchBtn: false,
   },
 
   /**
@@ -35,7 +35,20 @@ Component({
   methods: {
     // 点击按钮
     handleToBtn() {
+      wx.vibrateShort();
+      setTimeout(() => wx.vibrateShort(), 200);
       this.triggerEvent('del');
     },
+
+    handleTouchStart() {
+      this.setData({
+        touchBtn: true
+      })
+    },
+    handleTouchEnd() {
+      this.setData({
+        touchBtn: false
+      })
+    }
   }
 })

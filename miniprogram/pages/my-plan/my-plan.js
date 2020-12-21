@@ -98,8 +98,17 @@ Page({
       }]).then(res => {
           console.log(res);
           if (res.result.code === '1') {
-            plan[plan.length - 1] = res.result.add_list[0];
+            const pageList = getCurrentPages();
+            if (pageList[pageList.length-1]['route'] === 'pages/plan-edit/plan-edit') {
+              pageList[pageList.length-1].data.plan = res.result.add_list[0];
+            }
 
+            planList[planList.length-1] = res.result.add_list[0];
+            this.setData({
+              planList
+            });
+
+            plan[plan.length - 1] = res.result.add_list[0];
             wx.setStorageSync('plan_list', JSON.stringify(plan));
           }
         })
@@ -135,7 +144,6 @@ Page({
    * 点击单个计划
    */
   handleToTapPlanItem(e) {
-    console.log(e)
     const data = e.detail.data;
 
     wx.navigateTo({

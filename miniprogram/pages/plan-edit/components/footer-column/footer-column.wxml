@@ -2,6 +2,11 @@
 <view class="footer-column {{isIphoneX ? 'iphone-x' : 'no-iphone-x'}}">
   <view class="container">
     <view class="txt-wrap"><view wx:if="{{txt}}" class="txt" style="color: {{txtColor}};">创建于 {{txt}}</view></view>
-    <view class="btn-wrap" catchtap="handleToBtn"><image class="icon" src="{{btnUrl}}"></image></view>
+    <view class="btn-wrap" style="opacity: {{touchBtn?'.6':'1'}};"
+      bindtouchstart="handleTouchStart"
+      bindtouchend="handleTouchEnd"
+      catchtap="handleToBtn">
+      <image class="icon" src="{{btnUrl}}"></image>
+    </view>
   </view>
 </view>
