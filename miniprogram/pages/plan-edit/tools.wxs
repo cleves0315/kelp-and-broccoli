@@ -97,9 +97,43 @@ function isOverTime(d) {
   return isOver;
 }
 
+
+/**
+ * 根据repeat对象显示激活时的文本
+ * @param {Object} repeat 
+ */
+function showRepeatTxt(type, today) {
+  var txt = '';
+
+  switch (type) {
+    case 'day':
+      txt = '每天';
+      break;
+    case 'week':
+      txt = '每周';
+      break;
+    case 'month':
+      txt = '每月';
+      break;
+    case 'year':
+      txt = '每年';
+      break;
+  }
+  
+  if (type === 'week') {
+    var week = getDate(today).getDay() + '';
+    var obj = { '0': '日', '1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六' };
+    
+    txt += obj[week];
+  }
+
+  return txt;
+}
+
 module.exports = {
   conversionDate: conversionDate,
   isTodayYear: isTodayYear,
   isOverTime: isOverTime,
-  showDateText: showDateText
+  showDateText: showDateText,
+  showRepeatTxt: showRepeatTxt
 }

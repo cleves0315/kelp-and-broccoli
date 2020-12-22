@@ -29,7 +29,6 @@ Page({
     dateFuntIcon: '/static/images/plan-edit/date.svg',                  // 截止日期图标
     dateFuntLiveIcon: '/static/images/plan-edit/date_live.svg',
     dateFuntOverIcon: '/static/images/plan-edit/date_over.svg',
-    isRepeatFutLive: false,                // 控制"重复"按钮是否被激活
     repeatFuntTxt: '重复',
     repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
     repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
@@ -336,10 +335,45 @@ Page({
    */
   handleToRepeat() {
     wx.showActionSheet({
-      itemList: ['每天', '每周', '工作日', '每月', '每年', '自定义'],
+      itemList: ['每天', '每周', '工作日', '每月', '每年'],
       success: res => {
         console.log(res)
         const index = res.tapIndex;
+        const plan = this.data.plan;
+        const repeatType = ['day', 'week', 'month', 'year'];
+        const repeat = {
+          // type: 'day',     
+          // base: 2,
+          // week_value: [0, 2, 6],
+          // today: 1608645024557    // 当前时间戳
+        };
+
+        switch (index) {
+          case 0:
+            repeat.type = repeatType[0];
+            break;
+          case 1:
+          case 2:
+            repeat.type = repeatType[1];
+            break;
+          case 3:
+            repeat.type = repeatType[2];
+            break;
+          case 4:
+            repeat.type = repeatType[3];
+            break;
+        }
+
+        repeat.base = 1;
+        repeat.today = new Date().getTime();
+        if (index === 2) repeat.week_value = [0, 1, 2, 3, 4, 5, 6];
+
+        plan.repeat = repeat;
+        this.setData({
+          plan
+        });
+
+        this.tobeUpStorage('plan_list', plan);
       }
     })
   },

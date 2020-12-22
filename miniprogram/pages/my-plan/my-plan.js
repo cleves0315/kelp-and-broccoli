@@ -100,6 +100,17 @@ Page({
           if (res.result.code === '1') {
             const pageList = getCurrentPages();
             if (pageList[pageList.length-1]['route'] === 'pages/plan-edit/plan-edit') {
+              const planEdit = pageList[pageList.length-1].data.plan;
+              const keys = Object.getOwnPropertyNames(planEdit);
+              if (keys.length > 3) {
+                // 如果用户已经在编辑界面造成了编辑操作
+                // 把已经编辑的数据保存再返回
+                keys.forEach(k => {
+                  if (res.result.add_list[0].hasOwnProperty(k)) {
+                    res.result.add_list[0][k] = planEdit[k];
+                  }
+                })
+              }
               pageList[pageList.length-1].data.plan = res.result.add_list[0];
             }
 

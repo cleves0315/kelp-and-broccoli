@@ -25,7 +25,15 @@
     bind:changeState="handleToChangeState" 
     bind:del="handleToDelFunt" />
   <!-- 重复 -->
-  <funt-button data-type="repeat" isFuntLive="{{isRepeatFutLive}}" iconUrl="{{repeatFuntIcon}}" iconLiveUrl="{{repeatFuntLiveIcon}}" txt="{{repeatFuntTxt}}" bind:changeState="handleToChangeState" bind:del="handleToDelFunt" />
+  <funt-button
+    data-type="repeat" 
+    isFuntLive="{{plan.repeat && plan.repeat.today}}" 
+    iconUrl="{{repeatFuntIcon}}" 
+    iconLiveUrl="{{repeatFuntLiveIcon}}" 
+    txt="{{repeatFuntTxt}}" 
+    liveTxt="{{tools.showRepeatTxt(plan.repeat.type, plan.repeat.today)}}"
+    bind:changeState="handleToChangeState" 
+    bind:del="handleToDelFunt" />
   <edit-box value="{{plan.detail}}" bind:blur="handleEditDetailEnd" />
   <footer-column txt="{{plan.create_time ? tools.conversionDate(plan.create_time) : ''}}" isIphoneX="{{isIphoneX}}" bind:del="handleToDelPlan" />
   <!-- 日历组件 -->

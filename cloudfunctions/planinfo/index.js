@@ -18,12 +18,12 @@ function init_plan_list(options) {
     title: options.title.trim(),          // 标题 String *
     detail: options.detail || '',         // 计划描述 String
     is_finish: false,                     // 完成状态 Boolean
-    create_time: new Date().getTime(),    // 生成时间 Date
-    update_time: new Date().getTime(),    // 更新时间
+    create_time: new Date().getTime(),    // 生成时间 Date (后端生成时间)
+    update_time: new Date().getTime(),    // 更新时间 (后端生成时间)
     organize: options.organize || 'normal',  // 属于'我的一天'项目
     closing_date: options.closing_date || 0, // 截止时间(时间戳) Number
     stepList: options.stepList || [],      // 子计划列表
-    // repeat: 0,                   // 重复周期 ??
+    repeat: {},                   // 重复周期 (前端生成时间)
   }
 
   return data;
@@ -202,7 +202,7 @@ async function delete_plan_list(event, db) {
       code: '0',
       message: '删除失败，没有传递id'
     }
-  }
+  } 
 
   try {
     return db.collection('plan_list').where({
