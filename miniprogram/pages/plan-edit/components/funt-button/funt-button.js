@@ -32,6 +32,10 @@ Component({
       type: String,
       value: '激活时文本'
     },
+    twoTxt: {               // 第二行文本
+      type: String,
+      value: ''
+    }
   },
 
   /**

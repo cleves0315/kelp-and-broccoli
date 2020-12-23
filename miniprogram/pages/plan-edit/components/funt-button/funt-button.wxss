@@ -40,6 +40,10 @@
   font-size: 30rpx;
 }
 
+.txt-wrap .two-txt {
+  font-size: 24rpx;
+}
+
 /* 删除按钮 */
 .del-wrap {
   position: relative;

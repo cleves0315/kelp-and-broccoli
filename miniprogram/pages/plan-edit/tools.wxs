@@ -100,9 +100,10 @@ function isOverTime(d) {
 
 /**
  * 根据repeat对象显示激活时的文本
- * @param {Object} repeat 
+ * @param type 
+ * @param base
  */
-function showRepeatTxt(type, today) {
+function showRepeatTxt(type, base) {
   var txt = '';
 
   switch (type) {
@@ -119,21 +120,54 @@ function showRepeatTxt(type, today) {
       txt = '每年';
       break;
   }
+
+  if (base > 1) {
+    txt = txt[0] + ' ' + base + ' ' + txt[1];
+  }
   
+  return txt;
+}
+
+/**
+ * 根据repeat显示选中一周中的星期几
+ * @param type 
+ * @param week_value 
+ */
+function showRepeatWeekTxt(type, week_value) {
+  var txt = '';
+  var obj = {
+    '0': '日',
+    '1': '一',
+    '2': '二',
+    '3': '三',
+    '4': '四',
+    '5': '五',
+    '6': '六',
+  };
+
   if (type === 'week') {
-    var week = getDate(today).getDay() + '';
-    var obj = { '0': '日', '1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六' };
-    
-    txt += obj[week];
+    if (week_value.length === 1) {
+      txt = '星期' + obj[week_value[0] + ''];
+    } else if (week_value.toString() === '1,2,3,4,5') {
+      txt = '工作日';
+    } else {
+      for (var i = 0; i < week_value.length; i++) {
+        var d = week_value[i] + '';
+        txt += '周' + obj[d] + ', ';
+      }
+      txt = txt.slice(0, txt.length-2);
+    }
   }
 
   return txt;
 }
+
 
 module.exports = {
   conversionDate: conversionDate,
   isTodayYear: isTodayYear,
   isOverTime: isOverTime,
   showDateText: showDateText,
-  showRepeatTxt: showRepeatTxt
+  showRepeatTxt: showRepeatTxt,
+  showRepeatWeekTxt: showRepeatWeekTxt,
 }

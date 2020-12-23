@@ -210,7 +210,7 @@ Page({
         this.delClosingDate();
         break;
       case 'repeat':
-        
+        this.delRepeat();
         break;
     }
   },
@@ -250,6 +250,21 @@ Page({
     const plan = this.data.plan;
     
     plan.closing_date = 0;
+    this.setData({
+      plan
+    });
+
+    this.tobeUpStorage('plan_list', plan);
+  },
+  /** 删除重复功能 */
+  delRepeat() {
+    const plan = this.data.plan;
+    
+    for (const k in plan.repeat) {
+      if (plan.repeat.hasOwnProperty(k)) {
+        plan.repeat[k] = '';
+      }
+    }
     this.setData({
       plan
     });
@@ -366,7 +381,12 @@ Page({
 
         repeat.base = 1;
         repeat.today = new Date().getTime();
-        if (index === 2) repeat.week_value = [0, 1, 2, 3, 4, 5, 6];
+        if (index === 2) {
+          repeat.week_value = [1, 2, 3, 4, 5];
+        } else {
+          repeat.week_value = [];
+          repeat.week_value.push(new Date().getDay());
+        }
 
         plan.repeat = repeat;
         this.setData({

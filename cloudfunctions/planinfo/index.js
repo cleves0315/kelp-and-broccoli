@@ -126,7 +126,7 @@ async function add_plan_list(event, db) {
 
 
 /**
- * 修改计划
+ * 修改更新计划
  * @param {Array} plan_list {open_id*, title*, detail, organize*, closing_date}
  * @returns 更新成功值【数组】(未更新成功不在返回值里)
  */

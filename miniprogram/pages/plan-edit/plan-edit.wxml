@@ -31,7 +31,8 @@
     iconUrl="{{repeatFuntIcon}}" 
     iconLiveUrl="{{repeatFuntLiveIcon}}" 
     txt="{{repeatFuntTxt}}" 
-    liveTxt="{{tools.showRepeatTxt(plan.repeat.type, plan.repeat.today)}}"
+    liveTxt="{{tools.showRepeatTxt(plan.repeat.type, plan.repeat.base)}}"
+    twoTxt="{{tools.showRepeatWeekTxt(plan.repeat.type, plan.repeat.week_value)}}"
     bind:changeState="handleToChangeState" 
     bind:del="handleToDelFunt" />
   <edit-box value="{{plan.detail}}" bind:blur="handleEditDetailEnd" />
