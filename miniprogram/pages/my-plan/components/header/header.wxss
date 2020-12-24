@@ -1,18 +1,17 @@
 /* pages/my-plan/components/header/header.wxss */
 .container {
   display: flex;
-  padding: 30rpx;
+  padding: 0 30rpx 10rpx;
   justify-content: space-between;
 }
 
 .title {
   display: flex;
-  height: 90rpx;
 }
 
 .title .txt {
   align-self: flex-end;
-  font-size: 50rpx;
+  font-size: 60rpx;
   font-weight: 700;
 }
 

@@ -1,13 +1,11 @@
 // components/floot-input-box/floot-input-box.js
+import { judgeIphoneX } from '../../utils/util';
+
 Component({
   /**
    * 组件的属性列表
    */
   properties: {
-    isIphoneX: {        // 适配iphoneX
-      type: Number,
-      value: 0
-    },
     maxlength: {
       type: Number,
       value: -1
@@ -34,6 +32,8 @@ Component({
    * 组件的初始数据
    */
   data: {
+    height: 0,
+    isIphoneX: 0,       // 适配iphoneX
     inputValue: '',     // 设置输入框的值
     cursorSpacing: 0,   // 获取键盘高度值
   },
@@ -42,6 +42,15 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    /** 获取组件高度 */
+    getHeight() {
+      this.createSelectorQuery()
+        .select('#floot-input-box')
+        .boundingClientRect(rect => {
+          this.data.height = rect.height;
+        }).exec();
+    },
+
     /**
      * 设置输入框的值
      * @param  value 
@@ -84,5 +93,15 @@ Component({
         })
       }
     },
-  }
+  },
+
+  lifetimes: {
+    attached() {
+      this.setData({
+        isIphoneX: judgeIphoneX()
+      })
+
+      this.getHeight();
+    }
+  },
 })

@@ -1,23 +1,22 @@
 // miniprogram/pages/my-plan/my-plan.js
 import { addPlanList } from '../../api/plan';
-import { judgeIphoneX, drawCode } from '../../utils/util';
+import { drawCode } from '../../utils/util';
 
 const app = getApp();
 
 Page({
+  flootInput: null,     // flootInput组件对象
   navigationBar: null,   // 组件navigationBar实例
   /**
    * 页面的初始数据
    */
   data: {
     todayBackImage: 'https://7465-test-7t28x-1302613116.tcb.qcloud.la/3714dd88b2e32a36dd45bdf81bc46ee22222.jpg?sign=1b9ef9141c40edcdb476343bc668965d&t=1607256585',  // 我的一天"背景图"
-    isIphoneX: 0,
+    scrollListHeight: 0,   // 列表高度
     organize: '',         // 计划分类的栏目
-    naviBarHeight: 0,     // 组件navigationBar高度
     headerTitle: '',      // 标题
     planList: [],
     scrollViewHiehgt: 0,  // scroll-view高度 Number
-    flootInput: null,     // flootInput组件对象
   },
 
   getStoragePlan() {
@@ -69,7 +68,7 @@ Page({
 
 
     // 设置输入框的值
-    this.data.flootInput.handleSetValue('');
+    this.flootInput.handleSetValue('');
 
 
     let plan = {};
@@ -178,22 +177,29 @@ Page({
     });
     
     
-    this.data.flootInput = this.selectComponent('#flootInput');
+    this.flootInput = this.selectComponent('#flootInput');
   },
 
   onReady() {
-    this.setData({
-      isIphoneX: judgeIphoneX()
-    });
 
-    this.navigationBar = this.selectComponent('#navigationBar');
-    const naviBarHeight = this.navigationBar.getHeight();
-    this.setData({
-      naviBarHeight
-    });
   },
   
   onShow() {
+
     this.getStoragePlan();
+    
+    wx.getSystemInfo({
+      success: (res) => {
+        setTimeout(() => {
+          this.navigationBar = this.selectComponent('#navigationBar');
+          const naviBarHeight = this.navigationBar.getHeight();
+          this.data.scrollListHeight = res.windowHeight - naviBarHeight - this.flootInput.data.height;
+          this.setData({
+            scrollListHeight: this.data.scrollListHeight
+          })
+        }, 50);
+      }
+    })
+
   }
 })

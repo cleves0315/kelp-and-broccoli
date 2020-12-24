@@ -2,7 +2,7 @@
 <view class="my-plan" style="background-image: url({{organize == 'today' ? todayBackImage : ''}});">
   <view class="container">
     <navigation-bar id="navigationBar" title="我的一天" bind:tapleftside="handleToBackNavigation" />
-    <scroll-view scroll-y="true" style="height: 540px;" enable-back-to-top="{{true}}">
+    <scroll-view scroll-y="true" style="height: {{scrollListHeight}}px;" enable-back-to-top="{{true}}">
       <header title="{{headerTitle}}" background="#70C59E" bubColor="#70C59E" />
       <plan-list list="{{planList}}" bind:change-state="handleToChangeState" bind:tapItem="handleToTapPlanItem" />
       <plan-list-finish list="{{planList}}" />

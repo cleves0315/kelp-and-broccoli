@@ -3,7 +3,7 @@
   <view class="container">
     <view class="title">
       <view class="txt" style="color: {{titColor}};">{{title}}</view>
-      <view class="bubble" style="color: {{bubColor}}; background: {{bubbleBackColor}};">{{bubbleTxt}}</view>
+      <!-- <view class="bubble" style="color: {{bubColor}}; background: {{bubbleBackColor}};">{{bubbleTxt}}</view> -->
     </view>
   </view>
 </view>
