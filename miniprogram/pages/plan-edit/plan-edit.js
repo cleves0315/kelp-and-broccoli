@@ -214,6 +214,50 @@ Page({
         break;
     }
   },
+  /** 删除"我的一天" */
+  delMyToday() {
+    const plan = this.data.plan;
+    
+    plan.organize = 'normal';
+    this.setData({
+      plan
+    });
+
+    this.tobeUpStorage('plan_list', plan);
+  },
+  /** 删除截止日期 */
+  delClosingDate() {
+    const plan = this.data.plan;
+    
+    plan.closing_date = 0;
+
+    if (plan.repeat && plan.repeat.type) {
+      this.delRepeat();
+    } else {
+      this.setData({
+        plan
+      });
+  
+      this.tobeUpStorage('plan_list', plan);
+    }
+  },
+  /** 删除重复功能 */
+  delRepeat() {
+    const plan = this.data.plan;
+    
+    for (const k in plan.repeat) {
+      if (plan.repeat.hasOwnProperty(k)) {
+        plan.repeat[k] = '';
+      }
+    }
+
+    this.setData({
+      plan
+    });
+
+    this.tobeUpStorage('plan_list', plan);
+  },
+
 
   /**
    * 添加到我的一天
@@ -233,44 +277,7 @@ Page({
 
     this.tobeUpStorage('plan_list', plan);
   },
-
-  /** 删除"我的一天" */
-  delMyToday() {
-    const plan = this.data.plan;
-    
-    plan.organize = 'normal';
-    this.setData({
-      plan
-    });
-
-    this.tobeUpStorage('plan_list', plan);
-  },
-  /** 删除截止日期 */
-  delClosingDate() {
-    const plan = this.data.plan;
-    
-    plan.closing_date = 0;
-    this.setData({
-      plan
-    });
-
-    this.tobeUpStorage('plan_list', plan);
-  },
-  /** 删除重复功能 */
-  delRepeat() {
-    const plan = this.data.plan;
-    
-    for (const k in plan.repeat) {
-      if (plan.repeat.hasOwnProperty(k)) {
-        plan.repeat[k] = '';
-      }
-    }
-    this.setData({
-      plan
-    });
-
-    this.tobeUpStorage('plan_list', plan);
-  },
+  
 
   /**
    * 添加截止日期
@@ -307,23 +314,24 @@ Page({
   },
   /**
    * 设置截止日期
-   * @param {Date} date
+   * @param {Date} date 截止日期
    * @todo 同步缓存数据渲染视图
    */
   setClosingDate(date) {
     this.data.plan['closing_date'] = new Date(date).getTime();
-    this.setData({
-      plan: this.data.plan
-    });
+    // this.setData({
+    //   plan: this.data.plan
+    // });
 
     this.tobeUpStorage('plan_list', this.data.plan);
     this.data.actionUpdated = 1;
 
     this.setData({
+      plan: this.data.plan,
       isShowCalenBox: false
     });
   },
-  /** 点击日历盒子空白部分*/
+  /** 点击日历盒子空白部分 */
   handleCloseCalendar() {
     this.setData({
       isShowCalenBox: false
@@ -387,13 +395,29 @@ Page({
           repeat.week_value = [];
           repeat.week_value.push(new Date().getDay());
         }
-
+        
         plan.repeat = repeat;
-        this.setData({
-          plan
-        });
 
-        this.tobeUpStorage('plan_list', plan);
+        let closingTime = new Date().getTime();
+        if (repeat.type === 'week') {
+          let closingDay = new Date().getDay();
+
+          const exis = repeat.week_value.some(d => {
+            if (closingDay === d) {
+              return true;
+            }
+          });
+
+          if (!exis) {
+            while (closingDay !== repeat.week_value[0]) {
+              closingDay++;
+              closingTime += 86400000;
+              if (closingDay > 6) closingDay = 0;
+            }
+          }
+
+        }
+        this.setClosingDate(closingTime);
       }
     })
   },
