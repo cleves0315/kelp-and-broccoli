@@ -1,5 +1,6 @@
 import { callFunction } from '../utils/util';
 
+const name = 'planinfo';
 
 /**
  * 获取plan数据
@@ -7,7 +8,7 @@ import { callFunction } from '../utils/util';
  */
 export function getPlanList(openId) {
   return callFunction({
-    name: 'planinfo',
+    name,
     data: {
       action: 'get_plan_list',
       open_id: openId
@@ -28,7 +29,7 @@ export function addPlanList(planList) {
   };
 
   return callFunction({
-    name: 'planinfo',
+    name,
     data,
   });
 }
@@ -45,7 +46,7 @@ export function updatePlanList(planList) {
   };
 
   return callFunction({
-    name: 'planinfo',
+    name,
     data
   });
 }
@@ -62,7 +63,24 @@ export function deletePlanList(ids) {
   };
 
   return callFunction({
-    name: 'planinfo',
+    name,
     data
+  });
+}
+
+
+/**
+ * 完成任务
+ * @param {Array} planList 
+ */
+export function finishPlanList(planList) {
+  const data = {
+    action: 'finish_plan_list',
+    plan_list: planList
+  };
+
+  return callFunction({
+    name,
+    data,
   });
 }

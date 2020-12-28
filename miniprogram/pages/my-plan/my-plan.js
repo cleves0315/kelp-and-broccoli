@@ -1,5 +1,5 @@
 // miniprogram/pages/my-plan/my-plan.js
-import { addPlanList } from '../../api/plan';
+import { addPlanList, finishPlanList } from '../../api/plan';
 import { drawCode } from '../../utils/util';
 
 const app = getApp();
@@ -39,6 +39,34 @@ Page({
     this.setData({
       planList
     })
+  },
+
+  /**
+   * 更新单个计划前端缓存数据
+   * @method
+   * @param {string} stogName 缓存name
+   * @param {object} plan 单个plan数据
+   * @todo 把单个plan数据更新到plan_list，自动新增'tobeFinish'字段
+   */
+  tobeUpStorage(stogName, plan) {
+    plan['tobeFinish'] = 1;
+
+    let sign = 0;
+    const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+    planList.some((item, index) => {
+      if (plan['_id'] && item['_id'] === plan['_id']) {
+        sign = index;
+        return true;
+      } else if (item['tempId'] && item['tempId'] === plan['tempId']) {
+        sign = index;
+        return true;
+      }
+    });
+
+    planList[sign] = plan;
+
+    wx.setStorageSync(stogName, JSON.stringify(planList));
   },
 
   /**
@@ -135,11 +163,10 @@ Page({
 
 
   /**
-   * 切换计划状态
+   * 完成计划
    * @callback tap
    */
   handleToChangeState(e) {
-    console.log(e)
     const index = e.detail.index;
     const planList = this.data.planList;
 
@@ -148,6 +175,35 @@ Page({
     this.setData({
       planList
     });
+
+    this.tobeUpStorage('plan_list', planList[index]);
+    
+    finishPlanList([planList[index]])
+      .then(res => {
+        console.log(res);
+        if (res.result.code === '1') {
+          const updatedList = res.result.data.updated_list;
+
+          const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+          let sign = -1;
+          planList.some((item, index) => {
+            if (updatedList[0]['_id'] && item['_id'] === updatedList[0]['_id']) {
+              sign = index;
+              return true;
+            }
+          });
+      
+          if (sign !== -1) {
+            planList[sign] = updatedList[0];
+        
+            wx.setStorageSync('plan_list', JSON.stringify(planList));
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
 
   /**

@@ -369,6 +369,7 @@ Page({
           // base: 2,
           // week_value: [0, 2, 6],
           // today: 1608645024557    // 当前时间戳
+          // finished: 0
         };
 
         switch (index) {
@@ -388,6 +389,7 @@ Page({
         }
 
         repeat.base = 1;
+        repeat.finished = 0;
         repeat.today = new Date().getTime();
         if (index === 2) {
           repeat.week_value = [1, 2, 3, 4, 5];

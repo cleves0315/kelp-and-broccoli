@@ -43,6 +43,8 @@ exports.main = async (event) => {
       return await update_plan_list(event, db);
     case 'delete_plan_list':
       return await delete_plan_list(event, db);
+    case 'finish_plan_list':
+      return await finish_plan_list(event, db);
   }
 }
 
@@ -142,7 +144,7 @@ async function update_plan_list(event, db) {
 
   
   return new Promise((resolve) => {
-    let returnData = [];
+    let returnData = []; 
     planList.forEach((item, index) => {
       if (item['_id']) {
         delete item['notUpdated'];
@@ -219,6 +221,126 @@ async function delete_plan_list(event, db) {
     return {
       code: '0',
       message: '删除失败le'
+    }
+  }
+}
+
+
+/**
+ * 完成计划
+ * 
+ */
+async function finish_plan_list(event, db) {
+  const planList = event.plan_list;
+
+  if (!planList) {
+    return {
+      code: '0',
+      message: '更新失败'
+    }
+  }
+
+
+  try {
+    const updatedList = [];   // 更新成功的数据
+    const createList = [];  // 完成计划后，新生成的数据
+
+    return new Promise((resolve) => {
+
+      planList.forEach((item, index) => {
+  
+        item['update_time'] = new Date().getTime();
+        delete item['tobeFinish'];
+        
+  
+        const plan = db.collection('plan_list')
+          .doc(item['_id'])
+          .get();
+        
+        // 完成一条有重复功能的计划，生成一个新计划
+        // 每一条数据完成后，只会生成一次新的计划
+        if (item['is_finish'] && item.repeat && plan.repeat['finished'] === 0) {
+          const newData = item;
+          // const obj = {
+          //   'day': (options) => {
+          //     return 86400000 * options.base;
+          //   },
+          //   'week': (options) => {
+          //     let day = new Date(options.today).getDay();
+          //     const isDay = options.week_value.some(d => {
+          //       if (day === d) {
+          //         return true;
+          //       }
+          //     });
+  
+          //     if (isDay) {
+          //       return 604800000 * options.base;
+          //     } else {
+          //       let target = -1;
+          //       const s = options.week_value.some(d => {
+          //         if (d > day) {
+          //           target = d;
+          //           return true;
+          //         }
+          //       });
+  
+          //       if (!s) target = options.week_value[0];
+          //       if (target === 0) target = 7;
+          //       const interval = target - day;
+  
+          //       return 604800000 * options.base + 86400000 * interval;
+          //     }
+          //   },
+          //   'month': (options) => {
+              
+          //   }
+          // };
+          // newData.closing_date = item.closing_date + obj[item.repeat.type](item.repeat);
+          // createList.push(init_plan_list(newData));
+  
+          item.repeat['finished'] = 1;
+        }
+  
+        const data = JSON.parse(JSON.stringify(item));
+        delete data['_id'];
+  
+        db.collection('plan_list')
+          .doc(item['_id'])
+          .update({ data })
+          .then(res => {
+            if (res.stats.updated === 1) {
+              updatedList.push(item);
+
+              if (index === planList.length-1) resolve();
+            }
+          })
+  
+      });
+
+    }).then(() => {
+
+      if (createList.length > 0) {
+        db.collection('plan_list')
+          .add({ data: createList });
+      }
+  
+      console.log(updatedList);
+  
+      return {
+        code: '1',
+        message: '更新成功',
+        data: {
+          updated_list: updatedList,
+          create_list: createList,
+        }
+      }
+
+    });
+
+  } catch (err) {
+    return {
+      code: '0',
+      message: err
     }
   }
 }
