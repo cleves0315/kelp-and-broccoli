@@ -15,15 +15,16 @@ cloud.init({
 function init_plan_list(options) {
   const data = {
     open_id: options.open_id,
-    title: options.title.trim(),          // 标题 String *
-    detail: options.detail || '',         // 计划描述 String
-    is_finish: false,                     // 完成状态 Boolean
-    create_time: new Date().getTime(),    // 生成时间 Date (后端生成时间)
-    update_time: new Date().getTime(),    // 更新时间 (后端生成时间)
-    organize: options.organize || 'normal',  // 属于'我的一天'项目
-    closing_date: options.closing_date || 0, // 截止时间(时间戳) Number
-    stepList: options.stepList || [],      // 子计划列表
-    repeat: {},                   // 重复周期 (前端生成时间)
+    title: options.title.trim(), 
+    detail: options.detail || '', 
+    is_finish: false,        
+    create_time_applets: options.create_time_applets || 0, 
+    create_time: new Date().getTime(),
+    update_time: new Date().getTime(),
+    organize: options.organize || 'normal',
+    closing_date: options.closing_date || 0,
+    stepList: options.stepList || [],
+    repeat: {},
   }
 
   return data;
@@ -257,46 +258,48 @@ async function finish_plan_list(event, db) {
           .doc(item['_id'])
           .get();
         
-        // 完成一条有重复功能的计划，生成一个新计划
-        // 每一条数据完成后，只会生成一次新的计划
+        // 对有重复计划，生成一次性下个截止日期的计划
         if (item['is_finish'] && item.repeat && plan.repeat['finished'] === 0) {
-          const newData = item;
-          // const obj = {
-          //   'day': (options) => {
-          //     return 86400000 * options.base;
-          //   },
-          //   'week': (options) => {
-          //     let day = new Date(options.today).getDay();
-          //     const isDay = options.week_value.some(d => {
-          //       if (day === d) {
-          //         return true;
-          //       }
-          //     });
+          const newPlan = item;
+          const obj = {
+            'day': (options) => {
+              return 86400000 * options.base;
+            },
+            'week': (options) => {
+              let day = new Date(options.today).getDay();
+              const isDay = options.week_value.some(d => {
+                if (day === d) {
+                  return true;
+                }
+              });
   
-          //     if (isDay) {
-          //       return 604800000 * options.base;
-          //     } else {
-          //       let target = -1;
-          //       const s = options.week_value.some(d => {
-          //         if (d > day) {
-          //           target = d;
-          //           return true;
-          //         }
-          //       });
+              if (isDay) {
+                return 604800000 * options.base;
+              } else {
+                let target = -1;
+                const s = options.week_value.some(d => {
+                  if (d > day) {
+                    target = d;
+                    return true;
+                  }
+                });
   
-          //       if (!s) target = options.week_value[0];
-          //       if (target === 0) target = 7;
-          //       const interval = target - day;
+                if (!s) target = options.week_value[0];
+                if (target === 0) target = 7;
+                const interval = target - day;
   
-          //       return 604800000 * options.base + 86400000 * interval;
-          //     }
-          //   },
-          //   'month': (options) => {
+                return 604800000 * options.base + 86400000 * interval;
+              }
+            },
+            'month': (options) => {
               
-          //   }
-          // };
-          // newData.closing_date = item.closing_date + obj[item.repeat.type](item.repeat);
-          // createList.push(init_plan_list(newData));
+            }
+          };
+
+          // 变更值 截止日期、 repeat.today
+
+          // newPlan.closing_date = item.closing_date + obj[item.repeat.type](item.repeat);
+          // createList.push(init_plan_list(newPlan));
   
           item.repeat['finished'] = 1;
         }

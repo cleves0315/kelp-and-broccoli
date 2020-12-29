@@ -27,7 +27,7 @@
   <!-- 重复 -->
   <funt-button
     data-type="repeat" 
-    isFuntLive="{{plan.repeat && plan.repeat.today}}" 
+    isFuntLive="{{plan.repeat && plan.repeat.type}}" 
     iconUrl="{{repeatFuntIcon}}" 
     iconLiveUrl="{{repeatFuntLiveIcon}}" 
     txt="{{repeatFuntTxt}}" 

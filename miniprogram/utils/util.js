@@ -97,6 +97,34 @@ function drawCode() {
   return s;
 }
 
+/**
+ * 根据参数，从大到小排序数组
+ * @param {*} arr 数组 [{},{}]
+ * @param {*} param 参数
+ */
+function sortArrayMax(list, param) {
+  const arr = [list.shift()];
+  const num = list.length;
+
+  for (let i = 0; i < num; i++) {
+
+    let isMax = 0;
+    
+    for (let j = 0; j < arr.length; j++) {
+      if (list[0][param] > arr[j][param]) {
+        arr.splice(j, 0, list.shift());
+        isMax = 1;
+        break;
+      }
+    
+    }
+    if (!isMax) arr.push(list.shift());
+
+  }
+
+  return arr;
+}
+
 
 
 module.exports = {
@@ -105,4 +133,5 @@ module.exports = {
   getAuthGetting,
   judgeIphoneX,
   drawCode,
+  sortArrayMax,
 }

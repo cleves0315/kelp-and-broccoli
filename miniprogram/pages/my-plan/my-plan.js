@@ -1,6 +1,6 @@
 // miniprogram/pages/my-plan/my-plan.js
 import { addPlanList, finishPlanList } from '../../api/plan';
-import { drawCode } from '../../utils/util';
+import { drawCode, sortArrayMax } from '../../utils/util';
 
 const app = getApp();
 
@@ -19,6 +19,9 @@ Page({
     scrollViewHiehgt: 0,  // scroll-view高度 Number
   },
 
+  /**
+   * 获取缓存数据并展示
+   */
   getStoragePlan() {
     let planList = [];
     const organize = this.data.organize;
@@ -35,6 +38,8 @@ Page({
         }
       });
     }
+
+    planList = sortArrayMax(planList, 'create_time_applets');
 
     this.setData({
       planList
@@ -78,9 +83,10 @@ Page({
     const title = e.detail.value;
     const planList = this.data.planList;
     const organize = this.data.organize;
+    const openId = wx.getStorageSync('open_id');
     const storPlanList = wx.getStorageSync('plan_list');
 
-    if (title.trim() === '') {ist
+    if (title.trim() === '') {
       return;
     }
 
@@ -88,18 +94,20 @@ Page({
     data.tempId = drawCode();
     data.title = title;
     data.organize = organize;
-
-    planList.push(data);
+    data.create_time_applets = new Date().getTime();
+    
+    planList.unshift(data);
     this.setData({
       planList
     });
+    wx.vibrateShort();
 
 
     // 设置输入框的值
     this.flootInput.handleSetValue('');
 
 
-    let plan = {};
+    let plan = [];
     if (storPlanList) {
       plan = JSON.parse(storPlanList);
       plan.push(data);
@@ -110,47 +118,36 @@ Page({
 
     
     // 同步后台
-    new Promise(resolve => {
-      const storOpenId = wx.getStorageSync('open_id');
-      if (!storOpenId) {
-        app.login().then(() => resolve());
-      } else {
-        resolve();
-      }
-    }).then(() => {
-      addPlanList([{
-        open_id: JSON.parse(wx.getStorageSync('open_id')),
-        title,
-        organize,
-      }]).then(res => {
-          console.log(res);
-          if (res.result.code === '1') {
-            const pageList = getCurrentPages();
-            if (pageList[pageList.length-1]['route'] === 'pages/plan-edit/plan-edit') {
-              const planEdit = pageList[pageList.length-1].data.plan;
-              const keys = Object.getOwnPropertyNames(planEdit);
-              if (keys.length > 3) {
-                // 如果用户已经在编辑界面造成了编辑操作
-                // 把已经编辑的数据保存再返回
-                keys.forEach(k => {
-                  if (res.result.add_list[0].hasOwnProperty(k)) {
-                    res.result.add_list[0][k] = planEdit[k];
-                  }
-                })
-              }
-              pageList[pageList.length-1].data.plan = res.result.add_list[0];
+    if (!openId || openId.length === 0) return;
+    data.open_id = openId && JSON.parse(openId);
+    addPlanList([data]).then(res => {
+        console.log(res);
+        if (res.result.code === '1') {
+          const pageList = getCurrentPages();
+          if (pageList[pageList.length-1]['route'] === 'pages/plan-edit/plan-edit') {
+            const planEdit = pageList[pageList.length-1].data.plan;
+            const keys = Object.getOwnPropertyNames(planEdit);
+            if (keys.length > 3) {
+              // 如果用户已经在编辑界面造成了编辑操作
+              // 把已经编辑的数据保存再返回
+              keys.forEach(k => {
+                if (res.result.add_list[0].hasOwnProperty(k)) {
+                  res.result.add_list[0][k] = planEdit[k];
+                }
+              })
             }
-
-            planList[planList.length-1] = res.result.add_list[0];
-            this.setData({
-              planList
-            });
-
-            plan[plan.length - 1] = res.result.add_list[0];
-            wx.setStorageSync('plan_list', JSON.stringify(plan));
+            pageList[pageList.length-1].data.plan = res.result.add_list[0];
           }
-        })
-    })
+
+          planList[0] = res.result.add_list[0];
+          this.setData({
+            planList
+          });
+
+          plan[0] = res.result.add_list[0];
+          wx.setStorageSync('plan_list', JSON.stringify(plan));
+        }
+      })
   },
   
   /**
@@ -244,6 +241,7 @@ Page({
 
     this.getStoragePlan();
     
+    // 设置屏幕滚动组件高度
     wx.getSystemInfo({
       success: (res) => {
         setTimeout(() => {
