@@ -5,7 +5,7 @@
     <scroll-view scroll-y="true" style="height: {{scrollListHeight}}px;" enable-back-to-top="{{true}}">
       <header title="{{headerTitle}}" background="#70C59E" bubColor="#70C59E" />
       <plan-list list="{{planList}}" bind:change-state="handleToChangeState" bind:tapItem="handleToTapPlanItem" />
-      <plan-list-finish list="{{planList}}" />
+      <plan-list-finish list="{{planList}}" bind:change-state="handleToChangeState" bind:tapItem="handleToTapPlanItem" />
     </scroll-view>
     <floot-input-box id="flootInput" isIphoneX="{{isIphoneX}}" background="transparent" bind:confim="handleCreatPlan" />
   </view>
