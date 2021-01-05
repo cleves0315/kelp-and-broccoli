@@ -24,7 +24,7 @@ function init_plan_list(options) {
     organize: options.organize || 'normal',
     closing_date: options.closing_date || 0,
     stepList: options.stepList || [],
-    repeat: {},
+    repeat: options.repeat || {},
   }
 
   return data;
@@ -251,71 +251,149 @@ async function finish_plan_list(event, db) {
       planList.forEach((item, index) => {
   
         item['update_time'] = new Date().getTime();
-        delete item['tobeFinish'];
         
-  
-        const plan = db.collection('plan_list')
-          .doc(item['_id'])
-          .get();
-        
-        // 对有重复计划，生成一次性下个截止日期的计划
-        if (item['is_finish'] && item.repeat && plan.repeat['finished'] === 0) {
-          const newPlan = item;
-          const obj = {
-            'day': (options) => {
-              return 86400000 * options.base;
-            },
-            'week': (options) => {
-              let day = new Date(options.today).getDay();
-              const isDay = options.week_value.some(d => {
-                if (day === d) {
-                  return true;
-                }
-              });
-  
-              if (isDay) {
-                return 604800000 * options.base;
-              } else {
-                let target = -1;
-                const s = options.week_value.some(d => {
-                  if (d > day) {
-                    target = d;
-                    return true;
-                  }
-                });
-  
-                if (!s) target = options.week_value[0];
-                if (target === 0) target = 7;
-                const interval = target - day;
-  
-                return 604800000 * options.base + 86400000 * interval;
-              }
-            },
-            'month': (options) => {
-              
-            }
-          };
-
-          // 变更值 截止日期、 repeat.today
-
-          // newPlan.closing_date = item.closing_date + obj[item.repeat.type](item.repeat);
-          // createList.push(init_plan_list(newPlan));
-  
-          item.repeat['finished'] = 1;
-        }
-  
-        const data = JSON.parse(JSON.stringify(item));
-        delete data['_id'];
   
         db.collection('plan_list')
           .doc(item['_id'])
-          .update({ data })
+          .get()
           .then(res => {
-            if (res.stats.updated === 1) {
-              updatedList.push(item);
+            const plan = res.data;
 
-              if (index === planList.length-1) resolve();
+            // 对有重复计划，生成一次性下个截止日期的计划
+            if (item.is_finish && plan.repeat && plan.repeat['finished'] === 0) {
+              const newPlan = JSON.parse(JSON.stringify(item));
+    
+              const obj = {
+                'day': (options) => {
+                  const base = options.repeat.base;
+                  const closingDate = options.closing_date;
+                  
+                  newPlan.closing_date = closingDate + 86400000 * base;
+                  newPlan.repeat.week_value[0] = new Date(newPlan.closing_date).getDay();
+                  newPlan.repeat.finished = 0;
+                },
+                'week': (options) => {
+
+                  const base = options.repeat.base;
+                  const closingDate = options.closing_date;
+                  const weekValue = options.repeat.week_value;
+                  
+                  let closing = 0;
+                  let week = new Date(closingDate).getDay();
+                  let clsYear = new Date(closingDate).getFullYear();
+                  let clsMonth = new Date(closingDate).getMonth() + 1;
+                  let clsDay = new Date(closingDate).getDate();
+    
+                  
+                  if (weekValue.length > 1) {
+
+                    let diffDay = 0;
+                    if (week !== 0) {
+                      weekValue.some((d, i, arr) => {
+                        if (week === d) {
+                          if (i !== (arr.length-1)) {
+                            diffDay = arr[i + 1] - d;
+                          } else {
+                            // '重复周的最后一天'到周日的天数 + 周日到'重复周第一天'的天数
+                            diffDay = (7 - d) + (arr[0] - 0);
+                          }
+                          return true;
+                        }
+                      });
+                    } else {
+                      diffDay = 7 - weekValue[1];
+                    }
+
+                    clsDay += diffDay;
+
+                  } else {
+                    clsDay += base * 7;
+                  }
+                  
+                  closing = new Date(`${clsYear}-${clsMonth}-${clsDay}`).getTime();
+
+                  newPlan.closing_date = closing;
+                  newPlan.repeat.finished = 0;
+                },
+                'month': (options) => {
+                  let closing = 0;
+    
+                  const base = options.repeat.base;
+                  const closingDate = options.closing_date;
+    
+                  let clsYear = new Date(closingDate).getFullYear();
+                  let clsMonth = new Date(closingDate).getMonth() + 1 + base;
+                  let clsDay = new Date(closingDate).getDate();
+                  let clsWeek = 0;
+    
+                  if (clsMonth > 12) {
+                    clsYear += parseInt(clsMonth / 12);
+                    clsMonth = clsMonth % 12;
+                  }
+    
+                  closing = new Date(`${clsYear}-${clsMonth}-${clsDay}`).getTime();
+    
+                  while (new Date(closing).getMonth()+1 !== clsMonth) {
+                    closing = new Date(closing - 86400000).getTime();
+                  }
+    
+                  clsWeek = new Date(closing).getDay();
+    
+                  newPlan.closing_date = closing;
+                  newPlan.repeat.week_value[0] = clsWeek;
+                  newPlan.repeat.finished = 0;
+                },
+                'year': (options) => {
+                  let closing = 0;
+    
+                  const base = options.repeat.base;
+                  const closingDate = options.closing_date;
+    
+                  const clsYear = new Date(closingDate).getFullYear() + base;
+                  const clsMonth = new Date(closingDate).getMonth() + 1;
+                  const clsDay = new Date(closingDate).getDate();
+                  let clsWeek = 0;
+    
+                  closing = new Date(`${clsYear}-${clsMonth}-${clsDay}`).getTime();
+    
+                  while (new Date(closing).getMonth()+1 !== clsMonth) {
+                    closing = new Date(closing - 86400000).getTime();
+                  }
+    
+                  clsWeek = new Date(closing).getDay();
+    
+                  newPlan.closing_date = closing;
+                  newPlan.repeat.week_value[0] = clsWeek;
+                  newPlan.repeat.finished = 0;
+                },
+              };
+    
+              // 变更值 截止日期
+    
+              obj[item.repeat.type](item);
+              createList.push(init_plan_list(newPlan));
+      
+              item.repeat['finished'] = 1;
             }
+      
+            delete item['tobeFinish'];
+            delete item['notUpdated'];
+            const data = JSON.parse(JSON.stringify(item));
+            delete data['_id'];
+      
+            db.collection('plan_list')
+              .doc(item['_id'])
+              .update({ data })
+              .then(res => {
+                if (res.stats.updated === 1) {
+                  updatedList.push(item);
+    
+                }
+                if (index === planList.length-1) resolve();
+              });
+          }).catch(err => {
+            console.log(err);
+            if (index === planList.length-1) resolve();
           })
   
       });
@@ -323,18 +401,30 @@ async function finish_plan_list(event, db) {
     }).then(() => {
 
       if (createList.length > 0) {
-        db.collection('plan_list')
-          .add({ data: createList });
-      }
-  
-      console.log(updatedList);
-  
-      return {
-        code: '1',
-        message: '更新成功',
-        data: {
-          updated_list: updatedList,
-          create_list: createList,
+        return db.collection('plan_list')
+          .add({ data: createList })
+          .then(res => {
+            res._ids.forEach((item, index) => {
+              createList[index]['_id'] = item;
+            });
+
+            return {
+              code: '1',
+              message: '更新成功',
+              data: {
+                updated_list: updatedList,
+                create_list: createList,
+              }
+            }
+          });
+      } else {
+        return {
+          code: '1',
+          message: '更新成功',
+          data: {
+            updated_list: updatedList,
+            create_list: [],
+          }
         }
       }
 
@@ -343,7 +433,7 @@ async function finish_plan_list(event, db) {
   } catch (err) {
     return {
       code: '0',
-      message: err
+      message: '操作失败'
     }
   }
 }

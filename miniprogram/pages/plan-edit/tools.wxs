@@ -81,16 +81,23 @@ function isTodayYear(d) {
 
 
 /**
- * 判断是否超时
- * @param {Number} d 
- * return Boolean
+ * 判断当前时间是否超过指定时间
+ * @param {Date} d 截止日期
+ * return Boolean (true 超过指定日期)
  */
 function isOverTime(d) {
   var today = getDate();
   var date = getDate(d);
   var isOver = false;
 
-  if (today.getFullYear() > date.getFullYear() || today.getMonth() > date.getMonth() || today.getDate() > date.getDate()) {
+  var resultY = today.getFullYear() === date.getFullYear();
+  var resultM = today.getMonth() === date.getMonth();
+
+  if (today.getFullYear() > date.getFullYear()) {
+    isOver = true;
+  } else if (resultY && today.getMonth() > date.getMonth()) {
+    isOver = true;
+  } else if (resultY && resultM && today.getDate() > date.getDate()) {
     isOver = true;
   }
 

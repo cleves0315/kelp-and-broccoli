@@ -111,6 +111,7 @@ Page({
             // 两端数据对比
             const loneList = [];     // 没有同步后台数据列表
             const latestList = [];   // 汇集没有同步后台的计划
+            const tobeFinList = [];  // 没有同步完成进度集合
             const tobeDelList = [];  // 待删除没有及时同步后台集合
             const stogPlanList = JSON.parse(jsonPlanList);
 

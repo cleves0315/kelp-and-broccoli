@@ -179,9 +179,11 @@ Page({
       .then(res => {
         console.log(res);
         if (res.result.code === '1') {
+          const createList = res.result.data.create_list;
           const updatedList = res.result.data.updated_list;
 
-          const planList = JSON.parse(wx.getStorageSync('plan_list'));
+          let planList = JSON.parse(wx.getStorageSync('plan_list'));
+
 
           let sign = -1;
           planList.some((item, index) => {
@@ -190,12 +192,15 @@ Page({
               return true;
             }
           });
-      
-          if (sign !== -1) {
-            planList[sign] = updatedList[0];
-        
-            wx.setStorageSync('plan_list', JSON.stringify(planList));
-          }
+          if (sign !== -1) planList[sign] = updatedList[0];
+
+          if (createList.length > 0) planList.push(createList[0]);
+
+          wx.setStorageSync('plan_list', JSON.stringify(planList));
+          planList = sortArrayMax(planList, 'create_time_applets');
+          this.setData({
+            planList
+          })
         }
       })
       .catch(err => {
