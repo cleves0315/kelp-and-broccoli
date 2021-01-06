@@ -1,4 +1,5 @@
 // miniprogram/pages/my-plan/my-plan.js
+import { getMyTodayBakImage } from '../../api/app';
 import { addPlanList, finishPlanList } from '../../api/plan';
 import { drawCode, sortArrayMax } from '../../utils/util';
 
@@ -11,12 +12,34 @@ Page({
    * 页面的初始数据
    */
   data: {
-    todayBackImage: 'https://7465-test-7t28x-1302613116.tcb.qcloud.la/3714dd88b2e32a36dd45bdf81bc46ee22222.jpg?sign=1b9ef9141c40edcdb476343bc668965d&t=1607256585',  // 我的一天"背景图"
+    backgroundImage: '',  // 我的一天"背景图"
     scrollListHeight: 0,   // 列表高度
     organize: '',         // 计划分类的栏目
     headerTitle: '',      // 标题
     planList: [],
     scrollViewHiehgt: 0,  // scroll-view高度 Number
+  },
+
+  /** 展示我的一天背景图片 */
+  showBackgroungImage() {
+    const isToday = this.data.organize === 'today';
+    if (isToday) {
+      if (!wx.getStorageSync('today_back')) {
+        getMyTodayBakImage()
+        .then(res => {
+          if (res.result.code === '1') {
+            this.setData({
+              backgroundImage: res.result.url
+            })
+            wx.setStorageSync('today_back', JSON.stringify(res.result.url));
+          }
+        });
+      } else {
+        this.setData({
+          backgroundImage: JSON.parse(wx.getStorageSync('today_back'))
+        })
+      }
+    }
   },
 
   /**
@@ -39,7 +62,9 @@ Page({
       });
     }
 
-    planList = sortArrayMax(planList, 'create_time_applets');
+    if (planList.length > 1) {
+      planList = sortArrayMax(planList, 'create_time_applets');
+    }
 
     this.setData({
       planList
@@ -236,6 +261,8 @@ Page({
     
     
     this.flootInput = this.selectComponent('#flootInput');
+
+    this.showBackgroungImage();
   },
 
   onReady() {

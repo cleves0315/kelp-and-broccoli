@@ -3,7 +3,7 @@ const cloud = require('wx-server-sdk')
 
 cloud.init({
   // env: cloud.DYNAMIC_CURRENT_ENV,
-  env: 'test-7t28x',
+  env: 'on-line-1gqban3ba49e3d35',
   timeout: 10000
 })
 

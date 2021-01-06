@@ -2,7 +2,7 @@
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: 'test-7t28x',
+  env: 'on-line-1gqban3ba49e3d35',
   timeout: 10000
 })
 
@@ -46,6 +46,8 @@ exports.main = async (event) => {
       return await delete_plan_list(event, db);
     case 'finish_plan_list':
       return await finish_plan_list(event, db);
+    case 'mytoday_back_image':
+      return await mytoday_back_image(event, db);
   }
 }
 
@@ -436,4 +438,28 @@ async function finish_plan_list(event, db) {
       message: '操作失败'
     }
   }
+}
+
+
+async function mytoday_back_image(event, db) {
+  return db.collection('resources')
+    .where({
+      logo: 'today_back'
+    })
+    .get()
+    .then(res => {
+      return {
+        code: '1',
+        message: '1',
+        url: res.data[0].url
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      return {
+        code: '0',
+        message: '获取失败'
+      }
+    })
+    
 }

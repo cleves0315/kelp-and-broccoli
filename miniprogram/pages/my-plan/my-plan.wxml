@@ -1,5 +1,5 @@
 <!--miniprogram/pages/my-plan/my-plan.wxml-->
-<view class="my-plan" style="background-image: url({{organize == 'today' ? todayBackImage : ''}});">
+<view class="my-plan" style="background-image: url({{backgroundImage}});">
   <view class="container">
     <navigation-bar id="navigationBar" title="我的一天" bind:tapleftside="handleToBackNavigation" />
     <scroll-view scroll-y="true" style="height: {{scrollListHeight}}px;" enable-back-to-top="{{true}}">

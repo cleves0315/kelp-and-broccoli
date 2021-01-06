@@ -9,3 +9,12 @@ export function login() {
     name: 'login',
   });
 }
+
+export function getMyTodayBakImage() {
+  return callFunction({
+    name: 'planinfo',
+    data: {
+      action: 'mytoday_back_image'
+    }
+  });
+}

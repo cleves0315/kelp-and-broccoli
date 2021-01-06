@@ -106,6 +106,10 @@ function sortArrayMax(list, param) {
   const arr = [list.shift()];
   const num = list.length;
 
+  if (list.length === 0) {
+    return [];
+  }
+
   for (let i = 0; i < num; i++) {
 
     let isMax = 0;
