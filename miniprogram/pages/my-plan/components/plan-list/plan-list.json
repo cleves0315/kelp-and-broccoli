@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "ident": "/components/ident/ident"
+    "ident": "/components/ident/ident",
+    "tag-btn": "../tag-btn/tag-btn"
   }
 }

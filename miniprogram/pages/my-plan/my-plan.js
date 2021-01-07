@@ -1,7 +1,7 @@
 // miniprogram/pages/my-plan/my-plan.js
 import { getMyTodayBakImage } from '../../api/app';
 import { addPlanList, finishPlanList } from '../../api/plan';
-import { drawCode, sortArrayMax } from '../../utils/util';
+import { drawCode } from '../../utils/util';
 
 const app = getApp();
 
@@ -23,8 +23,9 @@ Page({
   /** 展示我的一天背景图片 */
   showBackgroungImage() {
     const isToday = this.data.organize === 'today';
+
     if (isToday) {
-      if (!wx.getStorageSync('today_back')) {
+      if (wx.getStorageSync('today_back') === '') {
         getMyTodayBakImage()
         .then(res => {
           if (res.result.code === '1') {
@@ -60,10 +61,6 @@ Page({
           planList.push(item);
         }
       });
-    }
-
-    if (planList.length > 1) {
-      planList = sortArrayMax(planList, 'create_time_applets');
     }
 
     this.setData({
@@ -222,7 +219,7 @@ Page({
           if (createList.length > 0) planList.push(createList[0]);
 
           wx.setStorageSync('plan_list', JSON.stringify(planList));
-          planList = sortArrayMax(planList, 'create_time_applets');
+          
           this.setData({
             planList
           })

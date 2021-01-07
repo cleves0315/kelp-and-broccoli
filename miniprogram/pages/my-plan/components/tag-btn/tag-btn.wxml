@@ -1,6 +1,6 @@
 <!--pages/my-plan/components/tag-btn/tag-btn.wxml-->
 <view class="tag-btn">
-  <view class="container">
+  <view class="container" bind:tap="change">
     <image class="icon" 
       src="{{imgUrl}}"
       mode="widthFix" 

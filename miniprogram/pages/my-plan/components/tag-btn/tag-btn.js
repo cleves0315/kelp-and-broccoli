@@ -12,23 +12,26 @@ Component({
       type: String,
       value: '已完成'
     },
-    value: {
-      type: Boolean,
-      value: false,
-    },
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-
+    value: false,
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    
+    change() {
+      const value = !this.data.value;
+      this.setData({
+        value
+      });
+
+      this.triggerEvent('change', { value });
+    },
   }
 })

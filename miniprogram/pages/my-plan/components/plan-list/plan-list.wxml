@@ -1,7 +1,25 @@
 <!--pages/my-plan/components/plan-list/plan-list.wxml-->
 <view class="plan-list">
   <view class="container">
+
     <block wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="index">
+      <view wx:if="{{!item.is_finish && item.tobeDeleted !== 1}}"
+        class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
+        bindtap="handleToTap"
+        data-data="{{item}}">
+        <view class="funt-wap" data-index="{{index}}" catchtap="handleChangeState">
+          <ident checked="{{item.is_finish}}" detail="{{item}}" />
+        </view>
+        <view class="content-wrap">
+          <view class="title">{{item.title}}</view>
+          <view class="detail">{{item.detail || '暂无计划详情'}}</view>
+        </view>
+      </view>
+    </block>
+    <!-- 完成按钮 -->
+    <tag-btn bind:change="handleChangeFinishedBtn"></tag-btn>
+    <!-- 已完成列表 -->
+    <block wx:if="{{finishList.length > 0}}" wx:for="{{finishList}}" wx:key="index">
       <view wx:if="{{!item.is_finish && item.tobeDeleted !== 1}}"
         class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
         bindtap="handleToTap"
