@@ -319,9 +319,6 @@ Page({
    */
   setClosingDate(date) {
     this.data.plan['closing_date'] = new Date(date).getTime();
-    // this.setData({
-    //   plan: this.data.plan
-    // });
 
     this.tobeUpStorage('plan_list', this.data.plan);
     this.data.actionUpdated = 1;
@@ -347,6 +344,7 @@ Page({
   },
   /** 点击日历设置按钮 */
   handleTapSetup(e) {
+    console.log(e);
     const date = e.detail.date;
 
     this.setClosingDate(date);

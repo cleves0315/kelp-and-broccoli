@@ -69,6 +69,9 @@ Component({
     /** 点击设置按钮 */
     handleTapSetup(e) {
       const value = e.detail.value;
+      value.month = parseInt(value.month) < 10 ? `0${value.month}` : value.month;
+      value.day = parseInt(value.day) < 10 ? `0${value.day}` : value.day;
+
       const date = `${value.year}-${value.month}-${value.day}`;
 
       this.triggerEvent('setup', { date });
