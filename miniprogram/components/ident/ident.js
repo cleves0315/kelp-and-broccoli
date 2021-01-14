@@ -20,10 +20,6 @@ Component({
       type: Boolean,
       value: false
     },
-    detail: {      // 组件绑定的数据
-      type: Object,
-      value: {}
-    },
   },
 
   /**
@@ -41,7 +37,6 @@ Component({
 
       // wx.vibrateShort();  // 震动
 
-      // this.triggerEvent('identTap', { value: this.data.isChecked, data: this.data.detail })
       this.triggerEvent('identTap')
     }
   }

@@ -1,7 +1,8 @@
 // miniprogram/pages/my-plan/my-plan.js
 import { getMyTodayBakImage } from '../../api/app';
 import { addPlanList, finishPlanList } from '../../api/plan';
-import { drawCode } from '../../utils/util';
+import { drawCode, sortArrayMax } from '../../utils/util';
+
 
 const app = getApp();
 
@@ -16,7 +17,9 @@ Page({
     scrollListHeight: 0,   // 列表高度
     organize: '',         // 计划分类的栏目
     headerTitle: '',      // 标题
-    planList: [],
+    planList: [],         // 计划列表
+    undoList: [],         // 未完成列表
+    finishList: [],       // 已完成列表
     scrollViewHiehgt: 0,  // scroll-view高度 Number
   },
 
@@ -45,9 +48,12 @@ Page({
 
   /**
    * 获取缓存数据并展示
+   * @todo 数据分递给undoList、finishList
    */
   getStoragePlan() {
     let planList = [];
+    let undoList = [];
+    let finishList = [];
     const organize = this.data.organize;
     const jsonPlanList = wx.getStorageSync('plan_list');
 
@@ -63,9 +69,21 @@ Page({
       });
     }
 
+    planList = sortArrayMax(planList, 'create_time_applets');
+
+    planList.forEach(item => {
+      if (item['is_finish']) {
+        finishList.push(item);
+      } else {
+        undoList.push(item);
+      }
+    });
+
     this.setData({
-      planList
+      undoList,
+      finishList
     })
+    this.data.planList = planList;
   },
 
   /**
@@ -106,37 +124,24 @@ Page({
     const planList = this.data.planList;
     const organize = this.data.organize;
     const openId = wx.getStorageSync('open_id');
-    const storPlanList = wx.getStorageSync('plan_list');
 
     if (title.trim() === '') {
       return;
     }
-
 
     data.tempId = drawCode();
     data.title = title;
     data.organize = organize;
     data.create_time_applets = new Date().getTime();
     
-    planList.unshift(data);
-    this.setData({
-      planList
-    });
-    wx.vibrateShort();
-
-
+    planList.push(data);
+    this.data.planList = planList;
+    wx.setStorageSync('plan_list', JSON.stringify(planList));
+    this.getStoragePlan();
+    
     // 设置输入框的值
     this.flootInput.handleSetValue('');
-
-
-    let plan = [];
-    if (storPlanList) {
-      plan = JSON.parse(storPlanList);
-      plan.push(data);
-    } else {
-      plan = planList;
-    }
-    wx.setStorageSync('plan_list', JSON.stringify(plan));
+    wx.vibrateShort();
 
     
     // 同步后台
@@ -145,6 +150,9 @@ Page({
     addPlanList([data]).then(res => {
         console.log(res);
         if (res.result.code === '1') {
+          
+          // 用户已经进入编辑界面的处理
+          // 把后台创建好的数据同步到编辑界面plan
           const pageList = getCurrentPages();
           if (pageList[pageList.length-1]['route'] === 'pages/plan-edit/plan-edit') {
             const planEdit = pageList[pageList.length-1].data.plan;
@@ -161,13 +169,12 @@ Page({
             pageList[pageList.length-1].data.plan = res.result.add_list[0];
           }
 
-          planList[0] = res.result.add_list[0];
-          this.setData({
-            planList
-          });
+          // 保证新增的数据在最后一项
+          planList[planList.length-1] = res.result.add_list[0];
+          this.data.planList = planList;
 
-          plan[0] = res.result.add_list[0];
-          wx.setStorageSync('plan_list', JSON.stringify(plan));
+          wx.setStorageSync('plan_list', JSON.stringify(planList));
+          this.getStoragePlan();
         }
       })
   },
@@ -186,18 +193,28 @@ Page({
    * @callback tap
    */
   handleToChangeState(e) {
-    const index = e.detail.index;
-    const planList = this.data.planList;
+    let plan = null;
+    const data = e.detail.data;
+    const planList = JSON.parse(wx.getStorageSync('plan_list'));
 
-    planList[index]['is_finish'] = !planList[index]['is_finish'];
 
-    this.setData({
-      planList
-    });
+    for (let i = 0; i < planList.length; i++) {
+      const plant = planList[i];
+      if (data['_id'] && plant['_id'] === data['_id']) {
+        plan = plant;
+        plan['is_finish'] = !data['is_finish'];
+        break;
+      } else if (data['tempId'] && plant['tempId'] === data['tempId']) {
+        plan = plant;
+        plan['is_finish'] = !data['is_finish'];
+        break;
+      }
+    }
 
-    this.tobeUpStorage('plan_list', planList[index]);
+    this.tobeUpStorage('plan_list', plan);
+    this.getStoragePlan();  // 渲染视图
     
-    finishPlanList([planList[index]])
+    finishPlanList([plan])
       .then(res => {
         console.log(res);
         if (res.result.code === '1') {
@@ -206,7 +223,7 @@ Page({
 
           let planList = JSON.parse(wx.getStorageSync('plan_list'));
 
-
+          // 同步已完成的计划
           let sign = -1;
           planList.some((item, index) => {
             if (updatedList[0]['_id'] && item['_id'] === updatedList[0]['_id']) {
@@ -216,13 +233,11 @@ Page({
           });
           if (sign !== -1) planList[sign] = updatedList[0];
 
+          // 添加新返回的计划
           if (createList.length > 0) planList.push(createList[0]);
 
           wx.setStorageSync('plan_list', JSON.stringify(planList));
-          
-          this.setData({
-            planList
-          })
+          this.getStoragePlan();
         }
       })
       .catch(err => {
@@ -269,20 +284,19 @@ Page({
   onShow() {
 
     this.getStoragePlan();
-    
-    // 设置屏幕滚动组件高度
-    wx.getSystemInfo({
-      success: (res) => {
-        setTimeout(() => {
+
+    // 设置内容滚动组件高度
+    setTimeout(() => {
+      wx.createSelectorQuery()
+        .select('#my-plan')
+        .boundingClientRect(rect => {
           this.navigationBar = this.selectComponent('#navigationBar');
           const naviBarHeight = this.navigationBar.getHeight();
-          this.data.scrollListHeight = res.windowHeight - naviBarHeight - this.flootInput.data.height;
+          this.data.scrollListHeight = rect.height - naviBarHeight - this.flootInput.data.height;
           this.setData({
             scrollListHeight: this.data.scrollListHeight
           })
-        }, 50);
-      }
-    })
-
+        }).exec();
+    }, 100);
   }
 })

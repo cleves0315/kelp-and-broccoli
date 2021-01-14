@@ -1,6 +1,7 @@
 /* miniprogram/pages/my-plan/my-plan.wxss */
 .container {
   min-height: 100vh;
+  overflow: hidden;
   /* background: #f2f3f6; */
   /* background: #70C59E; */
 }

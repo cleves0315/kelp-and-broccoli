@@ -21,13 +21,6 @@
   box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
 }
 
-.show-item {
-
-}
-
-.hide-item {
-  
-}
 
 .content-wrap {
   flex: 1;
@@ -39,6 +32,11 @@
 .content-wrap .title {
   font-size: 32rpx;
 }
+.content-wrap .finish-title {
+  font-size: 32rpx;
+  text-decoration: line-through;
+  color: #757575 !important;
+}
 
 .content-wrap .detail {
   font-size: 24rpx;
@@ -48,4 +46,29 @@
 .funt-wap {
   padding: 30rpx;
   align-self: center;
+}
+
+/** 已完成按钮 */
+.change-btn {
+  margin: 20rpx 0;
+}
+
+
+/** 已完成列表 */
+.hide-finish-view {
+
+}
+
+.show-finish-view {
+  position: relative;
+}
+.show-finish-view::before {
+  /* content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 5; */
 }

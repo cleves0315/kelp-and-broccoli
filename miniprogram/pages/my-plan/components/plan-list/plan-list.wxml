@@ -1,13 +1,21 @@
 <!--pages/my-plan/components/plan-list/plan-list.wxml-->
 <view class="plan-list">
   <view class="container">
-
-    <block wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="index">
-      <view wx:if="{{!item.is_finish && item.tobeDeleted !== 1}}"
+    <!-- 未完成列表 -->
+    <block wx:if="{{undoList.length > 0}}">
+      <view
+        wx:if="{{item.tobeDeleted != 1}}"
         class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
+        wx:for="{{undoList}}" wx:key="create_time_applets"
         bindtap="handleToTap"
         data-data="{{item}}">
-        <view class="funt-wap" data-index="{{index}}" catchtap="handleChangeState">
+        <!-- 完成按钮 -->
+        <view
+          class="funt-wap"
+          data-index="{{index}}"
+          data-data="{{item}}"
+          data-type="undo"
+          catchtap="handleChangeState">
           <ident checked="{{item.is_finish}}" detail="{{item}}" />
         </view>
         <view class="content-wrap">
@@ -16,20 +24,34 @@
         </view>
       </view>
     </block>
-    <!-- 完成按钮 -->
-    <tag-btn bind:change="handleChangeFinishedBtn"></tag-btn>
+    <!-- '已完成'切换按钮 -->
+    <view class="change-btn">
+      <tag-btn bind:change="handleChangeFinishedBtn"></tag-btn>
+    </view>
     <!-- 已完成列表 -->
-    <block wx:if="{{finishList.length > 0}}" wx:for="{{finishList}}" wx:key="index">
-      <view wx:if="{{!item.is_finish && item.tobeDeleted !== 1}}"
-        class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
-        bindtap="handleToTap"
-        data-data="{{item}}">
-        <view class="funt-wap" data-index="{{index}}" catchtap="handleChangeState">
-          <ident checked="{{item.is_finish}}" detail="{{item}}" />
-        </view>
-        <view class="content-wrap">
-          <view class="title">{{item.title}}</view>
-          <view class="detail">{{item.detail || '暂无计划详情'}}</view>
+    <block wx:show="{{finishList.length > 0}}">
+      <view
+        wx:if="{{showFinishView}}"
+        class="{{showFinishView ? 'show-finish-view':'hide-finish-view'}}">
+        <view
+          wx:if="{{item.tobeDeleted != 1}}"
+          class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
+          wx:for="{{finishList}}" wx:key="create_time_applets"
+          bindtap="handleToTap"
+          data-data="{{item}}">
+          <!-- 完成按钮 -->
+          <view
+            class="funt-wap"
+            data-index="{{index}}"
+            data-data="{{item}}"
+            data-type="fini"
+            catchtap="handleChangeState">
+            <ident checked="{{item.is_finish}}" detail="{{item}}" />
+          </view>
+          <view class="content-wrap">
+            <view class="finish-title">{{item.title}}</view>
+            <view class="detail">{{item.detail || '暂无计划详情'}}</view>
+          </view>
         </view>
       </view>
     </block>

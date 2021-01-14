@@ -1,6 +1,4 @@
 // pages/my-plan/components/plan-list/plan-list.js
-import { sortArrayMax } from '../../../../utils/util';
-
 Component({
   /**
    * 组件的属性列表
@@ -10,7 +8,11 @@ Component({
       type: Boolean,
       value: false
     },
-    list: {    // 列表数据
+    undoList: {    // 未完成列表
+      type: Array,
+      value: []
+    },
+    finishList: {    // 完成列
       type: Array,
       value: []
     },
@@ -20,8 +22,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    planList: [],   // 保存未完成的计划列表
-    finishList: [],  // 已完成的计划列表
+    showFinishView: false,
   },
 
   /**
@@ -33,11 +34,12 @@ Component({
      * @callback tap
      */
     handleChangeState(e) {
+      const data = e.currentTarget.dataset.data;
       const index = e.currentTarget.dataset.index;
       wx.vibrateShort({  // 震动
         type: 'heavy'
       });
-      this.triggerEvent('change-state', { index });
+      this.triggerEvent('change-state', { index, data });
     },
 
     /**
@@ -49,39 +51,15 @@ Component({
     },
 
     /**
-     * 切换已完成按钮
+     * 切换已完成按钮  true: 显示完成计划
      * @param {Boolean} e.detail.value
      * @todo 查看或隐藏已完成的计划
      */
     handleChangeFinishedBtn(e) {
       const value = e.detail.value;
-      console.log(value);
+      this.setData({
+        showFinishView: value
+      })
     },
   },
-
-  observers: {
-    list(val) {
-      // const planList = [];
-      // const finishList = [];
-      // const initial = planList.length === 0 && finishList.length === 0;
-
-      // if (val.length === 0) return;
-
-      // val = sortArrayMax(val, 'create_time_applets');
-      
-      // // 页面加载组件之间传递值
-      // if (initial) {
-      //   val.forEach(item => {
-      //     if (item.is_finish) {
-      //       finishList.push(item);
-      //     } else {
-      //       planList.push(item);
-      //     }
-      //   });
-      // } else {
-      //   // 新增计划给已存在的list新增记录
-
-      // }
-    },
-  }
 })

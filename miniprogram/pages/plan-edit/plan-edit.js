@@ -466,6 +466,7 @@ Page({
                 planList.splice(sign, 1);
                 wx.setStorageSync('plan_list', JSON.stringify(planList));
               }
+
             });
         } else {
           const planList = JSON.parse(wx.getStorageSync('plan_list'));
@@ -478,8 +479,9 @@ Page({
           }
 
           wx.setStorageSync('plan_list', JSON.stringify(planList));
-        }
 
+        }
+        
         wx.navigateBack();
       }
     })

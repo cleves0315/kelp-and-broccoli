@@ -1,11 +1,17 @@
 <!--miniprogram/pages/my-plan/my-plan.wxml-->
-<view class="my-plan" style="background-image: url({{backgroundImage}});">
+<view
+  id="my-plan"
+  class="my-plan"
+  style="background-image: url({{backgroundImage}});">
   <view class="container">
-    <navigation-bar id="navigationBar" title="我的一天" bind:tapleftside="handleToBackNavigation" />
+    <navigation-bar id="navigationBar" title="{{headerTitle}}" bind:tapleftside="handleToBackNavigation" />
     <scroll-view scroll-y="true" style="height: {{scrollListHeight}}px;" enable-back-to-top="{{true}}">
       <header title="{{headerTitle}}" background="#70C59E" bubColor="#70C59E" />
-      <plan-list list="{{planList}}" bind:change-state="handleToChangeState" bind:tapItem="handleToTapPlanItem" />
-      <!-- <plan-list-finish list="{{planList}}" bind:change-state="handleToChangeState" bind:tapItem="handleToTapPlanItem" /> -->
+      <plan-list
+        undoList="{{undoList}}"
+        finishList="{{finishList}}"
+        bind:change-state="handleToChangeState"
+        bind:tapItem="handleToTapPlanItem" />
     </scroll-view>
     <floot-input-box id="flootInput" isIphoneX="{{isIphoneX}}" background="transparent" bind:confim="handleCreatPlan" />
   </view>
