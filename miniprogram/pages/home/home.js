@@ -1,6 +1,6 @@
 // pages/home/home.js
 import { getUserInfo } from '../../api/user';
-import { getPlanList, addPlanList, updatePlanList, deletePlanList } from '../../api/plan';
+import { getPlanList, addPlanList, updatePlanList, deletePlanList, finishPlanList } from '../../api/plan';
 
 const app = getApp();
 
@@ -120,11 +120,14 @@ Page({
               if (!item['_id']) {
                 item.open_id = JSON.parse(openId);
                 loneList.push(item);
+              } else {
+
+                if (item['tobeDeleted'] === 1) tobeDelList.push(item['_id']);
+                
+                // 'tobeFinish'优先级高于'notUpdated'
+                if (item['tobeFinish'] === 1) tobeFinList.push(item);
+                else if (item['notUpdated'] === 1) latestList.push(item);
               }
-
-              if (item['_id'] && item['tobeDeleted'] === 1) tobeDelList.push(item['_id']);
-
-              if (item['_id'] && item['notUpdated'] === 1) latestList.push(item);
             });
 
             // 更新数据
@@ -163,6 +166,17 @@ Page({
               }
             });
 
+            const tobeFinPromise = new Promise(resolve => {
+              if (tobeFinList.length > 0) {
+                finishPlanList(tobeFinList)
+                  .then((res) => {
+                    resolve(res.result.data);
+                  })
+              } else {
+                resolve({});
+              }
+            });
+
             const tobeDelPromise = new Promise(resolve => {
               // 同步待删除数据
               if (tobeDelList.length > 0) {
@@ -191,21 +205,24 @@ Page({
               }
             });
             
-            Promise.all([latestPromise, tobeDelPromise, lonePromise,])
+            Promise.all([latestPromise, tobeDelPromise, lonePromise, tobeFinPromise])
               .then(res => {
                 // console.log(res);
                 const latestResult = res[0];
                 const tobeDelResult = res[1];
                 const loneListResult = res[2];
+                const tobeFinResult = res[3];
                 const planList = JSON.parse(wx.getStorageSync('plan_list'));
 
                 
+                // 校验对比请求后的数据，进行替换更新
+
                 // 删除tobeDelted字段数据
                 // 根据本次ajax参数 tobeDelResult
                 tobeDelResult.forEach(item => {
                   for (let i = 0; i < planList.length; i++) {
                     if (item === planList[i]['_id']) {
-                      planList.splice(i, 1);
+                      planList.splice(i, 1);   // 数据替换更新
                       break;
                     }
                   }
@@ -222,6 +239,25 @@ Page({
                       }
                     }
                   })
+                }
+
+                // tobeFinish字段
+                // updated_list: 更新成功的数据
+                // create_list: 有'重复'功能 更新后新生成的数据
+                if (JSON.stringify(tobeFinResult) !== '{}') {
+                  tobeFinResult.updated_list
+                    .forEach(item => {
+                      for (let i = 0; i < planList.length; i++) {
+                        if (item['_id'] === planList[i]['_id']) {
+                          planList.splice(i, 1);   // 数据替换更新
+                          break;
+                        }
+                      }
+                    })
+                  tobeFinResult.create_list
+                    .forEach(item => {
+                      planList.push(item);
+                    });
                 }
 
                 // 更新notUpdated字段数据

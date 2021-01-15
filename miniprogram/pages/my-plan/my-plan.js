@@ -95,6 +95,7 @@ Page({
    */
   tobeUpStorage(stogName, plan) {
     plan['tobeFinish'] = 1;
+    
 
     let sign = 0;
     const planList = JSON.parse(wx.getStorageSync('plan_list'));

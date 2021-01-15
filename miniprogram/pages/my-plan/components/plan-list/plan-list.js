@@ -22,7 +22,9 @@ Component({
    * 组件的初始数据
    */
   data: {
-    showFinishView: false,
+    planItemHeight: 0,      // 单个plan高度
+    planItemMagBottom: 2,   // 单个plan margin-bottom像素
+    finishListHeight: 0,    // 完成列表的高度
   },
 
   /**
@@ -52,14 +54,39 @@ Component({
 
     /**
      * 切换已完成按钮  true: 显示完成计划
-     * @param {Boolean} e.detail.value
+     * @param {Boolean} e.detail.value 切换后的值
      * @todo 查看或隐藏已完成的计划
      */
     handleChangeFinishedBtn(e) {
+      let finishListHeight = 0;
       const value = e.detail.value;
+
+      console.log(this.data.planItemHeight);
+      console.log(this.data.planItemMagBottom);
+      
+      if (value) {
+        finishListHeight = this.data.finishList.length * (this.data.planItemHeight + this.data.planItemMagBottom);
+      } else {
+        finishListHeight = 0;
+      }
+
       this.setData({
-        showFinishView: value
+        finishListHeight
       })
     },
   },
+
+  lifetimes: {
+    attached() {
+      // 获取planitem的高度
+      this.createSelectorQuery()
+        .select('#plan-item')
+        .boundingClientRect(rect => {
+          const { height } = rect;
+          this.setData({
+            planItemHeight: height
+          })
+        }).exec();
+    }
+  }
 })

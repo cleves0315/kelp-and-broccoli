@@ -231,7 +231,8 @@ async function delete_plan_list(event, db) {
 
 /**
  * 完成计划
- * 
+ * @return updated_list: 更新成功的数据
+ * @return create_list: 更新成功后重复新生成的数据
  */
 async function finish_plan_list(event, db) {
   const planList = event.plan_list;
@@ -440,7 +441,9 @@ async function finish_plan_list(event, db) {
   }
 }
 
-
+/**
+ * 获取my-plan计划列表背景图
+ */
 async function mytoday_back_image(event, db) {
   return db.collection('resources')
     .where({

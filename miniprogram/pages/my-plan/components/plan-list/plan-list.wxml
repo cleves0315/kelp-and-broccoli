@@ -4,11 +4,13 @@
     <!-- 未完成列表 -->
     <block wx:if="{{undoList.length > 0}}">
       <view
+        id="plan-item"
         wx:if="{{item.tobeDeleted != 1}}"
         class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
         wx:for="{{undoList}}" wx:key="create_time_applets"
         bindtap="handleToTap"
-        data-data="{{item}}">
+        data-data="{{item}}"
+        style="margin-bottom: {{planItemMagBottom}}px;">
         <!-- 完成按钮 -->
         <view
           class="funt-wap"
@@ -29,16 +31,17 @@
       <tag-btn bind:change="handleChangeFinishedBtn"></tag-btn>
     </view>
     <!-- 已完成列表 -->
-    <block wx:show="{{finishList.length > 0}}">
+    <block>
       <view
-        wx:if="{{showFinishView}}"
-        class="{{showFinishView ? 'show-finish-view':'hide-finish-view'}}">
+        class="finish-view"
+        style="height: {{finishListHeight}}px;">
         <view
           wx:if="{{item.tobeDeleted != 1}}"
           class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
           wx:for="{{finishList}}" wx:key="create_time_applets"
           bindtap="handleToTap"
-          data-data="{{item}}">
+          data-data="{{item}}"
+          style="margin-bottom: {{planItemMagBottom}}px;">
           <!-- 完成按钮 -->
           <view
             class="funt-wap"

@@ -8,6 +8,7 @@
     <scroll-view scroll-y="true" style="height: {{scrollListHeight}}px;" enable-back-to-top="{{true}}">
       <header title="{{headerTitle}}" background="#70C59E" bubColor="#70C59E" />
       <plan-list
+        wx:if="{{undoList.length || finishList.length}}"
         undoList="{{undoList}}"
         finishList="{{finishList}}"
         bind:change-state="handleToChangeState"
