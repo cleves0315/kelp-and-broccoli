@@ -26,23 +26,54 @@
 .content-wrap {
   flex: 1;
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: center;
 }
 
 .content-wrap .title {
-  font-size: 32rpx;
+  font-size: 28rpx;
+  font-weight: 500;
 }
 .content-wrap .finish-title {
-  font-size: 32rpx;
+  font-size: 28rpx;
   text-decoration: line-through;
   color: #757575 !important;
 }
 
 .content-wrap .detail {
+  display: flex;
   font-size: 24rpx;
-  color: #ADB0B9;
+  margin-top: 8rpx;
 }
+
+.content-wrap .detail .txt {
+  color: #7D7D7F;
+}
+
+.content-wrap .detail-box {
+  display: flex;
+  align-items: center;
+}
+
+.content-wrap .detail-box .point {
+  margin: 0 16rpx;
+  width: 4rpx;
+  height: 4rpx;
+  background: #757575;
+  border-radius: 50%;
+}
+
+.content-wrap .detail-box .detail-icon {
+  width: 20rpx;
+  height: 20rpx;
+  margin-right: 16rpx;
+}
+
+.content-wrap .detail-box .repeat-icon {
+  margin-left: 16rpx;
+}
+
 
 .funt-wap {
   padding: 30rpx;

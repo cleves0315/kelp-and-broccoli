@@ -1,7 +1,7 @@
 <!--pages/plan-edit/plan-edit.wxml-->
 <wxs src="./tools.wxs" module="tools" />
 <view class="plan-edit {{isIphoneX ? 'iphone-x' : 'no-iphone-x'}}">
-  <title mainTitle="{{plan.title}}" bind:edited="handleEditedMainTitle" />
+  <title finished="{{plan.is_finish}}" mainTitle="{{plan.title}}" bind:edited="handleEditedMainTitle" />
   <plan-list stepList="{{stepList}}" 
     mainTitle="{{plan.title}}"
     stepList="{{plan.stepList}}"
@@ -37,8 +37,9 @@
     bind:del="handleToDelFunt" />
   <edit-box value="{{plan.detail}}" bind:blur="handleEditDetailEnd" />
   <footer-column 
-    txt="{{plan.create_time_applets ? tools.conversionDate(plan.create_time_applets) : ''}}" 
+    txt="{{tools.formatBottomDate(plan)}}" 
     isIphoneX="{{isIphoneX}}"
+    txtColor="{{plan.is_finish ? '#07b45b':'#767678'}}"
     bind:del="handleToDelPlan" />
   <!-- 日历组件 -->
   <calendar-box show="{{isShowCalenBox}}" 

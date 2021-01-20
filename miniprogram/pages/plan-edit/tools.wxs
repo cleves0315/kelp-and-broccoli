@@ -169,6 +169,36 @@ function showRepeatWeekTxt(type, week_value) {
   return txt;
 }
 
+/**
+ * 格式化'编辑页'底部日期
+ * @param plan 单个计划对象
+ */
+function formatBottomDate(plan) {
+  var pre = '';
+  var txtDate = '';
+  var time = 0;
+  var isFinish = plan.is_finish;
+  var finishDate = plan.finish_date;
+  var createDate = plan.create_time_applets;
+
+  if (isFinish) {
+    if (finishDate) {
+      pre = '完成于 ';
+      time = finishDate;
+    } else {
+      pre = '创建于 ';
+      time = createDate;
+    }
+  } else {
+    pre = '创建于 ';
+    time = createDate;
+  }
+  
+  txtDate = conversionDate(time);
+  
+  return pre + txtDate;
+}
+
 
 module.exports = {
   conversionDate: conversionDate,
@@ -177,4 +207,5 @@ module.exports = {
   showDateText: showDateText,
   showRepeatTxt: showRepeatTxt,
   showRepeatWeekTxt: showRepeatWeekTxt,
+  formatBottomDate: formatBottomDate,
 }

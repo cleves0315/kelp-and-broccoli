@@ -3,7 +3,7 @@
   <view class="main">
     <view class="main-wrap">
       <view class="check-wrap">
-        <ident checked="{{false}}" bind:identTap="handleToChangeState" />
+        <ident checked="{{finished}}" bind:identTap="handleToChangeState" />
       </view>
       <view class="main-title">
         <input class="main-input-title"

@@ -60,9 +60,6 @@ Component({
     handleChangeFinishedBtn(e) {
       let finishListHeight = 0;
       const value = e.detail.value;
-
-      console.log(this.data.planItemHeight);
-      console.log(this.data.planItemMagBottom);
       
       if (value) {
         finishListHeight = this.data.finishList.length * (this.data.planItemHeight + this.data.planItemMagBottom);

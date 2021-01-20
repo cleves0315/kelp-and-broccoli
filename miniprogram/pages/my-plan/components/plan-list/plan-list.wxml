@@ -22,7 +22,26 @@
         </view>
         <view class="content-wrap">
           <view class="title">{{item.title}}</view>
-          <view class="detail">{{item.detail || '暂无计划详情'}}</view>
+          <view class="detail">
+            <!-- 我的一天 -->
+            <view class="detail-box">
+              <image class="detail-icon" src="/static/images/plan-edit/sunlight.svg"></image>
+              <view class="txt">我的一天</view>
+            </view>
+            <!-- 截止日期 -->
+            <view class="detail-box">
+              <view class="point"></view>
+              <image class="detail-icon" src="/static/images/plan-edit/date.svg"></image>
+              <view class="txt">今天</view>
+              <!-- 重复 -->
+              <image class="detail-icon repeat-icon" src="/static/images/plan-edit/repeat.svg"></image>
+            </view>
+            <!-- 编辑了详情 -->
+            <!-- <view class="detail-box">
+              <view class="point"></view>
+              <image class="detail-icon" src=""></image>
+            </view> -->
+          </view>
         </view>
       </view>
     </block>

@@ -25,6 +25,7 @@ function init_plan_list(options) {
     closing_date: options.closing_date || 0,
     stepList: options.stepList || [],
     repeat: options.repeat || {},
+    finish_date: 0,
   }
 
   return data;

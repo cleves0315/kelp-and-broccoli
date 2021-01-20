@@ -95,7 +95,6 @@ Page({
    */
   tobeUpStorage(stogName, plan) {
     plan['tobeFinish'] = 1;
-    
 
     let sign = 0;
     const planList = JSON.parse(wx.getStorageSync('plan_list'));
@@ -198,7 +197,7 @@ Page({
     const data = e.detail.data;
     const planList = JSON.parse(wx.getStorageSync('plan_list'));
 
-
+    // 获取列表里对应位置并更完成状态
     for (let i = 0; i < planList.length; i++) {
       const plant = planList[i];
       if (data['_id'] && plant['_id'] === data['_id']) {
@@ -211,6 +210,9 @@ Page({
         break;
       }
     }
+
+    // 生成完成时间
+    plan['finish_date'] = new Date().getTime();
 
     this.tobeUpStorage('plan_list', plan);
     this.getStoragePlan();  // 渲染视图

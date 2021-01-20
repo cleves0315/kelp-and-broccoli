@@ -12,6 +12,10 @@ Component({
       type: Number,
       value: -1
     },
+    finished: {
+      type: Boolean,
+      value: false
+    }
   },
 
   /**
