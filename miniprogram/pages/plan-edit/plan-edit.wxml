@@ -20,7 +20,7 @@
     iconUrl="{{dateFuntIcon}}" 
     iconLiveUrl="{{tools.isOverTime(plan.closing_date) ? dateFuntOverIcon : dateFuntLiveIcon}}" 
     txt="添加截止日期" 
-    liveTxtColor="{{tools.isOverTime(plan.closing_date) ? '#CC251E' : '#07b45b'}}" 
+    liveTxtColor="{{tools.isOverTime(plan.closing_date) ? '#D03C35' : '#07b45b'}}" 
     liveTxt="{{tools.showDateText(plan.closing_date) || tools.conversionDate(plan.closing_date)}} 到期" 
     bind:changeState="handleToChangeState" 
     bind:del="handleToDelFunt" />

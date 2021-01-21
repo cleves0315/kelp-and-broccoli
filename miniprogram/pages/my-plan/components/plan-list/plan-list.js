@@ -25,6 +25,14 @@ Component({
     planItemHeight: 0,      // 单个plan高度
     planItemMagBottom: 2,   // 单个plan margin-bottom像素
     finishListHeight: 0,    // 完成列表的高度
+
+    // 图标
+    sulightIcon: '/static/images/plan-edit/sunlight.svg',   // 我的一天
+    overIcon: '/static/images/plan-edit/date_live.svg',  // 截止日期
+    overIconExpired: '/static/images/plan-edit/date_over.svg',
+    repeatIcon: '/static/images/plan-edit/repeat_live.svg',       // 重复
+    repeatIconExpired: '/static/images/plan-edit/repeat_expired.svg',
+    bookIcon: '/static/images/plan-edit/book.svg',
   },
 
   /**

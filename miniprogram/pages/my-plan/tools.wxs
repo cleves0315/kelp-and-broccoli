@@ -1,0 +1,112 @@
+/**
+ * 返回当前时间的是否超过指定时间
+ * @param date 
+ * @reutrn boolean true:过期
+ */
+function isExpired(d) {
+  var today = getDate();
+  var date = getDate(d);
+  var isOver = false;
+
+  var resultY = today.getFullYear() === date.getFullYear();
+  var resultM = today.getMonth() === date.getMonth();
+
+  if (today.getFullYear() > date.getFullYear()) {
+    isOver = true;
+  } else if (resultY && today.getMonth() > date.getMonth()) {
+    isOver = true;
+  } else if (resultY && resultM && today.getDate() > date.getDate()) {
+    isOver = true;
+  }
+
+  return isOver;
+}
+
+/**
+ *  根据传入的时间戳返回一定格式的日期文字
+ * @param { Number } d
+ * @return 返回格式 xx年xx月xx日 周x
+ */
+function conversionDate(d) {
+  var date = getDate(d);
+  var y = date.getFullYear();
+  var m = date.getMonth() + 1;
+  var d = date.getDate();
+  var w = date.getDay();
+  var wee = '';
+
+  var dateString = '';
+
+  switch (w) {
+    case 0:
+      wee = '周日';
+      break;
+    case 1:
+      wee = '周一';
+      break;
+    case 2:
+      wee = '周二';
+      break;
+    case 3:
+      wee = '周三';
+      break;
+    case 4:
+      wee = '周四';
+      break;
+    case 5:
+      wee = '周五';
+      break;
+    case 6:
+      wee = '周六';
+      break;
+  }
+
+  
+  if (y !== getDate().getFullYear()) {
+    dateString = y + '年' + m + '月' + d + '日 ' + wee;
+  } else {
+    dateString = m + '月' + d + '日 ' + wee;
+  }
+
+  return dateString;
+}
+
+/**
+ * 根据传入的时间展示文本
+ * @param {Number} d 
+ * @reutrn '今天' '明天' 一定格式日期文字
+ */
+function showDateText(d) {
+  var txt = '';
+  var date = getDate(d);
+  var today = getDate();
+
+  if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth()) {
+    if (date.getDate() === today.getDate()) {
+      txt = '今天';
+    } else if (date.getDate() === getDate(today.getTime() + 86400000).getDate()) {
+      txt = '明天';
+    }
+  }
+
+  return txt;
+}
+
+/**
+ * 检查文本是否为空
+ * @param txt 
+ * @return boolean true: 文本为空
+ */
+function checkText(txt) {
+  txt = txt.trim();
+
+  return txt.length === 0;
+}
+
+
+module.exports = {
+  isExpired: isExpired,
+  conversionDate: conversionDate,
+  showDateText: showDateText,
+  checkText: checkText,
+}

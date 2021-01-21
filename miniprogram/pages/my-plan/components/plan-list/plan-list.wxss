@@ -32,28 +32,41 @@
 }
 
 .content-wrap .title {
-  font-size: 28rpx;
-  font-weight: 500;
+  font-size: 32rpx;
 }
 .content-wrap .finish-title {
-  font-size: 28rpx;
+  font-size: 32rpx;
   text-decoration: line-through;
   color: #757575 !important;
 }
 
 .content-wrap .detail {
   display: flex;
-  font-size: 24rpx;
-  margin-top: 8rpx;
+  font-size: 28rpx;
+  margin-top: 2rpx;
+  align-items: center;
+  padding: 0 6rpx;
 }
 
 .content-wrap .detail .txt {
   color: #7D7D7F;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/** 超过截止日期颜色 */
+.content-wrap .detail .expired-txt {
+  color: #D03C35;
+}
+/** 没超过截止日期颜色 */
+.content-wrap .detail .live-txt {
+  color: #07b45b;
 }
 
 .content-wrap .detail-box {
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 
 .content-wrap .detail-box .point {
@@ -67,12 +80,14 @@
 .content-wrap .detail-box .detail-icon {
   width: 20rpx;
   height: 20rpx;
-  margin-right: 16rpx;
+  margin-right: 14rpx;
 }
 
 .content-wrap .detail-box .repeat-icon {
-  margin-left: 16rpx;
+  margin-left: 12rpx;
 }
+
+
 
 
 .funt-wap {

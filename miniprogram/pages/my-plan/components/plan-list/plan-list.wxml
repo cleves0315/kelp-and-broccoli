@@ -1,4 +1,5 @@
 <!--pages/my-plan/components/plan-list/plan-list.wxml-->
+<wxs src="../../tools.wxs" module="tools" />
 <view class="plan-list">
   <view class="container">
     <!-- 未完成列表 -->
@@ -24,23 +25,38 @@
           <view class="title">{{item.title}}</view>
           <view class="detail">
             <!-- 我的一天 -->
-            <view class="detail-box">
-              <image class="detail-icon" src="/static/images/plan-edit/sunlight.svg"></image>
-              <view class="txt">我的一天</view>
-            </view>
+            <block wx:if="{{item.organize === 'today'}}">
+              <view class="detail-box">
+                <image class="detail-icon sulight-icon" src="{{sulightIcon}}"></image>
+                <view class="txt sulight-txt">我的一天</view>
+              </view>
+            </block>
             <!-- 截止日期 -->
-            <view class="detail-box">
-              <view class="point"></view>
-              <image class="detail-icon" src="/static/images/plan-edit/date.svg"></image>
-              <view class="txt">今天</view>
-              <!-- 重复 -->
-              <image class="detail-icon repeat-icon" src="/static/images/plan-edit/repeat.svg"></image>
-            </view>
+            <block wx:if="{{item.closing_date > 0}}">
+              <view class="detail-box">
+                <view class="point"></view>
+                <image 
+                  class="detail-icon over-icon"
+                  src="{{tools.isExpired(item.closing_date) ? overIconExpired : overIcon}}"></image>
+                <view
+                  class="txt {{tools.isExpired(item.closing_date) ? 'expired-txt':'live-txt'}}">
+                  {{tools.showDateText(item.closing_date) || tools.conversionDate(item.closing_date)}}
+                </view>
+                <!-- 重复 -->
+                <block wx:if="{{item.repeat && item.repeat.base}}">
+                  <image
+                    class="detail-icon repeat-icon"
+                    src="{{tools.isExpired(item.closing_date) ? repeatIconExpired : repeatIcon}}"></image>
+                </block>
+              </view>
+            </block>
             <!-- 编辑了详情 -->
-            <!-- <view class="detail-box">
-              <view class="point"></view>
-              <image class="detail-icon" src=""></image>
-            </view> -->
+            <block wx:if="{{!tools.checkText(item.detail)}}">
+              <view class="detail-box">
+                <view class="point"></view>
+                <image class="detail-icon" src="{{bookIcon}}"></image>
+              </view>
+            </block>
           </view>
         </view>
       </view>
@@ -72,7 +88,41 @@
           </view>
           <view class="content-wrap">
             <view class="finish-title">{{item.title}}</view>
-            <view class="detail">{{item.detail || '暂无计划详情'}}</view>
+            <view class="detail">
+              <!-- 我的一天 -->
+              <block wx:if="{{item.organize === 'today'}}">
+                <view class="detail-box">
+                  <image class="detail-icon sulight-icon" src="{{sulightIcon}}"></image>
+                  <view class="txt sulight-txt">我的一天</view>
+                </view>
+              </block>
+              <!-- 截止日期 -->
+              <block wx:if="{{item.closing_date > 0}}">
+                <view class="detail-box">
+                  <view class="point"></view>
+                  <image 
+                    class="detail-icon over-icon"
+                    src="{{tools.isExpired(item.closing_date) ? overIconExpired : overIcon}}"></image>
+                  <view
+                    class="txt {{tools.isExpired(item.closing_date) ? 'expired-txt':'live-txt'}}">
+                    {{tools.showDateText(item.closing_date) || tools.conversionDate(item.closing_date)}}
+                  </view>
+                  <!-- 重复 -->
+                  <block wx:if="{{item.repeat && item.repeat.base}}">
+                    <image
+                      class="detail-icon repeat-icon"
+                      src="{{tools.isExpired(item.closing_date) ? repeatIconExpired : repeatIcon}}"></image>
+                  </block>
+                </view>
+              </block>
+              <!-- 编辑了详情 -->
+              <block wx:if="{{!tools.checkText(item.detail)}}">
+                <view class="detail-box">
+                  <view class="point"></view>
+                  <image class="detail-icon" src="{{bookIcon}}"></image>
+                </view>
+              </block>
+            </view>
           </view>
         </view>
       </view>
