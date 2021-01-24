@@ -17,7 +17,6 @@
   background: #fff;
   border-radius: 16rpx;
   /* margin-bottom: 2px; */
-  padding-right: 30rpx;
   overflow: hidden;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
 }
@@ -29,6 +28,7 @@
   height: 100%;
   flex-direction: column;
   justify-content: center;
+  padding-right: 30rpx;
 }
 
 .content-wrap .title {
@@ -85,6 +85,18 @@
 
 .content-wrap .detail-box .repeat-icon {
   margin-left: 12rpx;
+}
+
+/** 删除按钮*/
+.delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110rpx;
+  height: 110rpx;  /*与父元素高度要一样*/
+  color: #fff;
+  background: #D03C35;
+  transform: translateX(100%);
 }
 
 

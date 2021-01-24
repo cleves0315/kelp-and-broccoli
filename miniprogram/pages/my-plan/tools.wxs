@@ -98,9 +98,41 @@ function showDateText(d) {
  * @return boolean true: 文本为空
  */
 function checkText(txt) {
-  txt = txt.trim();
+  if (txt) {
+    txt = txt.trim();
+    return txt.length === 0;
+  } else {
+    return true;
+  }
+}
 
-  return txt.length === 0;
+/**
+ * 
+ * @param touchId 当前touch计划的id
+ * @param planId 遍历计划列表的id
+ * @param startTion 是否开启过渡
+ * @param translateX 当前手指滑动的数值
+ */
+function slideAnimatoin(touchId, planId, startTion, translateX) {
+  var style = '';
+
+  if (touchId === planId) {
+    if (startTion) {
+      style += 'transition: transform .8s;';
+    } else {
+      style += '';
+    }
+  } else {
+    style += 'transition: transform .8s;';
+  }
+
+  if (touchId === planId) {
+    style += 'transform: translateX(' + translateX + 'px);'
+  }
+
+  return style;
+  
+  // transform: translateX({{touchId==item._id?translateX:0}}px)
 }
 
 
@@ -109,4 +141,5 @@ module.exports = {
   conversionDate: conversionDate,
   showDateText: showDateText,
   checkText: checkText,
+  slideAnimatoin: slideAnimatoin,
 }

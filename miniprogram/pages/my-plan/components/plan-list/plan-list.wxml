@@ -9,9 +9,12 @@
         wx:if="{{item.tobeDeleted != 1}}"
         class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
         wx:for="{{undoList}}" wx:key="create_time_applets"
-        bindtap="handleToTap"
         data-data="{{item}}"
-        style="margin-bottom: {{planItemMagBottom}}px;">
+        style="margin-bottom: {{planItemMagBottom}}px;{{tools.slideAnimatoin(touchId,item._id,startTransition,translateX)}}"
+        bindtap="handleToTap"
+        bind:touchstart="touchStart"
+        bind:touchmove="touchMove"
+        catch:touchend="touchEnd">
         <!-- 完成按钮 -->
         <view
           class="funt-wap"
@@ -59,6 +62,8 @@
             </block>
           </view>
         </view>
+        <!-- 删除按钮 -->
+        <view class="delete-btn">删除</view>
       </view>
     </block>
     <!-- '已完成'切换按钮 -->
@@ -73,10 +78,13 @@
         <view
           wx:if="{{item.tobeDeleted != 1}}"
           class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
-          wx:for="{{finishList}}" wx:key="create_time_applets"
+          wx:for="{{finishList}}" wx:key="finish_date"
           bindtap="handleToTap"
           data-data="{{item}}"
-          style="margin-bottom: {{planItemMagBottom}}px;">
+          style="margin-bottom: {{planItemMagBottom}}px;{{tools.slideAnimatoin(touchId,item._id,startTransition,translateX)}}"
+          bind:touchstart="touchStart"
+          bind:touchmove="touchMove"
+          catch:touchend="touchEnd">
           <!-- 完成按钮 -->
           <view
             class="funt-wap"

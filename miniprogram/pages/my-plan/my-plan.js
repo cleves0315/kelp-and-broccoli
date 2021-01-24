@@ -14,6 +14,7 @@ Page({
    */
   data: {
     backgroundImage: '',  // 我的一天"背景图"
+    scrollY: true,        // 开启页面滑动
     scrollListHeight: 0,   // 列表高度
     organize: '',         // 计划分类的栏目
     headerTitle: '',      // 标题
@@ -84,6 +85,22 @@ Page({
       finishList
     })
     this.data.planList = planList;
+  },
+
+  /**
+   * 左右滑动计划列表，停止页面滑动
+   */
+  handleMoveListStopPropa() {
+    this.setData({
+      scrollY: false
+    });
+  },
+  /** 手指停止滑动：开放页面滚动 */
+  handleListMovePlanEnd() {
+    console.log('handleListMovePlanEnd')
+    this.setData({
+      scrollY: true
+    })
   },
 
   /**

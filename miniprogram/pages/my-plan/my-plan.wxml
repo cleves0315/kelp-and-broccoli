@@ -5,14 +5,21 @@
   style="background-image: url({{backgroundImage}});">
   <view class="container">
     <navigation-bar id="navigationBar" title="{{headerTitle}}" bind:tapleftside="handleToBackNavigation" />
-    <scroll-view scroll-y="true" style="height: {{scrollListHeight}}px;" enable-back-to-top="{{true}}">
+    <scroll-view
+      class="scroll-view"
+      scroll-y="{{scrollY}}"
+      scroll-anchoring="{{true}}"
+      style="height: {{scrollListHeight}}px;"
+      enable-back-to-top="{{true}}">
       <header title="{{headerTitle}}" background="#70C59E" bubColor="#70C59E" />
       <plan-list
         wx:if="{{undoList.length || finishList.length}}"
         undoList="{{undoList}}"
         finishList="{{finishList}}"
         bind:change-state="handleToChangeState"
-        bind:tapItem="handleToTapPlanItem" />
+        bind:tapItem="handleToTapPlanItem"
+        bind:movePlanStart="handleMoveListStopPropa"
+        bind:movePlanEnd="handleListMovePlanEnd" />
     </scroll-view>
     <floot-input-box id="flootInput" isIphoneX="{{isIphoneX}}" background="transparent" bind:confim="handleCreatPlan" />
   </view>

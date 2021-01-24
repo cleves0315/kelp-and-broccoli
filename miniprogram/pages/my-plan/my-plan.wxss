@@ -14,3 +14,7 @@
   overflow-y: auto;
   background: no-repeat #70C59E 0/100% 100%;
 }
+
+.scroll-view {
+  overflow-anchor: auto;
+}
