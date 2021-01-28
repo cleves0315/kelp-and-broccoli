@@ -36,8 +36,7 @@ Component({
 
     // 触摸组
     touchId: null,       // 当前触摸的元素id
-    translateX: 0,       // translateX元素值
-    startTransition: true,  // 开启元素过渡动画效果
+    translateX: 0,       // 手指滑动的距离translateX元素值
     startX: 0,      // touchStartX坐标
     startY: 0,      // touchStartY坐标
     moveX: 0,
@@ -101,7 +100,6 @@ Component({
             // 关闭这个元素的过渡动画效果
             this.setData({
               touchId: id,
-              startTransition: false,  
             })
 
           } else {
@@ -152,8 +150,8 @@ Component({
         this.data.moveType = '';
 
         this.setData({
+          touchId: null,
           translateX: 0,
-          startTransition: true
         })
   
         this.triggerEvent('movePlanEnd');

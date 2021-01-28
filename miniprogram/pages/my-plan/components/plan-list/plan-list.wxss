@@ -10,15 +10,22 @@
   color: transparent;
 }
 
-.plan-item {
-  display: flex;
-  height: 110rpx;
-  align-items: center;
-  background: #fff;
+.plan-item-wrap {
+  position: relative;
   border-radius: 16rpx;
-  /* margin-bottom: 2px; */
   overflow: hidden;
+  padding-right: 30rpx;
+  background: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
+}
+
+.plan-item {
+  position: relative;
+  display: flex;
+  min-height: 110rpx;
+  align-items: center;
+  z-index: 5;
+  overflow: hidden;
 }
 
 
@@ -26,13 +33,15 @@
   flex: 1;
   display: flex;
   height: 100%;
+  padding: 20rpx 20rpx 20rpx 0;
+  box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-  padding-right: 30rpx;
 }
 
 .content-wrap .title {
   font-size: 32rpx;
+  white-space: nowrap;
 }
 .content-wrap .finish-title {
   font-size: 32rpx;
@@ -89,14 +98,18 @@
 
 /** 删除按钮*/
 .delete-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 110rpx;
-  height: 110rpx;  /*与父元素高度要一样*/
   color: #fff;
   background: #D03C35;
-  transform: translateX(100%);
+  overflow: hidden;
+  z-index: 1;
+  white-space: nowrap;
 }
 
 

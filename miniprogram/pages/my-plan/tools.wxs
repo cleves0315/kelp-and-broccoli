@@ -113,26 +113,22 @@ function checkText(txt) {
  * @param startTion 是否开启过渡
  * @param translateX 当前手指滑动的数值
  */
-function slideAnimatoin(touchId, planId, startTion, translateX) {
+function slideAnimatoin(translateX) {
   var style = '';
 
-  if (touchId === planId) {
-    if (startTion) {
-      style += 'transition: transform .8s;';
-    } else {
-      style += '';
-    }
-  } else {
-    style += 'transition: transform .8s;';
-  }
-
-  if (touchId === planId) {
-    style += 'transform: translateX(' + translateX + 'px);'
-  }
+  style += 'transition: transform 0s;';
+  style += 'transform: translateX(' + translateX + 'px);';
 
   return style;
+}
+
+function deletWidth(translateX) {
+  var style = '';
   
-  // transform: translateX({{touchId==item._id?translateX:0}}px)
+  style += 'transition: width 0s;';
+  style += 'width: ' + Math.abs(translateX) + 'px;';
+
+  return style;
 }
 
 
@@ -142,4 +138,5 @@ module.exports = {
   showDateText: showDateText,
   checkText: checkText,
   slideAnimatoin: slideAnimatoin,
+  deletWidth: deletWidth,
 }

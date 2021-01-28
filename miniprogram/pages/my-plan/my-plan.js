@@ -97,7 +97,6 @@ Page({
   },
   /** 手指停止滑动：开放页面滚动 */
   handleListMovePlanEnd() {
-    console.log('handleListMovePlanEnd')
     this.setData({
       scrollY: true
     })
