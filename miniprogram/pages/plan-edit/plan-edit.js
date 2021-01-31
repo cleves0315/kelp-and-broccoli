@@ -29,6 +29,8 @@ Page({
     dateFuntIcon: '/static/images/plan-edit/date.svg',                  // 截止日期图标
     dateFuntLiveIcon: '/static/images/plan-edit/date_live.svg',
     dateFuntOverIcon: '/static/images/plan-edit/date_over.svg',
+    remindFuntIcon: '/static/images/plan-edit/bell.svg',
+    remindFuntLiveIcon: '/static/images/plan-edit/bell_live.svg',
     repeatFuntTxt: '重复',
     repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
     repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
@@ -187,6 +189,9 @@ Page({
       case 'today':
         this.handleToAddMyToDay();
         break;
+      case 'remind':
+        this.handleToSettingRemind();
+        break;
       case 'closing':
         this.handleToSettingEndDate();
         break;
@@ -209,6 +214,9 @@ Page({
       case 'closing':
         this.delClosingDate();
         break;
+      case 'remind':
+        this.delRemind();
+        break;
       case 'repeat':
         this.delRepeat();
         break;
@@ -224,6 +232,10 @@ Page({
     });
 
     this.tobeUpStorage('plan_list', plan);
+  },
+  /** 删除"提醒我"功能 */
+  delRemind() {
+
   },
   /** 删除截止日期 */
   delClosingDate() {
@@ -261,7 +273,7 @@ Page({
 
   /**
    * 添加到我的一天
-   * @callback 点击功能按钮
+   * @callback tap
    */
   handleToAddMyToDay() {
     let organize = '';
@@ -278,6 +290,35 @@ Page({
     this.tobeUpStorage('plan_list', plan);
   },
   
+  /**
+   * 添加提醒功能
+   */
+  handleToSettingRemind() {
+    // 晚些时候 => 后延3小时
+    wx.showActionSheet({
+      itemList: ['晚些时候', '明天', '下周', '选择日期和时间'],
+      success: (res) => {
+        const index = res.tapIndex;
+
+        console.log(res)
+
+        switch (index) {
+          case 0:
+            
+            break;
+          case 1:
+            
+            break;
+          case 2:
+            
+            break;
+          case 3:
+            
+            break;
+        }
+      }
+    })
+  },
 
   /**
    * 添加截止日期

@@ -13,37 +13,47 @@
     isFuntLive="{{plan.organize === 'today'}}" isDivisionLine="{{true}}" iconUrl="{{todayFuntIcon}}" 
     iconLiveUrl="{{todayFuntLiveIcon}}" txt="添加到“我的一天”" liveTxt="已添加到“我的一天”"
     bind:changeState="handleToChangeState" bind:del="handleToDelFunt" />
+  <!-- 提醒 -->
+  <funt-button
+    data-type="remind"
+    isFuntLive="{{plan.remind_time > 0}}"
+    iconUrl="{{remindFuntIcon}}"
+    iconLiveUrl="{{remindFuntLiveIcon}}"
+    txt="提醒我"
+    liveTxt="{{tools.showDateText(plan.remind_time) || tools.conversionDate(plan.remind_time)}} 到期"
+    bind:changeState="handleToChangeState"
+    bind:del="handleToDelFunt" />
   <!-- 添加截止日期 -->
-  <funt-button 
-    data-type="closing" 
-    isFuntLive="{{plan.closing_date > 0}}" 
-    iconUrl="{{dateFuntIcon}}" 
-    iconLiveUrl="{{tools.isOverTime(plan.closing_date) ? dateFuntOverIcon : dateFuntLiveIcon}}" 
-    txt="添加截止日期" 
-    liveTxtColor="{{tools.isOverTime(plan.closing_date) ? '#D03C35' : '#07b45b'}}" 
-    liveTxt="{{tools.showDateText(plan.closing_date) || tools.conversionDate(plan.closing_date)}} 到期" 
-    bind:changeState="handleToChangeState" 
+  <funt-button
+    data-type="closing"
+    isFuntLive="{{plan.closing_date > 0}}"
+    iconUrl="{{dateFuntIcon}}"
+    iconLiveUrl="{{tools.isOverTime(plan.closing_date) ? dateFuntOverIcon : dateFuntLiveIcon}}"
+    txt="添加截止日期"
+    liveTxtColor="{{tools.isOverTime(plan.closing_date) ? '#D03C35' : '#07b45b'}}"
+    liveTxt="{{tools.showDateText(plan.closing_date) || tools.conversionDate(plan.closing_date)}} 到期"
+    bind:changeState="handleToChangeState"
     bind:del="handleToDelFunt" />
   <!-- 重复 -->
   <funt-button
-    data-type="repeat" 
-    isFuntLive="{{plan.repeat && plan.repeat.type}}" 
-    iconUrl="{{repeatFuntIcon}}" 
-    iconLiveUrl="{{repeatFuntLiveIcon}}" 
-    txt="{{repeatFuntTxt}}" 
+    data-type="repeat"
+    isFuntLive="{{plan.repeat && plan.repeat.type}}"
+    iconUrl="{{repeatFuntIcon}}"
+    iconLiveUrl="{{repeatFuntLiveIcon}}"
+    txt="{{repeatFuntTxt}}"
     liveTxt="{{tools.showRepeatTxt(plan.repeat.type, plan.repeat.base)}}"
     twoTxt="{{tools.showRepeatWeekTxt(plan.repeat.type, plan.repeat.week_value)}}"
-    bind:changeState="handleToChangeState" 
+    bind:changeState="handleToChangeState"
     bind:del="handleToDelFunt" />
   <edit-box value="{{plan.detail}}" bind:blur="handleEditDetailEnd" />
-  <footer-column 
-    txt="{{tools.formatBottomDate(plan)}}" 
+  <footer-column
+    txt="{{tools.formatBottomDate(plan)}}"
     isIphoneX="{{isIphoneX}}"
     txtColor="{{plan.is_finish ? '#07b45b':'#767678'}}"
     bind:del="handleToDelPlan" />
   <!-- 日历组件 -->
-  <calendar-box show="{{isShowCalenBox}}" 
-    bind:tapblank="handleCloseCalendar" 
+  <calendar-box show="{{isShowCalenBox}}"
+    bind:tapblank="handleCloseCalendar"
     bind:tapback="handleCalendarBack"
     bind:close="handleCloseCalendar"
     bind:setup="handleTapSetup" />
