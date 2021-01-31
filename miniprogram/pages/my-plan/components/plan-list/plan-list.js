@@ -22,6 +22,7 @@ Component({
    * 组件的初始数据
    */
   data: {
+    planItemWidth: 0,       // plan宽度
     planItemHeight: 0,      // 单个plan高度
     planItemMagBottom: 2,   // 单个plan margin-bottom像素
     finishListHeight: 0,    // 完成列表的高度
@@ -35,7 +36,8 @@ Component({
     bookIcon: '/static/images/plan-edit/book.svg',
 
     // 触摸组
-    touchId: null,       // 当前触摸的元素id
+    notTrionId: null,        // 不做过渡动画的id
+    translateId: null,       // 要进行移动的id
     translateX: 0,       // 手指滑动的距离translateX元素值
     startX: 0,      // touchStartX坐标
     startY: 0,      // touchStartY坐标
@@ -52,12 +54,17 @@ Component({
    */
   methods: {
     touchStart(e) {
-      const x = e.changedTouches[0].clientX;
-      const y = e.changedTouches[0].clientY;
+      let x = e.changedTouches[0].clientX;
+      let y = e.changedTouches[0].clientY;
 
+      
       this.data.startX = x;
       this.data.startY = y;
       this.data.moveDelay = true;
+
+      this.setData({
+        translateX: 0   // 先初始化移动值
+      })
     },
     touchMove(e) {
       const startX = this.data.startX;
@@ -66,12 +73,9 @@ Component({
       const y = e.changedTouches[0].clientY;
       const moveDelay = this.data.moveDelay;
 
-      
-
       // 保存本次移动的位置
       this.data.moveX = x;
       this.data.moveY = y;
-
       
       // 手指移动延迟
       if (moveDelay) {
@@ -91,15 +95,16 @@ Component({
           const curtDifY = Math.abs(moveY - startY);
 
           if (curtDifX > curtDifY) {
-            this.data.moveType = 'horizontal';
+            this.data.moveType = 'horizontal';   // 记录本次为横向移动
             this.data.startX = moveX;
             this.data.startY = moveY;
             // 获取本次移动元素的_id
-            const id = e.currentTarget.dataset.data._id;
+            const data = e.currentTarget.dataset.data;
 
-            // 关闭这个元素的过渡动画效果
+            // 关闭这个元素的过渡动画效果进行移动
             this.setData({
-              touchId: id,
+              notTrionId: data._id,
+              translateId: data._id,
             })
 
           } else {
@@ -112,16 +117,21 @@ Component({
 
       } else {
 
-        // 延迟结束开始做滚动操作↓
+        // 延迟结束开始做滑动操作↓
 
         let difX = x - startX;   // 本次移动的x距离
         const moveType = this.data.moveType;
+        const planHeight = this.data.planItemHeight;
+        const id = e.currentTarget.dataset.data._id;
 
         if (moveType === 'horizontal') {
           // 本次是横向滑动
 
           // 手势往右划 让他很难滑动
           if (difX > 0) difX *= .1;
+          // 移动超过删除按钮的宽度 让他很难滑动
+          if (-difX > (planHeight+15)) difX = -(planHeight+15) + difX*.1;
+
                   
           this.setData({
             translateX: difX
@@ -131,27 +141,43 @@ Component({
           if (!this.data.moveStart) {
             // 这个做个开关，不重复触发这个事件
             this.data.moveStart = true;
-            this.triggerEvent('movePlanStart');  // 抛出停止事件冒泡，不滑动外部列表
+            this.triggerEvent('movePlanStart');  // 抛出停止事件冒泡，不滑动外部滚动列表
           }
 
         } else if (moveType === 'vertical') {
           // 本次是纵向滑动
-          console.log('本次是纵向滑动');
+          // console.log('本次是纵向滑动');
         }
 
       }
     },
     touchEnd(e) {
+      let translateX = this.data.translateX;
+
       const moveType = this.data.moveType;
-
-
+      const planHeight = this.data.planItemHeight;
+      
       if (moveType === 'horizontal') {
         this.data.moveStart = false;  // 结束手指移动标识
         this.data.moveType = '';
 
+        // 手指往右滑动
+        if (translateX > 0) translateX = 0;
+
+        // if (Math.abs(translateX) > (planWidth / 2)) {
+        //   translateX = -planWidth;
+        // } else
+        if (Math.abs(translateX) > planHeight) {
+          translateX = -planHeight - 15;
+        } else {
+          translateX = 0;
+        }
+
+        // 开启过渡动画效果，移动元素到上面规则指定的位置
         this.setData({
-          touchId: null,
-          translateX: 0,
+          notTrionId: null,
+          // translateId: null,
+          translateX,
         })
   
         this.triggerEvent('movePlanEnd');
@@ -199,6 +225,19 @@ Component({
         finishListHeight
       })
     },
+
+    /** 删除按钮 */
+    delPlan(e) {
+      const { data } = e.currentTarget.dataset;
+
+      // 滑动的元素回归原来位置
+      this.setData({
+        notTrionId: null,
+        translateX: 0,
+      })
+
+      this.triggerEvent('delplan', {data });
+    },
   },
 
   lifetimes: {
@@ -207,8 +246,9 @@ Component({
       this.createSelectorQuery()
         .select('#plan-item')
         .boundingClientRect(rect => {
-          const { height } = rect;
+          const { width, height } = rect;
           this.setData({
+            planItemWidth: width,
             planItemHeight: height
           })
         }).exec();

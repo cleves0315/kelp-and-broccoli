@@ -439,7 +439,7 @@ Page({
    */
   handleToDelPlan() {
     wx.showActionSheet({
-      itemList: ['删除任务'],
+      itemList: ['删除计划'],
       itemColor: '#EA3927',
       success: () => {
         const plan = this.data.plan;

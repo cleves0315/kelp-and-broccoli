@@ -13,7 +13,7 @@
           id="plan-item"
           class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
           data-data="{{item}}"
-          style="{{touchId==item._id ? tools.slideAnimatoin(translateX):'transform: translateX(0);transition: transform .4s;'}}"
+          style="{{translateId==item._id ? tools.slideAnimatoin(translateX):'transform: translateX(0);'}} {{notTrionId==item._id ? 'transition: transform 0s;':'transition: transform .4s;'}}"
           bindtap="handleToTap"
           bind:touchstart="touchStart"
           bind:touchmove="touchMove"
@@ -24,7 +24,7 @@
             data-index="{{index}}"
             data-data="{{item}}"
             data-type="undo"
-            catchtap="handleChangeState">
+            catch:tap="handleChangeState">
             <ident checked="{{item.is_finish}}" detail="{{item}}" />
           </view>
           <view class="content-wrap">
@@ -68,8 +68,12 @@
         </view>
         <!-- 滑动删除按钮 -->
         <view
-          class="delete-btn" 
-          style="{{touchId==item._id ? tools.deletWidth(translateX):'width:0px;transition: width .4s;'}}">删除</view>
+          class="delete-btn"
+          style="{{translateId==item._id ? tools.deletWidth(translateX):'width:0px;'}} {{notTrionId==item._id?'transition: transform 0s;':'transition: width .4s;'}}"
+          data-data="{{item}}"
+          catch:tap="delPlan">
+          <image class="icon" src="/static/images/del_white.svg"></image>
+        </view>
       </view>
     </block>
     <!-- '已完成'切换按钮 -->
@@ -90,7 +94,7 @@
             class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
             bindtap="handleToTap"
             data-data="{{item}}"
-            style="{{touchId==item._id ? tools.slideAnimatoin(translateX):'transform: translateX(0);transition: transform .4s;'}}"
+            style="{{translateId==item._id ? tools.slideAnimatoin(translateX):'transform: translateX(0);'}} {{notTrionId==item._id ? 'transition: transform 0s;':'transition: transform .4s;'}}"
             bind:touchstart="touchStart"
             bind:touchmove="touchMove"
             catch:touchend="touchEnd">
@@ -145,7 +149,11 @@
           <!-- 滑动删除按钮 -->
           <view
             class="delete-btn" 
-            style="{{touchId==item._id ? tools.deletWidth(translateX):'width:0px;transition: width .4s;'}}">删除</view>
+            style="{{translateId==item._id ? tools.deletWidth(translateX):'width:0px;'}} {{notTrionId==item._id?'transition: transform 0s;':'transition: width .4s;'}}"
+            data-data="{{item}}"
+            catch:tap="delPlan">
+            <image class="icon" src="/static/images/del_white.svg"></image>
+          </view>
         </view>
       </view>
     </block>

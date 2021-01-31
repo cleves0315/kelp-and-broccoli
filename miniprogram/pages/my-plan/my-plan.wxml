@@ -19,7 +19,8 @@
         bind:change-state="handleToChangeState"
         bind:tapItem="handleToTapPlanItem"
         bind:movePlanStart="handleMoveListStopPropa"
-        bind:movePlanEnd="handleListMovePlanEnd" />
+        bind:movePlanEnd="handleListMovePlanEnd"
+        bind:delplan="handleDelPlanItem" />
     </scroll-view>
     <floot-input-box id="flootInput" isIphoneX="{{isIphoneX}}" background="transparent" bind:confim="handleCreatPlan" />
   </view>

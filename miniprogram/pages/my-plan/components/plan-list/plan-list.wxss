@@ -14,7 +14,7 @@
   position: relative;
   border-radius: 16rpx;
   overflow: hidden;
-  padding-right: 30rpx;
+  /* padding-right: 30rpx; */
   background: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .05);
 }
@@ -36,6 +36,7 @@
   padding: 20rpx 20rpx 20rpx 0;
   box-sizing: border-box;
   flex-direction: column;
+  overflow: hidden;
   justify-content: center;
 }
 
@@ -110,6 +111,12 @@
   overflow: hidden;
   z-index: 1;
   white-space: nowrap;
+}
+
+.delete-btn .icon {
+  display: block;
+  width: 40rpx;
+  height: 40rpx;
 }
 
 

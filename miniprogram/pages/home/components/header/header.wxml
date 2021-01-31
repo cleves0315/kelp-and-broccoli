@@ -12,7 +12,7 @@
         <view class="num">{{day}}</view>
         <view class="day">天</view>
       </view>
-      <!-- <view class="btn" bindtap="handleToBtn">{{btnTxt}}<view class="arrow-right"></view></view> -->
+      <view class="btn" bindtap="handleToBtn">{{btnTxt}}<view class="arrow-right"></view></view>
     </view>
   </view>
 </view>

@@ -116,7 +116,6 @@ function checkText(txt) {
 function slideAnimatoin(translateX) {
   var style = '';
 
-  style += 'transition: transform 0s;';
   style += 'transform: translateX(' + translateX + 'px);';
 
   return style;
@@ -124,9 +123,13 @@ function slideAnimatoin(translateX) {
 
 function deletWidth(translateX) {
   var style = '';
+
+  if (translateX > 0) {
+    style += 'width: 0px;';
+  } else {
+    style += 'width: ' + Math.abs(translateX) + 'px;';
+  }
   
-  style += 'transition: width 0s;';
-  style += 'width: ' + Math.abs(translateX) + 'px;';
 
   return style;
 }

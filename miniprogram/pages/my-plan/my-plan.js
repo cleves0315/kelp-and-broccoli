@@ -1,6 +1,6 @@
 // miniprogram/pages/my-plan/my-plan.js
 import { getMyTodayBakImage } from '../../api/app';
-import { addPlanList, finishPlanList } from '../../api/plan';
+import { addPlanList, finishPlanList, deletePlanList } from '../../api/plan';
 import { drawCode, sortArrayMax } from '../../utils/util';
 
 
@@ -159,7 +159,6 @@ Page({
     this.flootInput.handleSetValue('');
     wx.vibrateShort();
 
-    
     // 同步后台
     if (!openId || openId.length === 0) return;
     data.open_id = openId && JSON.parse(openId);
@@ -272,6 +271,83 @@ Page({
 
     wx.navigateTo({
       url: '/pages/plan-edit/plan-edit?data=' + JSON.stringify(data),
+    })
+  },
+
+  /**
+   * 点击单个计划删除按钮
+   */
+  handleDelPlanItem(e) {
+    const { data } = e.detail;
+
+    // 两下震动
+    wx.vibrateShort();
+    setTimeout(() => wx.vibrateShort(), 200);
+
+    wx.showActionSheet({
+      itemList: ['删除计划'],
+      itemColor: '#EA3927',
+      success: () => {
+        const planList = this.data.planList;
+
+        // 没有同步服务器
+        if (!data._id) {
+          // 直接从数组删除
+          
+          for (let i = 0; i < planList.length; i++) {
+            const p = planList[i];
+            
+            if (p.tempId === data.tempId) {
+              planList.splice(i, 1);
+
+              // 保存缓存
+              wx.setStorageSync('plan_list', JSON.stringify(planList));
+              this.getStoragePlan();  // 取出数据，并自动分递两列未完成、已完成
+              break;
+            }
+          }
+        } else {
+          // 对已同步服务器数据做删除↓
+
+          let tobeDelete = null;  // 保存即将删除的计划对象
+          for (let i = 0; i < planList.length; i++) {
+            const p = planList[i];
+            
+            if (p._id === data._id) {
+              p['tobeDeleted'] = 1;
+              tobeDelete = p;
+              planList[i] = p;
+
+              // 保存缓存
+              wx.setStorageSync('plan_list', JSON.stringify(planList));
+              this.getStoragePlan();  // 取出数据，并自动分递两列未完成、已完成
+              break;
+            }
+          }
+
+          // 发送请求，同步服务器
+          deletePlanList([tobeDelete['_id']])
+            .then(res => {
+              if (res.result.code !== '1') return;
+
+              let sign = -1;
+              const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+              planList.some((item, index) => {
+                if (item['_id'] === tobeDelete['_id']) {
+                  sign = index;
+                  return true;
+                }
+              });
+
+              // 若服务器同步完成，删除缓存里'待删除的计划'
+              if (sign !== -1) {
+                planList.splice(sign, 1);
+                wx.setStorageSync('plan_list', JSON.stringify(planList));
+              }
+            })
+        }
+      }
     })
   },
  
