@@ -35,6 +35,11 @@ Page({
     repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
     repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
     isShowCalenBox: false,        // 展示日历滑块组件
+    // 订阅
+    templIds: [      // 订阅模板的id集合
+      // '-FvQTHPeMgBee2OaO_-BP8NH1Fg4aiqlLJWDlmvPlgM',
+      '-FvQTHPeMgBee2OaO_-BP3j_KeMBsJIeL-H4Qs9X1cE',
+    ],
   },
 
   /**
@@ -235,7 +240,12 @@ Page({
   },
   /** 删除"提醒我"功能 */
   delRemind() {
+    const plan = this.data.plan;
+    
+    plan.remind_time = 0;
 
+    this.setData({ plan });
+    this.tobeUpStorage('plan_list', plan);
   },
   /** 删除截止日期 */
   delClosingDate() {
@@ -296,53 +306,110 @@ Page({
   handleToSettingRemind() {
     // 晚些时候 => 当前时间后延4小时，舍去分钟
     // 明天  =>  第二天9:00
+    // 14400000  间隔4小时时间戳
     // 32400000  间隔9小时时间戳
     // 86400000  间隔一天时间戳
     // 604800000  间隔一周时间戳
-    const sheetList = [];
-    const curntDate = new Date();
+    const sheetList = [];   // ActionSheet选项列表
+    const sheetDataList = [];  // ActionSheet选项值对应的时间戳
 
+    // 当前时间
+    const curntDate = new Date();
     const curntYear = curntDate.getFullYear();
     const curntMonth = curntDate.getMonth() + 1;
     const curntDay = curntDate.getDate();
     const curntHour = curntDate.getHours();
 
-    // 当前时间的早上9点时间戳
+    // 当前时间的09:00:00时间戳
     const curntNineOclockTime = new Date(`${curntYear}-${curntMonth}-${curntDay} 09:00:00`).getTime();
 
+    // 三个固定值的时间戳 与显示的文本
     let later, tomorrow, nextWeek = 0;
-    // 晚些时候
+    let laterTxt, tomorrowTxt, nextWeekTxt = '';
+    const weekTList = {
+      0: '周日',
+      1: '周一',
+      2: '周二',
+      3: '周三',
+      4: '周四',
+      5: '周五',
+      6: '周六',
+    };
+
+    // 晚些时候时间戳
     later = new Date(`${curntYear}-${curntMonth}-${curntDay} ${curntHour+4}:00:00`).getTime();
+    tomorrow = curntNineOclockTime + 86400000;  // '明天选项'时间戳
+    nextWeek = curntNineOclockTime + 604800000;  // '下周选项'时间戳
 
-    tomorrow = curntNineOclockTime + 86400000;
-    nextWeek = curntNineOclockTime + 604800000;
+    if (new Date(later).getHours() < 5) {
+      // 如果不是两位数字，在前面加个0
+      if (new Date(later).getHours() >= 10) {
+        laterTxt = `晚些时候（${new Date(later).getHours()}:00）`;
+      } else {
+        laterTxt = `晚些时候（0${new Date(later).getHours()}:00）`;
+      }
+    }
+    tomorrowTxt = `明天（${weekTList[new Date(tomorrow).getDay()]}09:00）`;
+    nextWeekTxt = `下周（${weekTList[new Date(nextWeek).getDay()]}09:00）`;
 
-    
+    // 保存当前选项的列表，和对应的时间戳
+    // ['晚些时候 (13:00)', '明天 (周二9:00)', '下周 (周一9:00)', '选择日期和时间']
+    if (laterTxt) {
+      sheetList.push(laterTxt);
+      sheetDataList.push(later);
+    }
+    sheetList.push(tomorrowTxt);
+    sheetDataList.push(tomorrow);
+    sheetList.push(nextWeekTxt);
+    sheetDataList.push(nextWeek);
 
+    // 获取订阅的模板id
+    const tmplIds = this.data.templIds;
+    // 发起订阅
+    wx.requestSubscribeMessage({
+      tmplIds,
+      success: res => {
+        const result = res[tmplIds[0]];  // 获取用户操作结果
 
-    wx.showActionSheet({
-      itemList: ['晚些时候 (13:00)', '明天 (周二9:00)', '下周 (周一9:00)', '选择日期和时间'],
-      success: (res) => {
-        const index = res.tapIndex;
-
-        console.log(res)
-
-        switch (index) {
-          case 0:
-            
-            break;
-          case 1:
-            
-            break;
-          case 2:
-            
-            break;
-          case 3:
-            
-            break;
+        // 'accept'同意、'reject'拒绝、'ban'被封禁、'filter'同名被过滤
+        if (result === 'accept') {
+          wx.showActionSheet({
+            alertText: '提醒',
+            itemList: sheetList,
+            success: (res) => {
+              const index = res.tapIndex;
+              const sheetTime = sheetDataList[index];  // 这个选项对应的时间戳
+              const { plan } = this.data;
+      
+              plan.remind_time = sheetTime;
+              this.setData({ plan });
+              
+              this.tobeUpStorage('plan_list', plan);
+              this.data.actionUpdated = 1;  // 记录更新操作，退出页面时会做同步处理
+            }
+          });
+        }
+      },
+      fail: err => {
+        if (err.errCode === 20004) {
+          // 用户关闭了主开关，无法订阅
+          wx.openSetting({
+            withSubscriptions: true,
+            fail: () => {
+              wx.showToast({
+                icon: 'none',
+                title: '操作失败，请打开小程序设置开启通知',
+              });
+            }
+          })
+        } else {
+          wx.showToast({
+            icon: 'none',
+            title: '操作失败，请稍后再试',
+          });
         }
       }
-    })
+    });
   },
 
   /**
@@ -354,7 +421,6 @@ Page({
     wx.showActionSheet({
       itemList: ['今天', '明天', '下周', '选择日期'],
       success: res => {
-        console.log(res)
         const index = res.tapIndex;
 
         switch (index) {
@@ -387,7 +453,7 @@ Page({
     this.data.plan['closing_date'] = new Date(date).getTime();
 
     this.tobeUpStorage('plan_list', this.data.plan);
-    this.data.actionUpdated = 1;
+    this.data.actionUpdated = 1;  // 记录更新操作，退出页面时会做同步处理
 
     this.setData({
       plan: this.data.plan,

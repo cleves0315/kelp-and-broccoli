@@ -20,7 +20,7 @@
     iconUrl="{{remindFuntIcon}}"
     iconLiveUrl="{{remindFuntLiveIcon}}"
     txt="提醒我"
-    liveTxt="{{tools.showDateText(plan.remind_time) || tools.conversionDate(plan.remind_time)}} 到期"
+    liveTxt="在{{tools.showDateText(plan.remind_time) || tools.conversionDate(plan.remind_time)}} "
     bind:changeState="handleToChangeState"
     bind:del="handleToDelFunt" />
   <!-- 添加截止日期 -->

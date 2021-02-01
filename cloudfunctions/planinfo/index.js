@@ -35,6 +35,9 @@ function init_plan_list(options) {
 // 云函数入口函数
 exports.main = async (event) => {
   const db = cloud.database();
+
+  // console.log('云函数入口函数')
+  // pushMessage('on0Xn5aDFQNoircJEtVF90QIyqss', '-FvQTHPeMgBee2OaO_-BP3j_KeMBsJIeL-H4Qs9X1cE', '测试');
   
   switch (event.action) {
     case 'get_plan_list':
@@ -50,6 +53,8 @@ exports.main = async (event) => {
     case 'mytoday_back_image':
       return await mytoday_back_image(event, db);
   }
+  // setInterval(() => {
+  // }, 60000);
 }
 
 
@@ -466,4 +471,32 @@ async function mytoday_back_image(event, db) {
       }
     })
     
+}
+
+/**
+ * 推送消息
+ * @param {*} open_id 用户openid
+ * @param {*} templateId 模板id
+ * @param {*} title 模板标题
+ */
+async function pushMessage (open_id,templateId, title) {
+  try {
+    const result = await cloud.openapi.subscribeMessage.send({
+      touser: open_id,
+      page: '/pages/home/home',
+      data: {
+        thing1: {  // 计划名称
+          value: title
+        },
+        thing5: {   // 备注
+          value: '123'
+        }
+      },
+      templateId,
+      miniprogramState: 'developer'
+    })
+    return result
+  } catch (err) {
+    return err
+  }
 }
