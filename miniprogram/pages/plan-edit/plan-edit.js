@@ -294,9 +294,34 @@ Page({
    * 添加提醒功能
    */
   handleToSettingRemind() {
-    // 晚些时候 => 后延3小时
+    // 晚些时候 => 当前时间后延4小时，舍去分钟
+    // 明天  =>  第二天9:00
+    // 32400000  间隔9小时时间戳
+    // 86400000  间隔一天时间戳
+    // 604800000  间隔一周时间戳
+    const sheetList = [];
+    const curntDate = new Date();
+
+    const curntYear = curntDate.getFullYear();
+    const curntMonth = curntDate.getMonth() + 1;
+    const curntDay = curntDate.getDate();
+    const curntHour = curntDate.getHours();
+
+    // 当前时间的早上9点时间戳
+    const curntNineOclockTime = new Date(`${curntYear}-${curntMonth}-${curntDay} 09:00:00`).getTime();
+
+    let later, tomorrow, nextWeek = 0;
+    // 晚些时候
+    later = new Date(`${curntYear}-${curntMonth}-${curntDay} ${curntHour+4}:00:00`).getTime();
+
+    tomorrow = curntNineOclockTime + 86400000;
+    nextWeek = curntNineOclockTime + 604800000;
+
+    
+
+
     wx.showActionSheet({
-      itemList: ['晚些时候', '明天', '下周', '选择日期和时间'],
+      itemList: ['晚些时候 (13:00)', '明天 (周二9:00)', '下周 (周一9:00)', '选择日期和时间'],
       success: (res) => {
         const index = res.tapIndex;
 
