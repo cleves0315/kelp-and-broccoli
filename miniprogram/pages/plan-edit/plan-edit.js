@@ -363,6 +363,10 @@ Page({
     sheetList.push(nextWeekTxt);
     sheetDataList.push(nextWeek);
 
+    const p = new Date(`${curntYear}-${curntMonth}-${curntDay} ${curntHour}:10:00`).getTime();
+    sheetList.push(`晚点）`);
+    sheetDataList.push(p);
+
     // 获取订阅的模板id
     const tmplIds = this.data.templIds;
     // 发起订阅
