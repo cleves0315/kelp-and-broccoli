@@ -53,8 +53,13 @@
     bind:del="handleToDelPlan" />
   <!-- 日历组件 -->
   <calendar-box show="{{isShowCalenBox}}"
-    bind:tapblank="handleCloseCalendar"
     bind:tapback="handleCalendarBack"
     bind:close="handleCloseCalendar"
+    bind:chioce-date="handleCalenChoiceDate"
     bind:setup="handleTapSetup" />
+  <!-- 选择时间列表 -->
+  <picker-time show="{{isShowPickerTime}}"
+    bind:close="handleClosePickerTime"
+    bind:back="handleBackCalenBox"
+    bind:setup="handlePickerTime" />
 </view>

@@ -2,18 +2,6 @@
 import { judgeIphoneX } from '../../utils/util';
 import { updatePlanList, deletePlanList } from '../../api/plan';
 
-/**
- * 当前页面存在问题
- * 问题：更新数据时，可能plan没有[_id]字段  后期得做相应处理
- * 问题：点击功能按钮操作时，例如添加到我的一天 操作过于频繁，后期做节流处理
- * 
- * （暂时关闭"副标题功能"）
- * 
- * 该页面每做更新操作时都只先同步缓存数据并添加notUpdated字段
- * 退出该页面时才做后台同步处理
- * 
- */
-
 Page({
   /**
    * 页面的初始数据
@@ -35,6 +23,7 @@ Page({
     repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
     repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
     isShowCalenBox: false,        // 展示日历滑块组件
+    isShowPickerTime: false,      // 展示选择时间板块
     // 订阅
     templIds: [      // 订阅模板的id集合
       // '-FvQTHPeMgBee2OaO_-BP8NH1Fg4aiqlLJWDlmvPlgM',
@@ -362,10 +351,12 @@ Page({
     sheetDataList.push(tomorrow);
     sheetList.push(nextWeekTxt);
     sheetDataList.push(nextWeek);
+    
+    sheetList.push('选择日期和时间');
 
-    const p = new Date(`${curntYear}-${curntMonth}-${curntDay} ${curntHour}:10:00`).getTime();
-    sheetList.push(`晚点）`);
-    sheetDataList.push(p);
+    // const p = new Date(`${curntYear}-${curntMonth}-${curntDay} ${curntHour}:45:00`).getTime();
+    // sheetList.push(`晚点）`);
+    // sheetDataList.push(p);
 
     // 获取订阅的模板id
     const tmplIds = this.data.templIds;
@@ -382,14 +373,19 @@ Page({
             itemList: sheetList,
             success: (res) => {
               const index = res.tapIndex;
-              const sheetTime = sheetDataList[index];  // 这个选项对应的时间戳
-              const { plan } = this.data;
-      
-              plan.remind_time = sheetTime;
-              this.setData({ plan });
-              
-              this.tobeUpStorage('plan_list', plan);
-              this.data.actionUpdated = 1;  // 记录更新操作，退出页面时会做同步处理
+
+              if (sheetList[index] === '选择日期和时间') {
+                
+              } else {
+                const sheetTime = sheetDataList[index];  // 这个选项对应的时间戳
+                const { plan } = this.data;
+        
+                plan.remind_time = sheetTime;
+                this.setData({ plan });
+                
+                this.tobeUpStorage('plan_list', plan);
+                this.data.actionUpdated = 1;  // 记录更新操作，退出页面时会做同步处理
+              }
             }
           });
         }
@@ -549,6 +545,38 @@ Page({
         this.setClosingDate(closingTime);
       }
     })
+  },
+
+  /**
+   * 点击日历卡片的选择时间
+   */
+  handleCalenChoiceDate() {
+    this.setData({
+      isShowCalenBox: false,
+      isShowPickerTime: true
+    });
+  },
+
+  /**
+   * PickerTime组件返回日历卡片组件
+   */
+  handleBackCalenBox() {
+    this.setData({
+      isShowCalenBox: true,
+      isShowPickerTime: false
+    })
+  },
+  /**
+   * PickerTime组件设置选中的时间
+   */
+  handlePickerTime(e) {
+    console.log(e);
+  },
+  /** 关闭PickerTime组件 */
+  handleClosePickerTime() {
+    this.setData({
+      isShowPickerTime: false
+    });
   },
 
 

@@ -1,4 +1,4 @@
-/* pages/plan-edit/components/calendar-box/calendar-box.wxss */
+/* pages/plan-edit/components/picker-time/picker-time.wxss */
 @keyframes show {
   0% {
     visibility: hidden;
@@ -46,21 +46,7 @@
   animation: hidebox .2s linear forwards;
 }
 
-
-.marking-wrap {
-  background: #fff;
-  padding-top: 16rpx;
-}
-
-.marking-line {
-  width: 66rpx;
-  height: 8rpx;
-  background: #8D8D8D;
-  border-radius: 100rpx;
-  margin: 0 auto;
-}
-
-.calendar-box {
+.picker-time {
   position: fixed;
   top: 0;
   left: 0;
@@ -80,35 +66,57 @@
   border-radius: 20rpx 20rpx 0 0;
 }
 
-/* 底部选择时间 */
-.choice-date-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 30rpx 0;
-  padding: 20rpx 40rpx;
+.marking-wrap {
   background: #fff;
-  border-top: 2rpx solid #EFEFEF;
-  border-bottom: 2rpx solid #EFEFEF;
+  padding-top: 16rpx;
 }
 
-.choice-date-line-touch {
-  background: #f9fffc !important;
+.marking-line {
+  width: 66rpx;
+  height: 8rpx;
+  background: #8D8D8D;
+  border-radius: 100rpx;
+  margin: 0 auto;
 }
 
-.choice-date-line .right {
+.header {
+  position: relative;
+  padding: 20rpx 0;
+  background: #fff;
+}
+
+.header .left,
+.header .right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
 }
 
-.choice-date-line .right .right-txt {
-  margin-right: 20rpx;
+.header .left {
+  left: 20rpx;
+  font-size: 32rpx;
   color: #07b45b;
-  font-weight: 500;
 }
 
-.choice-date-line .right .icon {
+.header .right {
+  right: 20rpx;
+}
+
+.header .left-icon {
   width: 40rpx;
   height: 40rpx;
-  transform: rotate(180deg);
+}
+
+.header .right-txt {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #07b45b;
+}
+
+.header .title {
+  text-align: center;
+  font-weight: 500;
+  font-size: 36rpx;
 }

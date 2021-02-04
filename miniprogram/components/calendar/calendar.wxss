@@ -3,6 +3,8 @@
   display: flex;
   height: 100%;
   flex-direction: column;
+  background: #fff;
+  border-bottom: 2rpx solid #EFEFEF;
 }
 
 .header {
@@ -33,7 +35,7 @@
 }
 
 .header .right-txt {
-  font-size: 30rpx;
+  font-size: 32rpx;
   font-weight: 500;
   color: #07b45b;
 }
@@ -46,6 +48,7 @@
 
 
 .calendar-swiper {
+  padding-bottom: 10rpx;
   height: calc((64rpx + 10rpx) * 6);
 }
 

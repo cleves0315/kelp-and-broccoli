@@ -1,7 +1,10 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 
-cloud.init()
+cloud.init({
+  env: 'on-line-1gqban3ba49e3d35',  // 指定运行环境
+  timeout: 10000
+})
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -25,10 +28,10 @@ async function pushMessage() {
   const mi = date.getMinutes();
   const db = cloud.database();
 
-  console.log(db.collection)
 
-  // 获取当前时间分钟整数的时间戳(不计算秒数)
-  const time = new Date(`${y}-${m}-${d} ${h}:${mi}:00`);
+  // 获取当前时间 分钟整数的时间戳(不计算秒数)
+  const time = new Date(`${y}-${m}-${d} ${h}:${mi}:00`).getTime();
+  // 消息模板id
   const templateId = '-FvQTHPeMgBee2OaO_-BP3j_KeMBsJIeL-H4Qs9X1cE';
 
   // const result = await cloud.openapi.subscribeMessage.send({
@@ -47,11 +50,11 @@ async function pushMessage() {
   // })
 
   // console.log(result)
+  console.log(`time: ${time}`);
 
   db.collection('plan_list')
     .where({
-      // remind_time: time
-      title: '测试'
+      remind_time: time,
     })
     .field({
       open_id: true,
@@ -62,26 +65,26 @@ async function pushMessage() {
       const list = res.data;
 
       console.log(res)
-      // list.forEach(item => {
-      //   // 进行消息推送
-      //   try {
-      //     cloud.openapi.subscribeMessage.send({
-      //       touser: item.open_id,
-      //       page: '/pages/home/home',
-      //       data: {
-      //         thing1: {  // 计划名称
-      //           value: item.title
-      //         },
-      //         thing5: {   // 备注
-      //           value: '123'
-      //         }
-      //       },
-      //       templateId,
-      //       miniprogramState: 'developer'
-      //     })
-      //   } catch (err) {
-      //     return err
-      //   }
-      // });
+      try {
+        list.forEach(item => {
+          // 进行消息推送
+          cloud.openapi.subscribeMessage.send({
+            touser: item.open_id,
+            page: '/pages/home/home',
+            data: {
+              thing1: {  // 计划名称
+                value: item.title
+              },
+              thing5: {   // 备注
+                value: '123'
+              }
+            },
+            templateId,
+            miniprogramState: 'developer'
+          })
+        });
+      } catch (err) {
+        return err
+      }
     });
 }

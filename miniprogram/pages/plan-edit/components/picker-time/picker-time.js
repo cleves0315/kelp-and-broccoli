@@ -1,5 +1,25 @@
-// pages/plan-edit/components/calendar-box/calendar-box.js
+// pages/plan-edit/components/picker-time/picker-time.js
 import { judgeIphoneX } from '../../../../utils/util';
+
+const date = new Date()
+const months = []
+const days = []
+
+for (let i = 1; i <= 24; i++) {
+  if (i < 10) {
+    months.push('0' + i)
+  } else {
+    months.push('' + i)
+  }
+}
+
+for (let i = 1; i <= 60; i++) {
+  if (i < 10) {
+    days.push('0' + i)
+  } else {
+    days.push('' + i)
+  }
+}
 
 Component({
   /**
@@ -10,20 +30,20 @@ Component({
       type: Boolean,
       value: false
     },
-    choiceLineDate: {
-      type: String,
-      value: '00:00'
-    },
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-    height: 0,   // 容器高度 px
-    iphoneX: false,
+    months,
+    month: 2,
+    days,
+    day: 2,
+    value: [1, 1],
+    isDaytime: true,
+
     bottom: 0,   // 绝对定位bottom值 px
-    isChoiceLineTouch: 0,
   },
 
   /**
@@ -66,36 +86,11 @@ Component({
       }
     },
 
-    /**点击返回按钮 */
-    handleTapBack() {
-      console.log('handleTapBack')
-      this.triggerEvent('tapback');
+    tapLeft() {
+      this.triggerEvent('back')
     },
-    /** 点击设置按钮 */
-    handleTapSetup(e) {
-      const value = e.detail.value;
-      value.month = parseInt(value.month) < 10 ? `0${value.month}` : value.month;
-      value.day = parseInt(value.day) < 10 ? `0${value.day}` : value.day;
+    tapRight() {
 
-      const date = `${value.year}-${value.month}-${value.day}`;
-
-      this.triggerEvent('setup', { date });
-    },
-
-    /** 底部选择时间栏touch手势 */
-    choiceLineTouchStart() {
-      this.setData({
-        isChoiceLineTouch: 1
-      })
-    },
-    choiceLineTouchEnd() {
-      this.setData({
-        isChoiceLineTouch: 0
-      })
-    },
-    /** 点击选择时间 */
-    choiceLineTap() {
-      this.triggerEvent('chioce-date')
     },
   },
 
