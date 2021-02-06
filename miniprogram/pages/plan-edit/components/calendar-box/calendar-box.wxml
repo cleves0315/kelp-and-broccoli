@@ -11,20 +11,22 @@
       <view class="marking-line"></view>
     </view>
     <!-- 日历组件 -->
-    <calendar showHeadFunts="{{true}}" 
+    <calendar id="calendar"
+      showHeadFunts="{{true}}" 
       leftTohAnimEnd="{{true}}"
       rightTohAnimEnd="{{true}}"
       bind:tapleft="handleTapBack"
       bind:tapright="handleTapSetup" />
     <!-- 选择时间 -->
     <view
+      wx:if="{{showChoiceDateColumn}}"
       class="choice-date-line {{isChoiceLineTouch?'choice-date-line-touch':''}}"
-      catch:tap="choiceLineTap"
+      catch:tap="choiceColumnTap"
       bind:touchstart="choiceLineTouchStart"
       catch:touchend="choiceLineTouchEnd">
       <view class="left">选择时间</view>
       <view class="right">
-        <view class="right-txt">{{choiceLineDate}}</view>
+        <view class="right-txt">{{choiceColumnDate}}</view>
         <image class="icon" src="../../sources/to_back.svg"></image>
       </view>
     </view>

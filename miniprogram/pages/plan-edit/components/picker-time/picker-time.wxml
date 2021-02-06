@@ -5,30 +5,35 @@
   <view
     id="container"
     class="container {{show ? 'showbox' : 'hidebox'}}"
-    style="{{iphoneX ? 'padding-bottom: 68rpx;' : ''}} bottom: -{{bottom}}px;"
-    bindtouchstart="handelTouchStart"
-    catchtouchmove="handelTouchMove"
-    catchtouchend="handelTouchEnd"
-    catchtap>
-    <view class="marking-wrap">
+    style="{{iphoneX ? 'padding-bottom: 68rpx;' : ''}} bottom: -{{bottom}}px;">
+    <view class="marking-wrap"
+      bindtouchstart="handelTouchStart"
+      catchtouchmove="handelTouchMove"
+      catchtouchend="handelTouchEnd"
+      catch:tap>
       <view class="marking-line"></view>
     </view>
-    <view class="header">
+    <view class="header"
+      bindtouchstart="handelTouchStart"
+      catchtouchmove="handelTouchMove"
+      catchtouchend="handelTouchEnd">
       <view class="left" catch:tap="tapLeft">
         <image class="left-icon" mode="widthFix" src="../../sources/to_back_green.svg"></image>
-        {{'2020年3月'}}
+        {{currentDate.year}}年{{currentDate.month}}月
       </view>
       <view class="title">选择时间</view>
       <view class="right" catch:tap="tapRight">
         <view class="right-txt">设置</view>
       </view>
     </view>
-    <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}">
+    <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}"
+      catch:tap
+      bindchange="change">
       <picker-view-column>
-        <view wx:for="{{months}}" wx:key="{{months}}" style="line-height: 50px; text-align: center;">{{item}}</view>
+        <view wx:for="{{hourse}}" wx:key="{{item}}" style="line-height: 50px; text-align: center;">{{item}}</view>
       </picker-view-column>
       <picker-view-column>
-        <view wx:for="{{days}}" wx:key="{{days}}" style="line-height: 50px; text-align: center;">{{item}}</view>
+        <view wx:for="{{minutes}}" wx:key="{{item}}" style="line-height: 50px; text-align: center;">{{item}}</view>
       </picker-view-column>
     </picker-view>
   </view>

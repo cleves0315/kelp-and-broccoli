@@ -10,7 +10,11 @@ Component({
       type: Boolean,
       value: false
     },
-    choiceLineDate: {
+    showChoiceDateColumn: {   // 展示底部选择日期栏
+      type: Boolean,
+      value: false
+    },
+    choiceColumnDate: {      // 时间选择栏的显示时间
       type: String,
       value: '00:00'
     },
@@ -68,7 +72,6 @@ Component({
 
     /**点击返回按钮 */
     handleTapBack() {
-      console.log('handleTapBack')
       this.triggerEvent('tapback');
     },
     /** 点击设置按钮 */
@@ -93,9 +96,11 @@ Component({
         isChoiceLineTouch: 0
       })
     },
-    /** 点击选择时间 */
-    choiceLineTap() {
-      this.triggerEvent('chioce-date')
+
+    /** 点击选择时间栏 */
+    choiceColumnTap() {
+      const selectDate = this.selectComponent('#calendar').data.selectDay
+      this.triggerEvent('chioce-date', { selectDate });
     },
   },
 

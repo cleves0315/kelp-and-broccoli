@@ -129,6 +129,22 @@ function sortArrayMax(list, param) {
   return arr;
 }
 
+/**
+ * 显示指定时间的小时和分钟数
+ * @return string '00:00'
+ */
+function showHourseAndMinute(date) {
+  let hourse = new Date(date).getHours();
+  let minute = new Date(date).getMinutes();
+
+  if (hourse < 10) hourse = '0'+hourse;
+  else hourse = ''+hourse;
+  if (minute < 10) minute = '0'+minute;
+  else minute = ''+minute;
+
+  return `${hourse}:${minute}`;
+}
+
 
 
 module.exports = {
@@ -138,4 +154,5 @@ module.exports = {
   judgeIphoneX,
   drawCode,
   sortArrayMax,
+  showHourseAndMinute,
 }

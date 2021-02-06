@@ -1,5 +1,5 @@
 // pages/plan-edit/plan-edit.js
-import { judgeIphoneX } from '../../utils/util';
+import { judgeIphoneX, showHourseAndMinute } from '../../utils/util';
 import { updatePlanList, deletePlanList } from '../../api/plan';
 
 Page({
@@ -9,6 +9,8 @@ Page({
   data: {
     actionUpdated: 0,       // 当前是否做了更新操作
     actionDeleted: 0,       // 当前是否进行删除操作，如果值为1不做更新请求
+    // 记录当前点击的功能类型 -> 目前做日期组件返回时的判断（显示提醒我列表还是截止日期列表）
+    funtType: '',  // 目前有的类型 remind, end-date
     plan: {},
     openId: '',
     disabled: false,
@@ -23,7 +25,10 @@ Page({
     repeatFuntIcon: '/static/images/plan-edit/repeat.svg',
     repeatFuntLiveIcon: '/static/images/plan-edit/repeat_live.svg',
     isShowCalenBox: false,        // 展示日历滑块组件
+    isShowCalenDateColumn: false, // 展示日历滑块下的选择时间栏
     isShowPickerTime: false,      // 展示选择时间板块
+    calenChoiceColumnDate: '00:00',  // 日历组件时间选择栏显示的时间
+    currSelectDate: {},          // 提醒我时间选择组件：当前选中的日期
     // 订阅
     templIds: [      // 订阅模板的id集合
       // '-FvQTHPeMgBee2OaO_-BP8NH1Fg4aiqlLJWDlmvPlgM',
@@ -100,7 +105,6 @@ Page({
 
     wx.setStorageSync(stogName, JSON.stringify(planList));
   },
-
 
   /**
    * 输入完主标题
@@ -289,10 +293,27 @@ Page({
     this.tobeUpStorage('plan_list', plan);
   },
   
+
   /**
-   * 添加提醒功能
+   * 设置提醒时间功能
+   * @param {Number} date 时间戳
+   * @todo 同步缓存，渲染前端
    */
-  handleToSettingRemind() {
+  setRemindTime(time) {
+    const { plan } = this.data;
+
+    plan.remind_time = time;
+    this.setData({ plan });
+    
+    this.tobeUpStorage('plan_list', plan);
+    this.data.actionUpdated = 1;  // 记录更新操作，退出页面时会做同步处理
+  },
+
+  /**
+   * 提醒功能的时间选择列表
+   * @todo 开启actionSheet组件
+   */
+  remindActionSheet() {
     // 晚些时候 => 当前时间后延4小时，舍去分钟
     // 明天  =>  第二天9:00
     // 14400000  间隔4小时时间戳
@@ -358,6 +379,32 @@ Page({
     // sheetList.push(`晚点）`);
     // sheetDataList.push(p);
 
+    wx.showActionSheet({
+      alertText: '提醒',
+      itemList: sheetList,
+      success: (res) => {
+        const index = res.tapIndex;
+
+        if (sheetList[index] === '选择日期和时间') {
+          this.setData({
+            isShowCalenBox: true,
+            isShowCalenDateColumn: true,
+            calenChoiceColumnDate: this.data.calenChoiceColumnDate,
+          });
+        } else {
+          const sheetTime = sheetDataList[index];  // 这个选项对应的时间戳
+
+          // 设置提醒时间
+          this.setRemindTime(sheetTime);
+        }
+      }
+    });
+  },
+
+  /**
+   * 点击添加提醒功能
+   */
+  handleToSettingRemind() {
     // 获取订阅的模板id
     const tmplIds = this.data.templIds;
     // 发起订阅
@@ -368,26 +415,22 @@ Page({
 
         // 'accept'同意、'reject'拒绝、'ban'被封禁、'filter'同名被过滤
         if (result === 'accept') {
-          wx.showActionSheet({
-            alertText: '提醒',
-            itemList: sheetList,
-            success: (res) => {
-              const index = res.tapIndex;
+          // 获取当前时间的后4小时，进行取整（舍去多余的分钟数）
+          const currTime = showHourseAndMinute(new Date());
+          let hourse = currTime.split(':')[0];
+          let addForeHourse = (hourse*1 + 4);
 
-              if (sheetList[index] === '选择日期和时间') {
-                
-              } else {
-                const sheetTime = sheetDataList[index];  // 这个选项对应的时间戳
-                const { plan } = this.data;
-        
-                plan.remind_time = sheetTime;
-                this.setData({ plan });
-                
-                this.tobeUpStorage('plan_list', plan);
-                this.data.actionUpdated = 1;  // 记录更新操作，退出页面时会做同步处理
-              }
-            }
-          });
+          if (addForeHourse >= 24) addForeHourse -= 24;
+          if (addForeHourse < 10) addForeHourse = '0'+addForeHourse;
+          else addForeHourse = ''+addForeHourse;
+          
+          // 设置日历选择组件底部的选择时间文本
+          this.data.calenChoiceColumnDate = `${addForeHourse}:00`;
+
+          // 提醒我选择列表
+          this.remindActionSheet();
+          // 保存当前点击的类型 -> 
+          this.data.funtType = 'remind';
         }
       },
       fail: err => {
@@ -413,9 +456,10 @@ Page({
   },
 
   /**
-   * 添加截止日期
+   * 添加截止日期的选择列表
+   * @todo 开启actionSheet组件
    */
-  handleToSettingEndDate() {
+  endDateActionSheet() {
     let time = new Date().getTime();
 
     wx.showActionSheet({
@@ -436,13 +480,25 @@ Page({
             this.setClosingDate(time);
             break;
           case 3:
+            // 显示日历选择组件
             this.setData({
-              isShowCalenBox: true
+              isShowCalenBox: true,
+              isShowCalenDateColumn: false,
             });
             break;
         }
       }
     })
+  },
+
+  /**
+   * 添加截止日期
+   */
+  handleToSettingEndDate() {
+    // 保存当前点击的类型 -> 
+    this.data.funtType = 'end-date';
+
+    this.endDateActionSheet();
   },
   /**
    * 设置截止日期
@@ -468,18 +524,42 @@ Page({
   },
   /** 点击日历返回按钮 */
   handleCalendarBack() {
-    console.log('handleCalendarBack')
+    const funtType = this.data.funtType;
+
     this.setData({
       isShowCalenBox: false
     });
-    this.handleToSettingEndDate();
+
+    if (funtType === 'remind') {
+      this.remindActionSheet();
+    } else if (funtType === 'end-date') {
+      this.endDateActionSheet();
+    }
   },
   /** 点击日历设置按钮 */
   handleTapSetup(e) {
-    console.log(e);
     const date = e.detail.date;
+    const funtType = this.data.funtType;
 
-    this.setClosingDate(date);
+    if (funtType === 'remind') {
+      // 设置提醒时间
+      
+      // 获取年月日
+      const y = new Date(date).getFullYear();
+      const m = new Date(date).getMonth() + 1;
+      const d = new Date(date).getDate();
+      // 获取时钟和分钟
+      const time = this.data.calenChoiceColumnDate;
+      const tm = new Date(`${y}-${m}-${d} ${time}`).getTime();
+
+      this.setRemindTime(tm);
+      this.setData({
+        isShowCalenBox: false
+      })
+    } else if(funtType === 'end-date') {
+      // 设置截止日期
+      this.setClosingDate(date);
+    }
   },
 
   /**
@@ -548,29 +628,46 @@ Page({
   },
 
   /**
-   * 点击日历卡片的选择时间
+   * 点击日历卡片的选择时间栏
    */
-  handleCalenChoiceDate() {
+  handleCalenChoiceDate(e) {
+    const { selectDate } = e.detail;
+    // const currSelectDate = `${selectDate.year}年${selectDate.month}月`;
+
     this.setData({
       isShowCalenBox: false,
-      isShowPickerTime: true
+      isShowPickerTime: true,
+      currSelectDate: selectDate
     });
   },
 
   /**
    * PickerTime组件返回日历卡片组件
+   * @todo 把选定的时间 传递回日历组件e
    */
-  handleBackCalenBox() {
+  handleBackCalenBox(e) {
+    const { pickTime } = e.detail;
+
     this.setData({
       isShowCalenBox: true,
-      isShowPickerTime: false
+      isShowPickerTime: false,
+      calenChoiceColumnDate: pickTime
     })
   },
   /**
    * PickerTime组件设置选中的时间
    */
   handlePickerTime(e) {
-    console.log(e);
+    const currDate = this.data.currSelectDate;   // 当前选中的日期
+    const currTime = e.detail.time;    // 当前选中的时间
+
+    const time = new Date(`${currDate.year}-${currDate.month}-${currDate.day} ${currTime}`).getTime();
+    this.setRemindTime(time);
+
+    // 关闭弹窗
+    this.setData({
+      isShowPickerTime: false
+    })
   },
   /** 关闭PickerTime组件 */
   handleClosePickerTime() {
