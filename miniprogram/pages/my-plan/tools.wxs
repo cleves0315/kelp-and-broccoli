@@ -128,10 +128,25 @@ function deletWidth(translateX) {
     style += 'width: 0px;';
   } else {
     style += 'width: ' + Math.abs(translateX) + 'px;';
-  }
-  
+  }  
 
   return style;
+}
+
+/**
+ * 是否显示提醒功能的小闹铃
+ */
+function showRemindIcon(remdTime) {
+  var time = getDate().getTime();
+  if (remdTime > 0) {
+    if (remdTime > time) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
 }
 
 
@@ -142,4 +157,5 @@ module.exports = {
   checkText: checkText,
   slideAnimatoin: slideAnimatoin,
   deletWidth: deletWidth,
+  showRemindIcon: showRemindIcon,
 }

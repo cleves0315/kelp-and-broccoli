@@ -34,6 +34,7 @@ Component({
     repeatIcon: '/static/images/plan-edit/repeat_live.svg',       // 重复
     repeatIconExpired: '/static/images/plan-edit/repeat_expired.svg',
     bookIcon: '/static/images/plan-edit/book.svg',
+    remindIcon: '/static/images/plan-edit/bell.svg',
 
     // 触摸组
     notTrionId: null,        // 不做过渡动画的id
@@ -216,7 +217,7 @@ Component({
       const value = e.detail.value;
       
       if (value) {
-        finishListHeight = this.data.finishList.length * (this.data.planItemHeight + this.data.planItemMagBottom);
+        finishListHeight = this.data.finishList.length * (this.data.planItemHeight + this.data.planItemMagBottom) + 100;
       } else {
         finishListHeight = 0;
       }

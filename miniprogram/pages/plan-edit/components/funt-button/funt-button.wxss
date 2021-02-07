@@ -42,6 +42,7 @@
 
 .txt-wrap .two-txt {
   font-size: 24rpx;
+  color: #767678;
 }
 
 /* 删除按钮 */

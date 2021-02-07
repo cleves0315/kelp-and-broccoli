@@ -326,41 +326,45 @@ Page({
     // 当前时间
     const curntDate = new Date();
     const curntYear = curntDate.getFullYear();
-    const curntMonth = curntDate.getMonth() + 1;
+    const curntMonth = curntDate.getMonth();
     const curntDay = curntDate.getDate();
     const curntHour = curntDate.getHours();
 
-    // 当前时间的09:00:00时间戳
-    const curntNineOclockTime = new Date(`${curntYear}-${curntMonth}-${curntDay} 09:00:00`).getTime();
+    // 当天时间的09:00:00时间戳
+    const curntNineOclockTime = new Date(curntYear, curntMonth, curntDay, 9).getTime();
 
     // 三个固定值的时间戳 与显示的文本
-    let later, tomorrow, nextWeek = 0;
+    let later, laterHourse, tomorrow, nextWeek = 0;
     let laterTxt, tomorrowTxt, nextWeekTxt = '';
+    let tomrThisDayTxt, nextThisWeekTxt = '';
     const weekTList = {
-      0: '周日',
-      1: '周一',
-      2: '周二',
-      3: '周三',
-      4: '周四',
-      5: '周五',
-      6: '周六',
+      '0': '周日',
+      '1': '周一',
+      '2': '周二',
+      '3': '周三',
+      '4': '周四',
+      '5': '周五',
+      '6': '周六',
     };
 
-    // 晚些时候时间戳
-    later = new Date(`${curntYear}-${curntMonth}-${curntDay} ${curntHour+4}:00:00`).getTime();
-    tomorrow = curntNineOclockTime + 86400000;  // '明天选项'时间戳
-    nextWeek = curntNineOclockTime + 604800000;  // '下周选项'时间戳
-
-    if (new Date(later).getHours() < 5) {
+    laterHourse = curntHour + 4;
+    if (laterHourse < 24) {
+      // 晚些时候时间戳
+      later = new Date(curntYear, curntMonth, curntDay, laterHourse).getTime();
       // 如果不是两位数字，在前面加个0
-      if (new Date(later).getHours() >= 10) {
-        laterTxt = `晚些时候（${new Date(later).getHours()}:00）`;
+      if (laterHourse >= 10) {
+        laterTxt = `晚些时候（${laterHourse}:00）`;
       } else {
-        laterTxt = `晚些时候（0${new Date(later).getHours()}:00）`;
+        laterTxt = `晚些时候（0${laterHourse}:00）`;
       }
     }
-    tomorrowTxt = `明天（${weekTList[new Date(tomorrow).getDay()]}09:00）`;
-    nextWeekTxt = `下周（${weekTList[new Date(nextWeek).getDay()]}09:00）`;
+
+    tomorrow = curntNineOclockTime + 86400000;  // '明天选项'时间戳
+    nextWeek = curntNineOclockTime + 604800000;  // '下周选项'时间戳    
+    tomrThisDayTxt = weekTList[new Date(tomorrow).getDay()];
+    nextThisWeekTxt = weekTList[new Date(nextWeek).getDay()];
+    tomorrowTxt = `明天（${tomrThisDayTxt}09:00）`;
+    nextWeekTxt = `下周（${nextThisWeekTxt}09:00）`;
 
     // 保存当前选项的列表，和对应的时间戳
     // ['晚些时候 (13:00)', '明天 (周二9:00)', '下周 (周一9:00)', '选择日期和时间']
@@ -372,13 +376,8 @@ Page({
     sheetDataList.push(tomorrow);
     sheetList.push(nextWeekTxt);
     sheetDataList.push(nextWeek);
-    
     sheetList.push('选择日期和时间');
-
-    // const p = new Date(`${curntYear}-${curntMonth}-${curntDay} ${curntHour}:45:00`).getTime();
-    // sheetList.push(`晚点）`);
-    // sheetDataList.push(p);
-
+    
     wx.showActionSheet({
       alertText: '提醒',
       itemList: sheetList,
@@ -536,9 +535,12 @@ Page({
       this.endDateActionSheet();
     }
   },
-  /** 点击日历设置按钮 */
+  /**
+   * 点击日历设置按钮
+   * @param e xxxx-mm-dd
+   */
   handleTapSetup(e) {
-    const date = e.detail.date;
+    const date = e.detail.date;   // 当前组件选定的日期
     const funtType = this.data.funtType;
 
     if (funtType === 'remind') {
@@ -546,11 +548,13 @@ Page({
       
       // 获取年月日
       const y = new Date(date).getFullYear();
-      const m = new Date(date).getMonth() + 1;
+      const m = new Date(date).getMonth();
       const d = new Date(date).getDate();
       // 获取时钟和分钟
       const time = this.data.calenChoiceColumnDate;
-      const tm = new Date(`${y}-${m}-${d} ${time}`).getTime();
+      const h = time.split(':')[0];
+      const mi = time.split(':')[1];
+      const tm = new Date(y, m, d, h, mi).getTime();
 
       this.setRemindTime(tm);
       this.setData({
@@ -656,12 +660,15 @@ Page({
   },
   /**
    * PickerTime组件设置选中的时间
+   * @param e.detail.date '00:00'
    */
   handlePickerTime(e) {
     const currDate = this.data.currSelectDate;   // 当前选中的日期
     const currTime = e.detail.time;    // 当前选中的时间
+    const h = currTime.split(':')[0];
+    const m = currTime.split(':')[1];
 
-    const time = new Date(`${currDate.year}-${currDate.month}-${currDate.day} ${currTime}`).getTime();
+    const time = new Date(currDate.year, currDate.month-1, currDate.day, h, m).getTime();
     this.setRemindTime(time);
 
     // 关闭弹窗

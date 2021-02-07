@@ -58,13 +58,13 @@ async function pushMessage() {
     })
     .field({
       open_id: true,
-      title: true
+      title: true,
+      detail: true
     })
     .get()
     .then(res => {
       const list = res.data;
 
-      console.log(res)
       try {
         list.forEach(item => {
           // 进行消息推送
@@ -75,8 +75,8 @@ async function pushMessage() {
               thing1: {  // 计划名称
                 value: item.title
               },
-              thing5: {   // 备注
-                value: '123'
+              thing5: {   // 备注 只能20字符
+                value: '计划提醒'
               }
             },
             templateId,

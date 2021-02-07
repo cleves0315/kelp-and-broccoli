@@ -20,7 +20,9 @@
     iconUrl="{{remindFuntIcon}}"
     iconLiveUrl="{{remindFuntLiveIcon}}"
     txt="提醒我"
-    liveTxt="在{{tools.showDateText(plan.remind_time) || tools.conversionDate(plan.remind_time)}} "
+    liveTxtColor="{{tools.isRemindLive(plan.remind_time) ? '#07b45b' : ''}}"
+    liveTxt="在 {{tools.showTime(plan.remind_time)}} 时提醒我"
+    twoTxt="{{plan.remind_time ? (tools.showDateText(plan.remind_time) || tools.conversionDate(plan.remind_time)):''}}"
     bind:changeState="handleToChangeState"
     bind:del="handleToDelFunt" />
   <!-- 添加截止日期 -->

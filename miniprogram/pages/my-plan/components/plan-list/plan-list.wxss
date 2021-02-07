@@ -48,6 +48,7 @@
   font-size: 32rpx;
   text-decoration: line-through;
   color: #757575 !important;
+  white-space: nowrap;
 }
 
 .content-wrap .detail {

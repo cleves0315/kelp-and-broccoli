@@ -56,6 +56,13 @@
                   </block>
                 </view>
               </block>
+              <!-- 提醒 -->
+              <block wx:if="{{tools.showRemindIcon(item.remind_time)}}">
+                <view class="detail-box">
+                  <view class="point"></view>
+                  <image class="detail-icon" src="{{remindIcon}}"></image>
+                </view>
+              </block>
               <!-- 编辑了详情 -->
               <block wx:if="{{!tools.checkText(item.detail)}}">
                 <view class="detail-box">

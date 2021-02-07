@@ -50,7 +50,7 @@ function conversionDate(d) {
 /**
  * 根据传入的时间展示文本
  * @param {Number} d 
- * @reutrn '今天' '明天' 一定格式日期文字
+ * @reutrn '今天' '明天'
  */
 function showDateText(d) {
   var txt = '';
@@ -199,6 +199,40 @@ function formatBottomDate(plan) {
   return pre + txtDate;
 }
 
+/**
+ * 根据给定的时间返回 时钟和分钟
+ * @param date 时间格式
+ * @return hh:mm
+ */
+function showTime(date) {
+  var hourse = getDate(date).getHours();
+  var minutes = getDate(date).getMinutes();
+
+  if (hourse < 10) hourse = '0' + hourse;
+  else hourse = '' + hourse;
+
+  if (minutes < 10) minutes = '0' + minutes;
+  else minutes = '' + minutes;
+
+  return hourse + ':' + minutes;
+}
+
+/**
+ * 当前提醒功能的时间是否有效
+ */
+function isRemindLive(remdTime) {
+  var time = getDate().getTime();
+  if (remdTime > 0) {
+    if (remdTime > time) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
 
 module.exports = {
   conversionDate: conversionDate,
@@ -208,4 +242,6 @@ module.exports = {
   showRepeatTxt: showRepeatTxt,
   showRepeatWeekTxt: showRepeatWeekTxt,
   formatBottomDate: formatBottomDate,
+  showTime: showTime,
+  isRemindLive: isRemindLive,
 }
