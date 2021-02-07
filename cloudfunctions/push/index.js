@@ -55,6 +55,7 @@ async function pushMessage() {
   db.collection('plan_list')
     .where({
       remind_time: time,
+      is_finish: false
     })
     .field({
       open_id: true,

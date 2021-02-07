@@ -80,6 +80,8 @@ Page({
       }
     });
 
+    finishList = sortArrayMax(finishList, 'finish_date');
+
     this.setData({
       undoList,
       finishList
@@ -211,6 +213,7 @@ Page({
     let plan = null;
     const data = e.detail.data;
     const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
 
     // 获取列表里对应位置并更完成状态
     for (let i = 0; i < planList.length; i++) {
@@ -373,7 +376,7 @@ Page({
   },
 
   onReady() {
-
+    
   },
   
   onShow() {
@@ -392,6 +395,6 @@ Page({
             scrollListHeight: this.data.scrollListHeight
           })
         }).exec();
-    }, 100);
+    }, 200);
   }
 })

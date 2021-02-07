@@ -6,7 +6,7 @@
         <ident checked="{{finished}}" bind:identTap="handleToChangeState" />
       </view>
       <view class="main-title">
-        <input class="main-input-title"
+        <input class="main-input-title {{finished ? 'finished-title':''}}"
           value="{{mainTitle}}" 
           maxlength="{{maxlength}}" 
           bindblur="handleToInputBlur"></input>

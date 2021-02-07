@@ -20,6 +20,8 @@ Page({
     },
     userInfo: null,
     isShowLoginCase: 0,
+    // 嘴巴模拟bo的声音
+    bo: 'https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/bo.m4a?sign=d4545d263f1a29a89b00b576c003bbb8&t=1612715654',
   },
 
   /**
@@ -42,7 +44,10 @@ Page({
     const storPlan = wx.getStorageSync('plan_list');
 
     if (storPlan) {
-      this.data.planList = JSON.parse(storPlan);
+      // this.data.planList = JSON.parse(storPlan);
+      this.setData({
+        planList: JSON.parse(storPlan)
+      })
       this.todayPlanInit();
     }
   },
@@ -141,7 +146,10 @@ Page({
 
             // 更新视图层
             const dataList = data.planList.concat(loneList);
-            this.data.planList = dataList;
+            // this.data.planList = dataList;
+            this.setData({
+              planList: dataList
+            })
             resolve();
 
 
@@ -314,15 +322,29 @@ Page({
     }
   },
 
+  /**
+   * 点击logo，播放bo的声音
+   */
+  handleLogoPlay() {
+    if (this.playDelay) return;
+    this.playDelay = 1;
 
+    if (!this.innerAudioContext.paused) {
+      this.innerAudioContext.stop();
+    }
+    this.innerAudioContext.play();
+    setTimeout(() => {
+      this.playDelay = 0;
+    }, 200);
+  },
 
   /**
    * 进入日历
    */
   handleToIntoCalendar() {
-    wx.navigateTo({
-      url: '/pages/index/index',
-    })
+    // wx.navigateTo({
+    //   url: '/pages/index/index',
+    // })
   },
 
   /**
@@ -349,7 +371,9 @@ Page({
 
 
   onLoad() {
-    console.log(wx.getSystemInfoSync());
+    // 初始化音频
+    this.innerAudioContext = wx.createInnerAudioContext();
+    this.innerAudioContext.src = this.data.bo;
   },
 
   onReady() {
@@ -388,4 +412,11 @@ Page({
       this.getStorageUserInfo();
     }
   },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+    
+  }
 })

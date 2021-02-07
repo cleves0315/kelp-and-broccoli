@@ -6,12 +6,12 @@
       <block wx:for="{{2}}" wx:key="index">
       </block>
       <view class="item">
-        <view class="num">{{progress}}</view>
-        <view class="name">已完成</view>
+        <view class="num">{{total}}</view>
+        <view class="name">进行中</view>
       </view>
       <view class="item">
-        <view class="num">{{total}}</view>
-        <view class="name">目标</view>
+        <view class="num">{{progress}}</view>
+        <view class="name">已完成</view>
       </view>
     </view>
   </view>

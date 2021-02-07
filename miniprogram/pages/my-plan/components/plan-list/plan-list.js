@@ -27,6 +27,8 @@ Component({
     planItemMagBottom: 2,   // 单个plan margin-bottom像素
     finishListHeight: 0,    // 完成列表的高度
 
+    hidePlan: 0,      // 改变状态的pian（有过渡消失效果）
+
     // 图标
     sulightIcon: '/static/images/plan-edit/sunlight.svg',   // 我的一天
     overIcon: '/static/images/plan-edit/date_live.svg',  // 截止日期
@@ -48,6 +50,9 @@ Component({
     moveDelaySwtich: false,
     moveStart: false,      // 开始移动 表示当前手指正在滑动单个计划
     moveType: '',          // move手势滑动类型（横向：horizontal、纵向：vertical）
+
+    // 完成时音频
+    finishAudio: 'https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/finish.mp3?sign=b2d2326f81aa82aa618ef18d33c59206&t=1612715701',
   },
 
   /**
@@ -191,12 +196,38 @@ Component({
      * @callback tap
      */
     handleChangeState(e) {
-      const data = e.currentTarget.dataset.data;
-      const index = e.currentTarget.dataset.index;
+      let markHide, markShow = 0;
+      const { data, index, type } = e.currentTarget.dataset;
+      
       wx.vibrateShort({  // 震动
         type: 'heavy'
       });
-      this.triggerEvent('change-state', { index, data });
+
+      if (type === 'normal') {
+        markHide = data.create_time_applets;
+        console.log(this.innerAudioContext.paused)
+        if (!this.innerAudioContext.paused) {
+          this.innerAudioContext.stop();
+        }
+        this.innerAudioContext.play();
+      } else if (type === 'finish') {
+        markHide = data.finish_date;
+      }
+      markShow = data.create_time_applets;
+      
+      // 渐变消失
+      this.setData({
+        hidePlan: markHide
+      });
+
+      setTimeout(() => {
+        // 效果结束后 抛出事件取消渐变效果
+        this.triggerEvent('change-state', { index, data });
+        this.setData({
+          hidePlan: 0,
+          showPlan: markShow
+        });
+      }, 210);
     },
 
     /**
@@ -253,6 +284,9 @@ Component({
             planItemHeight: height
           })
         }).exec();
+
+      this.innerAudioContext = wx.createInnerAudioContext()
+      this.innerAudioContext.src = this.data.finishAudio
     }
   }
 })

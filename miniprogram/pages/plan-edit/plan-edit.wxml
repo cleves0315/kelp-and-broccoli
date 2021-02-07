@@ -20,7 +20,7 @@
     iconUrl="{{remindFuntIcon}}"
     iconLiveUrl="{{remindFuntLiveIcon}}"
     txt="提醒我"
-    liveTxtColor="{{tools.isRemindLive(plan.remind_time) ? '#07b45b' : ''}}"
+    liveTxtColor="{{!plan.is_finish && tools.isRemindLive(plan.remind_time) ? '#07b45b' : ''}}"
     liveTxt="在 {{tools.showTime(plan.remind_time)}} 时提醒我"
     twoTxt="{{plan.remind_time ? (tools.showDateText(plan.remind_time) || tools.conversionDate(plan.remind_time)):''}}"
     bind:changeState="handleToChangeState"

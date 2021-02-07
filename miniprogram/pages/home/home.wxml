@@ -1,8 +1,9 @@
 <!--pages/home/home.wxml-->
+<wxs src="./tools.wxs" module="tools" />
 <view class="home">
-  <header logoUrl="{{userInfo.avatarUrl}}" day="{{userInfo.day}}" bind:tapbtn="handleToIntoCalendar" />
+  <header day="{{userInfo.day}}" bind:play="handleLogoPlay" />
   <banner bannerTitle="{{bannerTitle}}" percentage="{{plan.percentage}}" curGreQuany="{{plan.progress}}" greQuany="{{plan.total}}" bind:tapbanner="handleToIntoMyPlan" />
-  <content progress="{{plan.progress}}" total="{{plan.total}}" />
+  <contents progress="{{tools.finishedNum(planList)}}" total="{{tools.progNum(planList)}}" />
   <btn txt="计划列表" bind:tapbtn="handleToIntoPlan" />
   <!-- 授权登陆弹窗 -->
   <!-- <login-case isShow="{{isShowLoginCase}}" bind:getuserinfo="handleToGetuserInfo" /> -->

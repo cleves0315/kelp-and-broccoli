@@ -1,7 +1,22 @@
 /* pages/home/components/header/header.wxss */
 .header {
+  position: relative;
   background: no-repeat 0 0/100%;
 }
+
+.back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  width: 60vw;
+  z-index: -1;
+  border-radius: 0 0 50%;
+  background: #07b45b;
+  filter: blur(75px);
+}
+
 
 .container {
   padding: 56rpx 30rpx;
@@ -10,22 +25,24 @@
 .head {
   display: flex;
   align-items: flex-end;
+  justify-content: space-between;
 }
 
-.logo-wrap {
-  margin-right: 20rpx;
-}
-
-.logo {
-  display: block;
-  width: 60rpx;
-  height: 60rpx;
-  border-radius: 4px;
-}
 
 .title {
   font-size: 36rpx;
   font-weight: 600;
+}
+
+.logos {
+  width: 68rpx;
+  transition: transform .2s;
+}
+.touch-logo {
+  transform: scale(.7, .7);
+}
+.touch-end-logo {
+  transform: scale(1.2, 1.2);
 }
 
 

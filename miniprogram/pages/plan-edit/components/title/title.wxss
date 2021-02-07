@@ -37,3 +37,8 @@
   width: 100%;
   height: 60rpx;
 }
+
+.finished-title {
+  text-decoration: line-through !important;
+  color: #757575 !important;
+}

@@ -1,0 +1,34 @@
+/**
+ * 返回已完成计划的数量
+ * @param planList 
+ */
+function finishedNum(planList) {
+  var count = 0;
+  for (var i = 0; i < planList.length; i++) {
+    var item = planList[i];
+    if (item.is_finish) {
+      count++;
+    }
+  }
+  return count;
+}
+
+/**
+ * 当前进行中计划的数量
+ * @param planList 
+ */
+function progNum(planList) {
+  var count = 0;
+  for (var i = 0; i < planList.length; i++) {
+    var item = planList[i];
+    if (!item.is_finish) {
+      count++;
+    }
+  }
+  return count;
+}
+
+module.exports = {
+  finishedNum: finishedNum,
+  progNum: progNum
+}

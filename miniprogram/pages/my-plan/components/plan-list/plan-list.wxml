@@ -7,7 +7,7 @@
       <view
         wx:if="{{item.tobeDeleted != 1}}"
         wx:for="{{undoList}}" wx:key="create_time_applets"
-        class="plan-item-wrap"
+        class="plan-item-wrap {{hidePlan===item.create_time_applets ? 'hide-plan-item':''}} {{showPlan===item.create_time_applets ? 'show-plan-item':''}}"
         style="margin-bottom: {{planItemMagBottom}}px;">
         <view
           id="plan-item"
@@ -23,7 +23,7 @@
             class="funt-wap"
             data-index="{{index}}"
             data-data="{{item}}"
-            data-type="undo"
+            data-type="normal"
             catch:tap="handleChangeState">
             <ident checked="{{item.is_finish}}" detail="{{item}}" />
           </view>
@@ -40,7 +40,7 @@
               <!-- 截止日期 -->
               <block wx:if="{{item.closing_date > 0}}">
                 <view class="detail-box">
-                  <view class="point"></view>
+                  <view wx:if="{{item.organize === 'today'}}" class="point"></view>
                   <image 
                     class="detail-icon over-icon"
                     src="{{tools.isExpired(item.closing_date) ? overIconExpired : overIcon}}"></image>
@@ -59,14 +59,14 @@
               <!-- 提醒 -->
               <block wx:if="{{tools.showRemindIcon(item.remind_time)}}">
                 <view class="detail-box">
-                  <view class="point"></view>
+                  <view wx:if="{{item.organize === 'today' || item.closing_date > 0}}" class="point"></view>
                   <image class="detail-icon" src="{{remindIcon}}"></image>
                 </view>
               </block>
               <!-- 编辑了详情 -->
               <block wx:if="{{!tools.checkText(item.detail)}}">
                 <view class="detail-box">
-                  <view class="point"></view>
+                  <view wx:if="{{item.organize === 'today' || item.closing_date > 0 || tools.showRemindIcon(item.remind_time)}}" class="point"></view>
                   <image class="detail-icon" src="{{bookIcon}}"></image>
                 </view>
               </block>
@@ -95,7 +95,7 @@
         <view
           wx:if="{{item.tobeDeleted != 1}}"
           wx:for="{{finishList}}" wx:key="finish_date"
-          class="plan-item-wrap"
+          class="plan-item-wrap {{hidePlan===item.finish_date ? 'hide-plan-item':''}} {{showPlan!=0&&index==0 ? 'show-plan-item':''}}"
           style="margin-bottom: {{planItemMagBottom}}px;">
           <view
             class="plan-item {{item.is_finish ? 'hide-item' : 'show-item'}}"
@@ -110,7 +110,7 @@
               class="funt-wap"
               data-index="{{index}}"
               data-data="{{item}}"
-              data-type="fini"
+              data-type="finish"
               catchtap="handleChangeState">
               <ident checked="{{item.is_finish}}" detail="{{item}}" />
             </view>
@@ -127,7 +127,7 @@
                 <!-- 截止日期 -->
                 <block wx:if="{{item.closing_date > 0}}">
                   <view class="detail-box">
-                    <view class="point"></view>
+                    <view wx:if="{{item.organize === 'today'}}" class="point"></view>
                     <image 
                       class="detail-icon over-icon"
                       src="{{tools.isExpired(item.closing_date) ? overIconExpired : overIcon}}"></image>
@@ -146,7 +146,7 @@
                 <!-- 编辑了详情 -->
                 <block wx:if="{{!tools.checkText(item.detail)}}">
                   <view class="detail-box">
-                    <view class="point"></view>
+                    <view wx:if="{{item.organize === 'today' || item.closing_date > 0 || tools.showRemindIcon(item.remind_time)}}" class="point"></view>
                     <image class="detail-icon" src="{{bookIcon}}"></image>
                   </view>
                 </block>

@@ -6,7 +6,7 @@ Component({
   properties: {
     title: {
       type: String,
-      value: '今日计划'
+      value: '计划详情'
     },
     progress: {
       type: Number,

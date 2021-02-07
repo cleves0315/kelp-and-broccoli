@@ -1,18 +1,22 @@
 <!--pages/home/components/header/header.wxml-->
-<view class="header" style="background-image: url({{backImage}});">
+<view class="header">
   <view class="container">
     <view class="head">
-      <block wx:if="{{logoUrl != ''}}">
-        <!-- <view class="logo-wrap"><image class="logo" src="{{logoUrl}}" mode="widthFix"></image></view> -->
-      </block>
       <view class="title">{{title}}</view>
+      <image class="logos {{touchLogo==1?'touch-logo':''}} {{touchLogo==2?'touch-end-logo':''}}"
+        mode="widthFix"
+        bind:touchstart="logoTouchStart"
+        bind:touchend="logoTouchEnd"
+        bindtap="play"
+        src="https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/broccoli.png?sign=7b6211e60087fd8fb1909cca697cb0a3&t=1612709339"></image>
     </view>
     <view class="content">
       <view class="date">
         <view class="num">{{day}}</view>
         <view class="day">天</view>
       </view>
-      <!-- <view class="btn" bindtap="handleToBtn">{{btnTxt}}<view class="arrow-right"></view></view> -->
+      <!-- 进入日历 -->
+      <!-- <view class="btn" >{{btnTxt}}<view class="arrow-right"></view></view> -->
     </view>
   </view>
 </view>
