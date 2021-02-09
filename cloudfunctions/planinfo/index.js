@@ -3,6 +3,7 @@ const cloud = require('wx-server-sdk')
 
 cloud.init({
   env: 'on-line-1gqban3ba49e3d35',
+  // env: 'broccoli-puuzo',
   timeout: 10000
 })
 
@@ -36,7 +37,6 @@ function init_plan_list(options) {
 exports.main = async (event) => {
   const db = cloud.database();
 
-  // console.log('云函数入口函数')
   // pushMessage('on0Xn5aDFQNoircJEtVF90QIyqss', '-FvQTHPeMgBee2OaO_-BP3j_KeMBsJIeL-H4Qs9X1cE', '测试');
   // pushMessage();
   
@@ -115,7 +115,6 @@ async function add_plan_list(event, db) {
     return db.collection('plan_list')
       .add({ data: addList })
       .then(res => {
-        console.log(res);
         res._ids.forEach((item, index) => {
           addList[index]['_id'] = item;
         });
@@ -225,7 +224,6 @@ async function delete_plan_list(event, db) {
         }
       });
   } catch(e) {
-    console.log(e)
     return {
       code: '0',
       message: '删除失败le'
@@ -400,7 +398,6 @@ async function finish_plan_list(event, db) {
                 if (index === planList.length-1) resolve();
               });
           }).catch(err => {
-            console.log(err);
             if (index === planList.length-1) resolve();
           })
   
@@ -463,7 +460,6 @@ async function mytoday_back_image(event, db) {
       }
     })
     .catch(err => {
-      console.log(err);
       return {
         code: '0',
         message: '获取失败'

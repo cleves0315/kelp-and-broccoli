@@ -165,7 +165,6 @@ Page({
     if (!openId || openId.length === 0) return;
     data.open_id = openId && JSON.parse(openId);
     addPlanList([data]).then(res => {
-        console.log(res);
         if (res.result.code === '1') {
           
           // 用户已经进入编辑界面的处理
@@ -237,7 +236,6 @@ Page({
     
     finishPlanList([plan])
       .then(res => {
-        console.log(res);
         if (res.result.code === '1') {
           const createList = res.result.data.create_list;
           const updatedList = res.result.data.updated_list;
@@ -262,7 +260,6 @@ Page({
         }
       })
       .catch(err => {
-        console.log(err);
       });
   },
 

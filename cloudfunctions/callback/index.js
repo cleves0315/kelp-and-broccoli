@@ -8,8 +8,6 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
 
-  console.log(event)
-
   const { OPENID } = cloud.getWXContext()
 
   const result = await cloud.openapi.customerServiceMessage.send({
@@ -19,8 +17,6 @@ exports.main = async (event, context) => {
       content: '收到：' + event.Content,
     }
   })
-
-  console.log(result)
 
   return result
 }

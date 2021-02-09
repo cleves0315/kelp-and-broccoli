@@ -9,7 +9,7 @@ import { calendar } from './calendar-cn';
  * @returns [[{},{}...],[{},{}...]]
  */
 function initCalendar(type = 'month', dates = new Date(), line = 6) {
-  console.log('new Date() --> ' + dates.getFullYear() + '-' + (dates.getMonth() + 1 ) + '-' + dates.getDate());
+  // console.log('new Date() --> ' + dates.getFullYear() + '-' + (dates.getMonth() + 1 ) + '-' + dates.getDate());
   const date = new Date(dates);     // 初始时间格式
   const y = date.getFullYear();
   let arrY = [];   // 日历存储数组
@@ -84,7 +84,6 @@ function initCalendar(type = 'month', dates = new Date(), line = 6) {
     arrY.push(arr);
   }
 
-  // console.log(arrY)
   
   // 这里通过公历数据 去获取阳历数据
   for (let i = 0; i < 12; i++) {
@@ -130,8 +129,6 @@ function initCalendar(type = 'month', dates = new Date(), line = 6) {
             break;
         }
 
-        // console.log('阳历数据')
-        // console.log(obj)
 
 
         arrY[i][index][j].yearCn = obj.gzYear;                      // 阳历 年份
@@ -142,8 +139,6 @@ function initCalendar(type = 'month', dates = new Date(), line = 6) {
       })
     })
   }
-
-  console.log(arrY)
 
   return arrY;
 }

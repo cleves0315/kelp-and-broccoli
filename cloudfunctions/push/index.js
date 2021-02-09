@@ -49,8 +49,6 @@ async function pushMessage() {
   //   miniprogramState: 'developer'
   // })
 
-  // console.log(result)
-  console.log(`time: ${time}`);
 
   db.collection('plan_list')
     .where({

@@ -6,7 +6,7 @@ function finishedNum(planList) {
   var count = 0;
   for (var i = 0; i < planList.length; i++) {
     var item = planList[i];
-    if (item.is_finish) {
+    if (!item.tobeDeleted && (item.is_finish || item.tobeFinish)) {
       count++;
     }
   }
@@ -21,7 +21,7 @@ function progNum(planList) {
   var count = 0;
   for (var i = 0; i < planList.length; i++) {
     var item = planList[i];
-    if (!item.is_finish) {
+    if (!item.tobeDeleted && !item.is_finish && !item.tobeFinish) {
       count++;
     }
   }

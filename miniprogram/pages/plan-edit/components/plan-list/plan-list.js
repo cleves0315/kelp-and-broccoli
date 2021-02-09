@@ -35,7 +35,6 @@ Component({
      * 点击删除按钮
      */
     handleToDelStep(e) {
-      console.log(e)
       const data = e.currentTarget.dataset.data;
 
       wx.showActionSheet({
@@ -118,7 +117,6 @@ Component({
      * @callback
      */
     handleToAddConfirm(e) {
-      console.log(e)
       const value = e.detail.value.trim();
 
       // 输入的内容是空的，表单失焦

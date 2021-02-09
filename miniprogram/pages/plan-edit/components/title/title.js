@@ -34,7 +34,6 @@ Component({
      * 计划完成按钮切换事件
      */
     handleToChangeState(e) {
-      console.log(e)
       const value = e.detail.value;   // true or false
     },
 

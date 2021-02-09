@@ -4,6 +4,7 @@ const cloud = require('wx-server-sdk')
 cloud.init({
   // env: cloud.DYNAMIC_CURRENT_ENV,
   env: 'on-line-1gqban3ba49e3d35',
+  // env: 'broccoli-puuzo',
   timeout: 10000
 })
 
@@ -94,7 +95,6 @@ const planInit = {
 function formatDate(d = new Date()) {
   const date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes()  + ':' + d.getSeconds();
 
-  console.log(date)
   return date;
 }
 
@@ -155,12 +155,10 @@ async function initPlan(event, db) {
   return dbPlan.add({
     data: plan
   }).then(res => {
-    console.log(res);
     plan._id = res._id;
 
     return { plan, msg: 1 };
   }).catch(err => {
-    console.log(err);
     return { msg: 0 }
   })
 }
@@ -181,12 +179,10 @@ async function updatePlan(event, db) {
       }
     })
     .then(res => {
-      console.log(res)
       if (res.stats.updated != 1) return { msg: 0 }
       return { msg: 1 }
     })
     .catch(err => {
-      console.log(err)
       return { msg: 0 }
     })
 }
@@ -202,7 +198,6 @@ async function getPlanInfo(event, db) {
   return db.collection('plan').where({
     open_id,
   }).get().then(res => {
-    console.log(res)
     let plan = {};
 
     if (res.data.length > 0) {
@@ -278,8 +273,6 @@ async function delPlan(event, db) {
   })
     .get()
     .then(res => {
-      console.log(res.data);
-
       if (res.data.length == 0 || !event.id) return { msg: 0 }
 
       let progress = 0;   // today_list完成的数量
@@ -312,18 +305,15 @@ async function delPlan(event, db) {
           }
         })
         .then(res => {
-          console.log(res)
           if (res.stats.updated != 1) return { msg: 0 }
 
           return { msg: 1 }
         })
         .catch(err => {
-          console.log(err)
           return { msg: 0 }
         })
     })
     .catch(err => {
-      console.log(err)
       return { msg: 0 };
     })
 }
@@ -338,7 +328,6 @@ async function chanPlangress(event, db) {
   })
     .get()
     .then(res => {
-      console.log(res)
       if (res.data.length == 0 || !event.id || !event.openid || event.value == null) {
         return { msg: 0 }
       }
@@ -361,7 +350,6 @@ async function chanPlangress(event, db) {
         }
       });
 
-      console.log(today_list)
 
       return db.collection('plan').where({
         openid: event.openid
@@ -372,17 +360,14 @@ async function chanPlangress(event, db) {
           today_list
         }
       }).then(res => {
-        console.log(res)
         if (res.stats.updated != 1) return { msg: 0 }
 
         return { msg: 1 }
       }).catch((err) => {
-        console.log(err)
         return { msg: 0 }
       })
     })
     .catch((err) => {
-      console.log(err)
       return { msg: 0 }
     })
 }
@@ -399,7 +384,6 @@ async function editPlan(event, db) {
     })
     .get()
     .then(res => {
-      console.log(res)
       if (res.data.length == 0 || !event.title || !event.id) return { msg: 0 }
 
       const today_list = res.data[0].today_list;
@@ -431,18 +415,15 @@ async function editPlan(event, db) {
           }
         })
         .then(res => {
-          console.log(res)
           if (res.stats.updated != 1) return { msg: 0 }
 
           return { msg: 1 }
         })
         .catch(err => {
-          console.log(err)
           return { msg: 0 }
         })
     })
     .catch(err => {
-      console.log(err)
       return { msg: 0 }
     })
 }
@@ -462,7 +443,6 @@ async function addPlan(event, db) {
   })
     .get()
     .then(res => {
-      console.log(res)
       const today_list = res.data[0].today_list;
       const item = {};
       
@@ -485,20 +465,16 @@ async function addPlan(event, db) {
             today_list: _.push(item)
           }
         }).then(res => {
-          console.log(res)
 
           if (res.stats.updated != 1) return { msg: 0 }
 
           return { msg: 1 }
         }).catch(err => {
-          console.log(err)
 
           return { msg: 0 }
         })
       })
     .catch((err) => {
-      console.log(err)
-      console.log('找不到计划对应的openid')
       return { msg: 0 }
     })
 }
@@ -514,7 +490,6 @@ async function setUserInfo(event, db) {
   })
     .get()
     .then(res => {
-      console.log(res)
       
       if (res.data.length == 0) {
         const userInfo = event.userInfo;
@@ -528,17 +503,14 @@ async function setUserInfo(event, db) {
         db.collection('user_info').add({
           data: userInfo
         }).then(res => {
-          console.log(res)
       
           userInfo._id = res._id;
           return { msg: 1 }
         }).catch(err => {
-          console.log(err)
           return { msg: 0 }
         })
       }
     })
     .catch(err => {
-      console.log(err)
     })
 }

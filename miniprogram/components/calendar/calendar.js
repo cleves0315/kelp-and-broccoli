@@ -100,13 +100,11 @@ Component({
      * @callback 滑块current发生改变
      */
     handleToChangeCalendar(e) {
-      console.log('changed')
       let current = e.detail.current;
       const difCent = current - this.data.lastCurrent;    // 基于上次，本次滑动的 swiper-item 数（向左为负）
       let currentY = this.data.thisCalendarYear;         // 当前标题年份(滑动更改前)
       let currentM = this.data.thisCalendarMonth;       // 当前标题月份(滑动更改前)
 
-      // console.log(difCent)
       currentM += difCent;     // 根据本次滑动的块数，把月份值做更改
 
       const dates = new Date(currentY, currentM - 1);   // 重新格式化当前日期
@@ -128,8 +126,6 @@ Component({
      * @callback 滑块动画停止事件（在change事件之后触发）
      */
     handleAnimationfinish(e) {
-      // return;
-      console.log('animation end')
       const source = e.detail.source;        // 触发类型，是否用户手动触发
       const current = e.detail.current;      // 动画结束后的current
       const calendar = this.data.calendar;    // 当前日历数据
@@ -156,7 +152,6 @@ Component({
         // 获取上个月日历数据
         arr = initCalendar('month', dates)[0];
 
-        console.log('加载 ' + dates + ' 日历');
 
         calendar.unshift(arr);
 
@@ -182,7 +177,6 @@ Component({
         // 获取下个月日历数据
         arr = initCalendar('month', dates)[0];
 
-        console.log('加载 ' + dates + ' 日历');
 
         calendar.push(arr);
 
@@ -219,7 +213,6 @@ Component({
      */
     handleToTapDay(e) {
       const data = e.currentTarget.dataset.data;
-      console.log(data);
       
       if (data.type !== 'this') {
         return;

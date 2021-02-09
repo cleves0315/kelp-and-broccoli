@@ -94,8 +94,6 @@ Page({
     return new Promise(resolve => {
       getPlanList(JSON.parse(openId))     // 获取云端数据和本地缓存比较 -> 渲染视图
         .then(res => {
-          console.log(res);
-
           const data = res.result;
           const jsonPlanList = wx.getStorageSync('plan_list');
 
@@ -107,7 +105,6 @@ Page({
             return;
           }
 
-          // console.log(jsonPlanList);
           if (!jsonPlanList) {
             this.data.planList = data.planList;
             
@@ -215,7 +212,6 @@ Page({
             
             Promise.all([latestPromise, tobeDelPromise, lonePromise, tobeFinPromise])
               .then(res => {
-                // console.log(res);
                 const latestResult = res[0];
                 const tobeDelResult = res[1];
                 const loneListResult = res[2];

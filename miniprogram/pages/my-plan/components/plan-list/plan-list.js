@@ -152,7 +152,6 @@ Component({
 
         } else if (moveType === 'vertical') {
           // 本次是纵向滑动
-          // console.log('本次是纵向滑动');
         }
 
       }
@@ -205,7 +204,6 @@ Component({
 
       if (type === 'normal') {
         markHide = data.create_time_applets;
-        console.log(this.innerAudioContext.paused)
         if (!this.innerAudioContext.paused) {
           this.innerAudioContext.stop();
         }

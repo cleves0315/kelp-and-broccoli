@@ -103,7 +103,7 @@ function drawCode() {
  * @param {*} param 参数
  */
 function sortArrayMax(list, param) {
-  const arr = [list.shift()];
+  const arr = [];
   const num = list.length;
 
   if (list.length === 0) {

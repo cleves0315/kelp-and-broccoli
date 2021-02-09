@@ -574,7 +574,6 @@ Page({
     wx.showActionSheet({
       itemList: ['每天', '每周', '工作日', '每月', '每年'],
       success: res => {
-        console.log(res)
         const index = res.tapIndex;
         const plan = this.data.plan;
         const repeatType = ['day', 'week', 'month', 'year'];
@@ -717,7 +716,6 @@ Page({
 
           deletePlanList([plan['_id']])
             .then(res => {
-              console.log(res);
               if (res.result.code !== '1') return;
 
               let sign = -1;

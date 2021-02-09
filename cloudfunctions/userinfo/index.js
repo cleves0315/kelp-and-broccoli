@@ -4,6 +4,7 @@ const cloud = require('wx-server-sdk')
 cloud.init({
   // env: cloud.DYNAMIC_CURRENT_ENV,
   env: 'on-line-1gqban3ba49e3d35',
+  // env: 'broccoli-puuzo',
   timeout: 10000
 })
 
@@ -32,10 +33,8 @@ exports.main = async (event, context) => {
   return db.collection('user_info').where({
     open_id: event.open_id,
   }).get().then(res => {
-    console.log(res);
 
     if (res.data.length > 0) {
-      console.log('获取到用户信息');
       user = res.data[0];
 
       const today = new Date();
@@ -60,7 +59,6 @@ exports.main = async (event, context) => {
           });
       }
     } else {
-      console.log('数据库不存在该用户');
       // 数据库不存在该用户
       // 生成用户信息模板
       user = userInit;

@@ -85,7 +85,6 @@ Component({
      * 监听键盘高度变化
      */
     handleKeyboardheightchange(e) {
-      // console.log(e)
       const height = e.detail.height;
       if (height > 0) {
         this.setData({
