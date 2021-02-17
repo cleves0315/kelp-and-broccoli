@@ -30,10 +30,10 @@
       catch:tap
       bindchange="change">
       <picker-view-column>
-        <view wx:for="{{hourse}}" wx:key="{{item}}" style="line-height: 50px; text-align: center;">{{item}}</view>
+        <view wx:for="{{hourse}}" wx:key="item" style="line-height: 50px; text-align: center;">{{item}}</view>
       </picker-view-column>
       <picker-view-column>
-        <view wx:for="{{minutes}}" wx:key="{{item}}" style="line-height: 50px; text-align: center;">{{item}}</view>
+        <view wx:for="{{minutes}}" wx:key="item" style="line-height: 50px; text-align: center;">{{item}}</view>
       </picker-view-column>
     </picker-view>
   </view>

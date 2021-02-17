@@ -1,5 +1,5 @@
 // pages/plan-edit/plan-edit.js
-import { judgeIphoneX, showHourseAndMinute } from '../../utils/util';
+import { judgeIphoneX, showHourseAndMinute, drawCode } from '../../utils/util';
 import { updatePlanList, deletePlanList } from '../../api/plan';
 
 Page({
@@ -126,53 +126,58 @@ Page({
   },
 
   /**
-   * 按照id，更改step 标题
-   */
-  handleToEditStep(data) {
-    const stepList = this.data.stepList;
-
-    stepList.forEach((item, index) => {
-      if (item.id == data.id) {
-        stepList[index].title = data.title;
-      }
-    })
-
-    this.setData({
-      stepList
-    })
-  },
-
-
-  /**
    * @callback
    * 点击删除步骤(副标题)按钮
    */
   handleToDelStep(e) {
-    const data = e.detail.data;
-    const stepList = this.data.stepList;
+    const { data } = e.detail;
+    const { plan } = this.data;
 
-    stepList.forEach((item, index) => {
-      if (item.id == data.id) {
-        stepList.splice(index, 1);
-      }
-    })
+    const index = plan.step_list.findIndex(item => {
+      return item.id == data.id;
+    });
+
+    plan.step_list[index] = data;
+    plan.step_list[index]['tobeDeleted'] = 1;
 
     this.setData({
-      stepList
-    })
-  },
+      plan
+    });
 
+    this.tobeUpStorage('plan_list', plan);
+  },
   /**
-   * 监听 '下一步输入框' 字符数量>0不包括空格时 失焦事件回调
+   * 新增子计划
    */
   handleToAddStep(e) {
-    const title = e.detail.title;
-    const stepList = this.data.stepList;
+    const obj = {};
+    const { value } = e.detail;
+    const { plan } = this.data;
 
-    stepList.push({ title })
+    obj.id = drawCode();
+    obj.title = value;
+
+    plan.step_list.push(obj);
 
     this.setData({
-      stepList: stepList
+      plan
+    });
+  },
+  /**
+   * 修改子计划
+   */
+  handleToEditStep(e) {
+    const { data } = e.detail;
+    const { plan } = this.data;
+
+    const index = plan.step_list.findIndex(item => {
+      return item.id === data.id;
+    });
+
+    plan.step_list[index] = data;
+
+    this.setData({
+      plan
     });
   },
 

@@ -2,12 +2,13 @@
 <wxs src="./tools.wxs" module="tools" />
 <view class="plan-edit {{isIphoneX ? 'iphone-x' : 'no-iphone-x'}}">
   <title finished="{{plan.is_finish}}" mainTitle="{{plan.title}}" bind:edited="handleEditedMainTitle" />
-  <plan-list stepList="{{stepList}}" 
+  <plan-list
     mainTitle="{{plan.title}}"
-    stepList="{{plan.stepList}}"
-    addTxt="{{stepList.length == 0 ? '添加步骤' : '下一步'}}" 
+    stepList="{{plan.step_list}}"
+    placeholder="{{plan.step_list.length == 0 ? '添加步骤' : '下一步'}}" 
     bind:delStep="handleToDelStep" 
-    bind:addStep="handleToAddStep" />
+    bind:addStep="handleToAddStep"
+    bind:edited="handleToEditStep" />
   <!-- 添加到我的一天 -->
   <funt-button data-type="today" 
     isFuntLive="{{plan.organize === 'today'}}" isDivisionLine="{{true}}" iconUrl="{{todayFuntIcon}}" 

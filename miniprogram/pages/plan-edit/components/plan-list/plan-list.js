@@ -8,7 +8,7 @@ Component({
       type: Array,
       value: []
     },
-    addTxt: {         // 下一步输入框 placeholder值
+    placeholder: {         // 下一步输入框 placeholder值
       type: String,
       value: '添加步骤'
     },
@@ -73,23 +73,30 @@ Component({
       })
     },
 
+    handleToInput(e) {
+      // console.log(e)
+    },
+
     
     
     /**
-     * 输入完主标题、副标题表单
-     * @param {Object} e { type: main、sub }
+     * 输入完副标题表单
+     * @param {Object} e
      * @callback input blur
      */
     handleToInputBlur(e) {
-      const value = e.detail.value;
-      const type = e.currentTarget.dataset.type;
+      const value = e.detail.value.trim();
       const data = e.currentTarget.dataset.data;   // 副标题携带对象
 
-      if (value == data.title) return;
+      console.info('当前表单的value: ', value)
+      console.info('副标题携带对象: ', data)
 
-      data.title = e.detail.value;
+      if (!value || value == data.title) return;
+      console.log('通过')
 
-      this.triggerEvent('edited', { type, data })
+      data.title = value;
+
+      this.triggerEvent('edited', { data })
     },
 
     /**
@@ -103,13 +110,20 @@ Component({
     },
 
     /**
-     * 监听 '下一步输入框' 失焦事件
+     * 监听 '添加步骤'输入框 失焦事件
      * @callback
      */
     handleToAddStepInputBlur(e) {
+      const value = e.detail.value.trim();
+
       this.setData({     // 保存失焦状态
         isAddStepInputFocus: false
-      })
+      });
+
+      if (value) {
+        this.setData({ addStepInputValue: '' });   // 清空输入框内容
+        this.triggerEvent('addStep', { value });
+      }
     },
 
     /**
@@ -125,9 +139,9 @@ Component({
           addStepInputFocus: false
         })
       } else {
-        // 生成一个步骤
         this.setData({ addStepInputValue: '' });   // 清空输入框内容
-        this.triggerEvent('addStep', { title: value });
+        // 生成一个步骤
+        this.triggerEvent('addStep', { value });
       }
     },
   },

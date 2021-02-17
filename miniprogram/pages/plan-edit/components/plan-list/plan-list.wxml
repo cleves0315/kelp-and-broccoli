@@ -3,17 +3,16 @@
   <view class="container">
     <!-- 副标题 -->
     <view class="sub">
-      <block wx:for="{{stepList}}" wx:key="id">
+      <block wx:for="{{stepList}}" wx:key="index">
         <view class="sub-item-wrap {{isDelStepLine == item.id && 'del-items'}}" style="margin-bottom: {{isDelStepLine == item.id ? delSubItemHeight : '0'}}px;">
           <view id="item-{{item.id}}" class="sub-item">
             <view class="check-wrap">
               <ident checked="false" width="40" height="40" bind:identTap="handleToChangeState" />
             </view>
             <view class="sub-title">
-              <input class="sub-input-title" data-type="sub" data-data="{{item}}"
+              <input class="sub-input-title" data-data="{{item}}"
                 focus="{{stepBlur.id == item.id && stepBlur.index == index && false}}"
                 value="{{item.title}}" 
-                maxlength="{{maxlength}}" 
                 bindblur="handleToInputBlur"
                 bindinput="handleToInput"></input>
             </view>
@@ -24,15 +23,14 @@
       </block>
     </view>
     <!-- 下一步按钮 -->
-    <view class="function-wrap" wx:if="{{false}}">
+    <view class="function-wrap">
       <view class="function" bindtap="handleToAddStep">
         <view class="icon-wrap"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
         <view class="add-txt">
           <input class="add-step-input" style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
             value="{{addStepInputValue}}"
             focus="{{addStepInputFocus}}"
-            placeholder="{{addTxt}}" 
-            maxlength="{{maxlength}}" 
+            placeholder="{{placeholder}}" 
             confirm-hold="{{true}}"
             placeholder-style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
             bindinput="handleToInput"

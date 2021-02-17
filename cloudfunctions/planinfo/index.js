@@ -24,7 +24,7 @@ function init_plan_list(options) {
     update_time: new Date().getTime(),
     organize: options.organize || 'normal',
     closing_date: options.closing_date || 0,
-    stepList: options.stepList || [],
+    step_list: options.step_list || [],
     repeat: options.repeat || {},
     finish_date: 0,
   }

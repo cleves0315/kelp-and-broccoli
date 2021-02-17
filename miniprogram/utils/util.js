@@ -68,6 +68,7 @@ function judgeIphoneX() {
 
 /**
  * 生成随机码 
+ * @return string
  */
 function drawCode() {
   const a = [
