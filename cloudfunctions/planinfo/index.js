@@ -54,8 +54,6 @@ exports.main = async (event) => {
     case 'mytoday_back_image':
       return await mytoday_back_image(event, db);
   }
-  // setInterval(() => {
-  // }, 60000);
 }
 
 

@@ -10,3 +10,7 @@
 
 - [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
 
+- 刚对数据库子计划字段重命名：step_list
+- 下一步需要做普通plan修改时，不对step_list字段修改
+- 小程序端修改step_list字段需要新增：tobeUpStepList
+- 云端新增函数专门对step_list字段 增删改查操作

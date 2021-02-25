@@ -76,6 +76,34 @@ Page({
   },
 
   /**
+   * 更新单个计划前端缓存数据
+   * @param stogName 
+   * @param plan 
+   * @todo 把单个plan数据更新到plan_list，自动新增'tobeUpStepList'字段
+   */
+  tobeUpStepStorage(stogName, plan) {
+    this.data.actionUpdated = 1;
+    plan['tobeUpStepList'] = 1;
+
+    let sign = 0;
+    const planList = JSON.parse(wx.getStorageSync('plan_list'));
+
+    planList.some((item, index) => {
+      if (plan['_id'] && item['_id'] === plan['_id']) {
+        sign = index;
+        return true;
+      } else if (item['tempId'] && item['tempId'] === plan['tempId']) {
+        sign = index;
+        return true;
+      }
+    });
+
+    planList[sign] = plan;
+
+    wx.setStorageSync(stogName, JSON.stringify(planList));
+  },
+
+  /**
    * 给缓存相应数据添加tobeDeleted字段
    * @method
    * @param {string} stogName 缓存name
@@ -137,8 +165,7 @@ Page({
       return item.id == data.id;
     });
 
-    plan.step_list[index] = data;
-    plan.step_list[index]['tobeDeleted'] = 1;
+    plan.step_list.splice(index, 1);
 
     this.setData({
       plan
@@ -154,14 +181,17 @@ Page({
     const { value } = e.detail;
     const { plan } = this.data;
 
-    obj.id = drawCode();
+    obj.id = drawCode();  // 创建随机数id
     obj.title = value;
+    obj.is_finish = false;
 
     plan.step_list.push(obj);
 
     this.setData({
       plan
     });
+
+    this.tobeUpStorage('plan_list', plan);
   },
   /**
    * 修改子计划
@@ -179,6 +209,37 @@ Page({
     this.setData({
       plan
     });
+
+    this.tobeUpStorage('plan_list', plan);
+  },
+  /**
+   * 切换子计划状态
+   */
+  handleToSatepChangeState(e) {
+    const data = e.detail.data;
+    const plan = this.data.plan;
+    const stepList = plan.step_list;
+
+    data.is_finish = !data.is_finish;
+
+    for (let i = 0; i < stepList.length; i++) {
+      const step = stepList[i];
+      if (step.id === data.id) {
+        stepList[i].is_finish = data.is_finish;
+        break;
+      }
+    }
+
+    plan.stepList = stepList;
+    wx.vibrateShort({  // 震动
+      type: 'heavy'
+    });
+
+    this.setData({
+      plan
+    });
+
+    this.tobeUpStorage('plan_list', plan);
   },
 
 

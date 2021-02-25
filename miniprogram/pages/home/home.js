@@ -123,12 +123,15 @@ Page({
                 item.open_id = JSON.parse(openId);
                 loneList.push(item);
               } else {
-
-                if (item['tobeDeleted'] === 1) tobeDelList.push(item['_id']);
-                
-                // 'tobeFinish'优先级高于'notUpdated'
-                if (item['tobeFinish'] === 1) tobeFinList.push(item);
-                else if (item['notUpdated'] === 1) latestList.push(item);
+                if (item['tobeDeleted'] === 1) {
+                  tobeDelList.push(item['_id']);
+                } else {
+                  if (item['tobeFinish'] === 1) {
+                    tobeFinList.push(item);
+                  } else if (item['notUpdated'] === 1) {
+                    latestList.push(item);
+                  }
+                }
               }
             });
 

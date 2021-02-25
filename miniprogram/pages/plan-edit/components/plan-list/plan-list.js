@@ -73,6 +73,14 @@ Component({
       })
     },
 
+    /**
+     * 切换完成状态
+     */
+    changeState(e) {
+      const data = e.currentTarget.dataset.data;
+      this.triggerEvent('changeState', { data });
+    },
+
     handleToInput(e) {
       // console.log(e)
     },
@@ -88,12 +96,8 @@ Component({
       const value = e.detail.value.trim();
       const data = e.currentTarget.dataset.data;   // 副标题携带对象
 
-      console.info('当前表单的value: ', value)
-      console.info('副标题携带对象: ', data)
-
       if (!value || value == data.title) return;
-      console.log('通过')
-
+      
       data.title = value;
 
       this.triggerEvent('edited', { data })

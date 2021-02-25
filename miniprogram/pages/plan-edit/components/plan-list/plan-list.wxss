@@ -94,6 +94,11 @@
   font-size: 30rpx;
 }
 
+.sub-input-finish {
+  text-decoration: line-through;
+  color: #757575 !important;
+}
+
 .function {
   display: flex;
   align-items: center;

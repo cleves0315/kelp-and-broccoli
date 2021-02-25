@@ -8,6 +8,7 @@
     placeholder="{{plan.step_list.length == 0 ? '添加步骤' : '下一步'}}" 
     bind:delStep="handleToDelStep" 
     bind:addStep="handleToAddStep"
+    bind:changeState="handleToSatepChangeState"
     bind:edited="handleToEditStep" />
   <!-- 添加到我的一天 -->
   <funt-button data-type="today" 

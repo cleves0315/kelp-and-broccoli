@@ -3,14 +3,14 @@
   <view class="container">
     <!-- 副标题 -->
     <view class="sub">
-      <block wx:for="{{stepList}}" wx:key="index">
+      <block wx:for="{{stepList}}" wx:key="id">
         <view class="sub-item-wrap {{isDelStepLine == item.id && 'del-items'}}" style="margin-bottom: {{isDelStepLine == item.id ? delSubItemHeight : '0'}}px;">
           <view id="item-{{item.id}}" class="sub-item">
-            <view class="check-wrap">
-              <ident checked="false" width="40" height="40" bind:identTap="handleToChangeState" />
+            <view class="check-wrap" data-data="{{item}}" bind:tap="changeState">
+              <ident checked="{{item.is_finish}}" width="40" height="40" />
             </view>
             <view class="sub-title">
-              <input class="sub-input-title" data-data="{{item}}"
+              <input class="sub-input-title {{item.is_finish ? 'sub-input-finish':''}}" data-data="{{item}}"
                 focus="{{stepBlur.id == item.id && stepBlur.index == index && false}}"
                 value="{{item.title}}" 
                 bindblur="handleToInputBlur"
