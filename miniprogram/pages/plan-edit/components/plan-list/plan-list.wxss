@@ -97,6 +97,8 @@
 .sub-input-finish {
   text-decoration: line-through;
   color: #757575 !important;
+  text-decoration-line: line-through;
+  -webkit-text-decoration-line: line-through;
 }
 
 .function {

@@ -34,22 +34,6 @@ async function pushMessage() {
   // 消息模板id
   const templateId = '-FvQTHPeMgBee2OaO_-BP3j_KeMBsJIeL-H4Qs9X1cE';
 
-  // const result = await cloud.openapi.subscribeMessage.send({
-  //   touser: 'on0Xn5aDFQNoircJEtVF90QIyqss',
-  //   page: '/pages/home/home',
-  //   data: {
-  //     thing1: {  // 计划名称
-  //       value: '测试定时'
-  //     },
-  //     thing5: {   // 备注
-  //       value: '123'
-  //     }
-  //   },
-  //   templateId: '-FvQTHPeMgBee2OaO_-BP3j_KeMBsJIeL-H4Qs9X1cE',
-  //   miniprogramState: 'developer'
-  // })
-
-
   db.collection('plan_list')
     .where({
       remind_time: time,

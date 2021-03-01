@@ -13,6 +13,7 @@
       enable-back-to-top="{{true}}">
       <header title="{{headerTitle}}" background="#70C59E" bubColor="#70C59E" />
       <plan-list
+        id="planList"
         wx:if="{{undoList.length || finishList.length}}"
         undoList="{{undoList}}"
         finishList="{{finishList}}"

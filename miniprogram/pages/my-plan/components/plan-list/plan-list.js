@@ -189,6 +189,16 @@ Component({
       }
     },
 
+    /**
+     * 设置某个计划渐变消失效果
+     * @param id 计划的 create_time_applets 或 finish_date
+     * @method
+     */
+    handleSetHidePlan(id) {
+      this.setData({
+        hidePlan: id
+      })
+    },
     
     /**
      * 切换单个计划完成状态
@@ -204,10 +214,10 @@ Component({
 
       if (type === 'normal') {
         markHide = data.create_time_applets;
-        if (!this.innerAudioContext.paused) {
-          this.innerAudioContext.stop();
-        }
-        this.innerAudioContext.play();
+        // if (!this.innerAudioContext.paused) {
+        //   this.innerAudioContext.stop();
+        // }
+        // this.innerAudioContext.play();
       } else if (type === 'finish') {
         markHide = data.finish_date;
       }
@@ -283,8 +293,8 @@ Component({
           })
         }).exec();
 
-      this.innerAudioContext = wx.createInnerAudioContext()
-      this.innerAudioContext.src = this.data.finishAudio
+      // this.innerAudioContext = wx.createInnerAudioContext()
+      // this.innerAudioContext.src = this.data.finishAudio
     }
   }
 })

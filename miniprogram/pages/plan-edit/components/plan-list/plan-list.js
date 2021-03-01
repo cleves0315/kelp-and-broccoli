@@ -36,7 +36,7 @@ Component({
      */
     handleToDelStep(e) {
       const data = e.currentTarget.dataset.data;
-
+ 
       wx.showActionSheet({
         itemList: ['删除任务'],
         itemColor: '#EA3927',

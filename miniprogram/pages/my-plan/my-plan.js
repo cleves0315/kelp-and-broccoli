@@ -259,8 +259,7 @@ Page({
           this.getStoragePlan();
         }
       })
-      .catch(err => {
-      });
+      .catch(() => {});
   },
 
   /**
@@ -298,11 +297,21 @@ Page({
             const p = planList[i];
             
             if (p.tempId === data.tempId) {
-              planList.splice(i, 1);
+              if (data.is_finish) {
+                this.selectComponent('#planList')
+                  .handleSetHidePlan(data.finish_date)
+              } else {
+                this.selectComponent('#planList')
+                  .handleSetHidePlan(data.create_time_applets)
+              }
 
-              // 保存缓存
-              wx.setStorageSync('plan_list', JSON.stringify(planList));
-              this.getStoragePlan();  // 取出数据，并自动分递两列未完成、已完成
+              setTimeout(() => {
+                planList.splice(i, 1);
+  
+                // 保存缓存
+                wx.setStorageSync('plan_list', JSON.stringify(planList));
+                this.getStoragePlan();  // 取出数据，并自动分递两列未完成、已完成
+              }, 340);
               break;
             }
           }
@@ -314,13 +323,23 @@ Page({
             const p = planList[i];
             
             if (p._id === data._id) {
-              p['tobeDeleted'] = 1;
+              if (data.is_finish) {
+                this.selectComponent('#planList')
+                  .handleSetHidePlan(data.finish_date)
+              } else {
+                this.selectComponent('#planList')
+                  .handleSetHidePlan(data.create_time_applets)
+              }
+              
               tobeDelete = p;
-              planList[i] = p;
+              setTimeout(() => {
+                p['tobeDeleted'] = 1;
+                planList[i] = p;
 
-              // 保存缓存
-              wx.setStorageSync('plan_list', JSON.stringify(planList));
-              this.getStoragePlan();  // 取出数据，并自动分递两列未完成、已完成
+                // 保存缓存
+                wx.setStorageSync('plan_list', JSON.stringify(planList));
+                this.getStoragePlan();  // 取出数据，并自动分递两列未完成、已完成
+              }, 340);
               break;
             }
           }

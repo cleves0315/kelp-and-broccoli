@@ -153,6 +153,7 @@ async function update_plan_list(event, db) {
     planList.forEach((item, index) => {
       if (item['_id']) {
         delete item['notUpdated'];
+        delete item['tobeFinish'];
         item.update_time = new Date().getTime();
   
         let data = JSON.stringify(item);
@@ -375,6 +376,8 @@ async function finish_plan_list(event, db) {
               // 变更值 截止日期
     
               obj[item.repeat.type](item);
+              delete newPlan['tobeFinish'];
+              delete newPlan['notUpdated'];
               createList.push(init_plan_list(newPlan));
       
               item.repeat['finished'] = 1;
