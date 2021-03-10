@@ -23,6 +23,6 @@
         bind:movePlanEnd="handleListMovePlanEnd"
         bind:delplan="handleDelPlanItem" />
     </scroll-view>
-    <floot-input-box id="flootInput" isIphoneX="{{isIphoneX}}" background="transparent" bind:confim="handleCreatPlan" />
+    <floot-input-box id="flootInput" isIphoneX="{{isIphoneX}}" backgroundColor="transparent" bind:confim="handleCreatPlan" />
   </view>
 </view>

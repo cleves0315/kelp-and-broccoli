@@ -24,15 +24,15 @@
     </view>
     <!-- 下一步按钮 -->
     <view class="function-wrap">
-      <view class="function" bindtap="handleToAddStep">
-        <view class="icon-wrap"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
+      <view class="function" >
+        <view class="icon-wrap" bindtap="handleToAddStep"><view class="{{isAddStepInputFocus ? 'add-circle-icon' : 'add-icon' }}"></view></view>
         <view class="add-txt">
           <input class="add-step-input" style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
             value="{{addStepInputValue}}"
             focus="{{addStepInputFocus}}"
             placeholder="{{placeholder}}" 
             confirm-hold="{{true}}"
-            placeholder-style="color: {{isAddStepInputFocus ? 'inherit' : '#07b45b'}};"
+            placeholder-style="{{isAddStepInputFocus ? 'color: inherit' : 'color: #07b45b'}};"
             bindinput="handleToInput"
             bindfocus="handleToAddStepInputFocus"
             bindconfirm="handleToAddConfirm"

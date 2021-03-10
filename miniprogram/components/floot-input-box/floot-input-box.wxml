@@ -1,7 +1,7 @@
 <!--components/floot-input-box/floot-input-box.wxml-->
 <view id="floot-input-box"
   class="floot-input-box {{isIphoneX ? 'iphone-x' : ''}} {{cursorSpacing ? 'change-height' : ''}}"
-  style="background: {{background}}; bottom: {{cursorSpacing || ''}}px;">
+  style="background: {{backgroundColor}}; bottom: {{cursorSpacing || ''}}px;">
   <view class="container {{cursorSpacing ? 'container-change-height' : ''}}">
     <input class="input-box {{cursorSpacing ? 'input-box-change-height' : ''}}"
       value="{{inputValue}}"

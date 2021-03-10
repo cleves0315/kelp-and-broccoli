@@ -5,6 +5,7 @@
   right: 0;
   bottom: 0;
   transition: bottom .3s;
+  z-index: 9;
 }
 
 .container {
