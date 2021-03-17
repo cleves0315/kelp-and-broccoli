@@ -136,7 +136,9 @@ Component({
           // 手势往右划 让他很难滑动
           if (difX > 0) difX *= .1;
           // 移动超过删除按钮的宽度 让他很难滑动
-          if (-difX > (planHeight+15)) difX = -(planHeight+15) + difX*.1;
+          if (-difX > (planHeight+15)) {
+            difX = -(planHeight+15) + difX*.1;
+          }
 
                   
           this.setData({
@@ -282,15 +284,17 @@ Component({
 
   lifetimes: {
     attached() {
-      // 获取planitem的高度
-      this.createSelectorQuery()
-        .select('#plan-item')
+      // 获取planitem的高度 
+      const query = this.createSelectorQuery();
+      query.select('#plan-item')
         .boundingClientRect(rect => {
-          const { width, height } = rect;
-          this.setData({
-            planItemWidth: width,
-            planItemHeight: height
-          })
+          if (rect) {
+            const { height } = rect;
+            this.data.planItemHeight = height;
+          } else {
+            // 当前页面没有计划，默认60高度
+            this.data.planItemHeight = 60;
+          }
         }).exec();
 
       // this.innerAudioContext = wx.createInnerAudioContext()

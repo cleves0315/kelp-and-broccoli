@@ -109,6 +109,7 @@ Page({
             this.data.planList = data.planList;
             
             wx.setStorageSync('plan_list', JSON.stringify(this.data.planList));
+            resolve();
           } else {
             // 两端数据对比
             const loneList = [];     // 没有同步后台数据列表
@@ -396,8 +397,6 @@ Page({
       // 获取最新用户信息
       Promise.all([this.getLatestPlanList(), this.getLatestUserInfo()])
         .then(() => {
-          this.data.onesRequest = 0;
-  
           this.todayPlanInit();
         })
     })
@@ -409,6 +408,8 @@ Page({
       this.getStoragePlan();
       // 从缓存获取用户信息
       this.getStorageUserInfo();
+    } else {
+      this.data.onesRequest = 0;
     }
   },
 

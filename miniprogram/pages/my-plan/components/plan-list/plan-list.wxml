@@ -84,7 +84,7 @@
       </view>
     </block>
     <!-- '已完成'切换按钮 -->
-    <view class="change-btn">
+    <view class="change-btn" wx:if="{{finishList.length > 0}}">
       <tag-btn bind:change="handleChangeFinishedBtn"></tag-btn>
     </view>
     <!-- 已完成列表 -->
@@ -93,6 +93,7 @@
         class="finish-view"
         style="height: {{finishListHeight}}px;">
         <view
+          id="finih-plan-item"
           wx:if="{{item.tobeDeleted != 1}}"
           wx:for="{{finishList}}" wx:key="finish_date"
           class="plan-item-wrap {{hidePlan===item.finish_date ? 'hide-plan-item':''}} {{showPlan!=0&&index==0 ? 'show-plan-item':''}}"
