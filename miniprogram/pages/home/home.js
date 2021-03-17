@@ -312,12 +312,14 @@ Page({
     });
 
     if (list.length > 0) {
+      const todayPlan = {
+        progress, // 进度
+        percentage: (progress / list.length).toFixed() * 100, // 百分比
+        total: list.length
+      }
+
       this.setData({
-        todayPlan: {
-          progress, // 进度
-          percentage: (progress / list.length).toFixed() * 100, // 百分比
-          total: list.length
-        }
+        todayPlan,
       });
     }
   },
