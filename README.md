@@ -1,16 +1,19 @@
-# 云开发 quickstart
+<p align="center">
+<img src="https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/broccoli.png?sign=7b6211e60087fd8fb1909cca697cb0a3&t=1612709339" alt="broccoli" width="100">
+</p>
+<h1 align="center">Kelp and Broccoli</h1>
 
-这是云开发的快速启动指引，其中演示了如何上手使用云开发的三大基础能力：
+> 🍭 哇，一款超可爱的TodoLsit小程序
 
-- 数据库：一个既可在小程序前端操作，也能在云函数中读写的 JSON 文档型数据库
-- 文件存储：在小程序前端直接上传/下载云端文件，在云开发控制台可视化管理
-- 云函数：在云端运行的代码，微信私有协议天然鉴权，开发者只需编写业务逻辑代码
+## 介绍
+<img src="https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/broccoli_3.png?sign=259f4e7b88e911421cbeb63c842d11de&t=1640624761" alt="diagram-1" width="100">
 
-## 参考文档
+海带与西兰花是一款计划管理工具小程序，方便你的日常管理。
 
-- [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
+**功能:**
 
-- 刚对数据库子计划字段重命名：step_list
-- 下一步需要做普通plan修改时，不对step_list字段修改
-- 小程序端修改step_list字段需要新增：tobeUpStepList
-- 云端新增函数专门对step_list字段 增删改查操作
+-   添加计划并附加子标题（子计划名称）
+-   分板块类型显示（我的一天 和 默认类型计划）
+    -   我的一天列表计划可以看到特殊的背景图，显示在界面中心一目了然
+    -   默认类型计划默认绿色背景图，显示优先级没有“我的一天”高
+-   支持定时推送消息
