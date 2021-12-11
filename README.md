@@ -8,6 +8,7 @@
 ## 介绍
 
 海带与西兰花是一款计划管理工具小程序，方便你的日常管理。
+
 使用原生微信小程序云开发管理。
 <p>
 <img src="https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/broccoli_3.png?sign=259f4e7b88e911421cbeb63c842d11de&t=1640624761" alt="diagram-1" width="280">
