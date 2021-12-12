@@ -2,8 +2,7 @@
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: 'on-line-1gqban3ba49e3d35',
-  // env: 'broccoli-puuzo',
+  env: 'xxxx',
   timeout: 10000
 })
 
@@ -37,9 +36,6 @@ function init_plan_list(options) {
 exports.main = async (event) => {
   const db = cloud.database();
 
-  // pushMessage('on0Xn5aDFQNoircJEtVF90QIyqss', '-FvQTHPeMgBee2OaO_-BP3j_KeMBsJIeL-H4Qs9X1cE', '测试');
-  // pushMessage();
-  
   switch (event.action) {
     case 'get_plan_list':
       return await get_plan_list(event, db);
@@ -264,7 +260,6 @@ async function finish_plan_list(event, db) {
           .then(res => {
             const plan = res.data;
 
-            // 对有重复计划，生成一次性下个截止日期的计划
             if (item.is_finish && plan.repeat && plan.repeat['finished'] === 0) {
               const newPlan = JSON.parse(JSON.stringify(item));
     
@@ -299,7 +294,6 @@ async function finish_plan_list(event, db) {
                           if (i !== (arr.length-1)) {
                             diffDay = arr[i + 1] - d;
                           } else {
-                            // '重复周的最后一天'到周日的天数 + 周日到'重复周第一天'的天数
                             diffDay = (7 - d) + (arr[0] - 0);
                           }
                           return true;
@@ -372,8 +366,6 @@ async function finish_plan_list(event, db) {
                   newPlan.repeat.finished = 0;
                 },
               };
-    
-              // 变更值 截止日期
     
               obj[item.repeat.type](item);
               delete newPlan['tobeFinish'];

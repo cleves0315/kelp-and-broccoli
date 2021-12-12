@@ -20,7 +20,7 @@ Page({
     },
     userInfo: null,
     isShowLoginCase: 0,
-    // 嘴巴模拟bo的声音
+    // bo音频url
     bo: 'https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/bo.m4a?sign=d4545d263f1a29a89b00b576c003bbb8&t=1612715654',
   },
 

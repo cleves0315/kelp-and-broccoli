@@ -5,8 +5,7 @@ const cloud = require('wx-server-sdk')
 
 // 初始化 cloud
 cloud.init({
-  env: 'on-line-1gqban3ba49e3d35',
-  // env: 'broccoli-puuzo',
+  env: 'xxxx',
   timeout: 10000
 })
 
@@ -29,10 +28,7 @@ exports.main = async (event, context) => {
     code: '1',
     message: 'ok',
     data: {
-      open_id: wxContext.OPENID,
-      // appid: wxContext.APPID,
-      // unionid: wxContext.UNIONID,
-      // env: wxContext.ENV
+      open_id: wxContext.OPENID
     }
   }
 }

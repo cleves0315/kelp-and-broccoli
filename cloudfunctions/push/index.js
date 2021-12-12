@@ -2,7 +2,7 @@
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: 'on-line-1gqban3ba49e3d35',  // 指定运行环境
+  env: 'xxxx',  // 指定运行环境
   timeout: 10000
 })
 
