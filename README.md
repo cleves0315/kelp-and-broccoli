@@ -3,6 +3,9 @@
 </p>
 <h1 align="center">Kelp and Broccoli</h1>
 
+[![](https://img.shields.io/badge/KelpAndBroccoli-green.svg)](https://github.com/cleves0315/kelp-and-broccoli)
+[![npm](https://img.shields.io/npm/l/kelp-and-broccoli.svg)](https://github.com/cleves0315/kelp-and-broccoli/blob/master/LICENSE)
+
 > 🍭 哇，一款超可爱的TodoList小程序
 
 ## 介绍
