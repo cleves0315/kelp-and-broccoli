@@ -1,0 +1,19 @@
+{
+  "name": "kelp-and-broccoli",
+  "version": "1.0.0",
+  "description": "一款超可爱的TodoList小程序",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cleves0315/kelp-and-broccoli.git"
+  },
+  "keywords": [],
+  "author": "Cleves",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cleves0315/kelp-and-broccoli/issues"
+  },
+  "homepage": "https://github.com/cleves0315/kelp-and-broccoli#readme"
+}
