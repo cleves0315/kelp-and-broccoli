@@ -36,6 +36,7 @@
 
 .logos {
   width: 68rpx;
+  max-height: 68rpx;
   transition: transform .2s;
 }
 .touch-logo {
