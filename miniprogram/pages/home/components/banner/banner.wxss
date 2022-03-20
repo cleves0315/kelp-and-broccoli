@@ -47,6 +47,7 @@
 
 .content .right-table .icon {
   width: 30rpx;
+  max-height: 30rpx;
   margin-right: 2rpx;
 }
 
