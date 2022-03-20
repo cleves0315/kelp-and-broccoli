@@ -3,7 +3,7 @@ const cloud = require('wx-server-sdk')
 
 cloud.init({
   // env: cloud.DYNAMIC_CURRENT_ENV,
-  env: 'xxxx',
+  env: 'broccoli-puuzo',
   timeout: 10000
 })
 
@@ -88,7 +88,7 @@ const planInit = {
 };
 
 /**
- * 格式化时间格式 xxxx-xx-xx xx:xx:xx
+ * 格式化时间格式 yyyy-xx-xx xx:xx:xx
  * @param {*} date 
  */
 function formatDate(d = new Date()) {

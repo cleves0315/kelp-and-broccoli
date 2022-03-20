@@ -370,8 +370,6 @@ Page({
     })
   },
 
-
-
   onLoad() {
     // 初始化音频
     this.innerAudioContext = wx.createInnerAudioContext();
@@ -383,7 +381,6 @@ Page({
     this.getStorageUserInfo();
     // 从缓存获取plan数据
     this.getStoragePlan();
-
 
     const openId = wx.getStorageSync('open_id');
 

@@ -603,7 +603,6 @@ Page({
   },
   /**
    * 点击日历设置按钮
-   * @param e xxxx-mm-dd
    */
   handleTapSetup(e) {
     const date = e.detail.date;   // 当前组件选定的日期

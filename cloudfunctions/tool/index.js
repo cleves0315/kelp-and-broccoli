@@ -2,7 +2,7 @@
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: 'xxxx',
+  env: 'broccoli-puuzo',
   timeout: 10000
 })
 
