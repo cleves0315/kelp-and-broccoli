@@ -185,7 +185,11 @@ Page({
     obj.title = value;
     obj.is_finish = false;
 
-    plan.step_list.push(obj);
+    if (plan.step_list) {
+        plan.step_list.push(obj);
+    } else {
+        plan.step_list = [obj]
+    }
 
     this.setData({
       plan
@@ -230,7 +234,7 @@ Page({
       }
     }
 
-    plan.stepList = stepList;
+    plan.step_list = stepList;
     wx.vibrateShort({  // 震动
       type: 'heavy'
     });

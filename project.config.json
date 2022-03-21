@@ -35,35 +35,37 @@
         "packNpmRelationList": [],
         "minifyWXSS": true,
         "showES6CompileOption": false,
-        "minifyWXML": true
+        "minifyWXML": true,
+        "disableUseStrict": false,
+        "useCompilerPlugins": false,
+        "useStaticServer": true
     },
     "appid": "wx6bda92e5b6c4facf",
     "projectname": "%E6%B5%B7%E5%B8%A6%E4%B8%8E%E8%A5%BF%E5%85%B0%E8%8A%B1",
     "libVersion": "2.8.3",
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
-    "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+    "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
     "condition": {
-        "search": {
-            "list": []
-        },
-        "conversation": {
-            "list": []
-        },
-        "plugin": {
-            "list": []
-        },
-        "game": {
-            "list": []
-        },
         "miniprogram": {
             "list": [
                 {
-                    "id": -1,
                     "name": "db guide",
-                    "pathName": "pages/databaseGuide/databaseGuide"
+                    "pathName": "pages/databaseGuide/databaseGuide",
+                    "query": ""
                 }
             ]
         }
-    }
+    },
+    "compileType": "miniprogram",
+    "srcMiniprogramRoot": "miniprogram/",
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
+    },
+    "description": "项目配置文件，详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html"
 }
