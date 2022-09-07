@@ -1,7 +1,8 @@
 <!--pages/statistics/statistics.wxml-->
 <view>
     <view class="computer-wrapper">
-        <textarea class="computer-textarea" placeholder="按格式输入数字：11 22 33 44 11" bindinput="handleInput"></textarea>
+        <input class="symbol-input" maxlength="1" type="text" placeholder="输入特殊符号" bindinput="handleSymbolInput"/>
+        <textarea class="computer-textarea" placeholder="按格式输入数字：" bindinput="handleInput"></textarea>
         <view class="computer-result"> 
             <view class="result-label">结果：</view>
             <view class="" wx:for="{{ansList}}" wx:key="item">

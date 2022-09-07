@@ -5,14 +5,24 @@ Page({
      * 页面的初始数据
      */
     data: {
+        symbolStr: '',
         ansList: []
     },
 
+    handleSymbolInput(e) {
+        const { value } = e.detail;
+        // this.setData({
+        //     symbolStr: value
+        // })
+        this.data.symbolStr = value
+    },
+
     handleInput(e) {
+        const { symbolStr } = this.data;
         const { value } = e.detail;
         const max = {}, ansList = [];
 
-        value.replaceAll('\n', ' ').split(" ").forEach((val) => {
+        value.replaceAll('\n', symbolStr).split(symbolStr).forEach((val) => {
           if (max[val]) {
             max[val] += 1;
           } else {

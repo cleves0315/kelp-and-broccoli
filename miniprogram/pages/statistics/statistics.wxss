@@ -36,3 +36,11 @@ page {
 .count {
     color: brown;
 }
+
+.symbol-input {
+    padding: 10rpx 30rpx;
+    font-size: 28rpx;
+    margin-bottom: 20rpx;
+    border: 2rpx solid #cdcdcd;
+    border-radius: 99999px;
+}
