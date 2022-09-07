@@ -1,0 +1,12 @@
+<!--pages/statistics/statistics.wxml-->
+<view>
+    <view class="computer-wrapper">
+        <textarea class="computer-textarea" placeholder="按格式输入数字：11 22 33 44 11" bindinput="handleInput"></textarea>
+        <view class="computer-result"> 
+            <view class="result-label">结果：</view>
+            <view class="" wx:for="{{ansList}}" wx:key="item">
+                数字 <text class="number">{{item.number}}</text> 出现次数：<text class="count">{{item.count}}</text>
+            </view>
+        </view>
+    </view>
+</view>

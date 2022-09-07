@@ -1,0 +1,29 @@
+/* pages/mine/components/mine-card/mine-card.wxss */
+.mine-card {
+    padding: 40rpx 30rpx;
+    border-radius: 10rpx;
+    background-color: #fff;
+}
+
+.case-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-top: 40rpx;
+}
+
+.case-wrapper .case-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.case-wrap .case-icon {
+    width: 60rpx;
+}
+
+.case-wrap .case-text {
+    margin-top: 10rpx;
+    font-size: 24rpx;
+    color: #838383;
+}

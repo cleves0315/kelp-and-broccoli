@@ -1,0 +1,23 @@
+/* pages/mine/components/mine-header.wxss */
+.mine-header {
+    height: 300rpx;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background-color: #ecf0f1;
+}
+
+.mine-header .logo-icon {
+    width: 60rpx;
+    margin-right: 20rpx;
+}
+
+.mine-header .welcome-wrapper {
+    display: flex;
+    height: inherit;
+    align-items: center;
+}
+
+.mine-header .welcome-words {
+    font-size: 36rpx;
+    color: #2c2c2c;
+}

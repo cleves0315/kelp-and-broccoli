@@ -1,16 +1,39 @@
 {
-  "pages": [
-    "pages/home/home",
-    "pages/index/index",
-    "pages/plan/plan",
-    "pages/plan-edit/plan-edit",
-    "pages/my-plan/my-plan"
-  ],
-  "window": {
-    "navigationBarTextStyle": "black",
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "海带与西兰花"
-  },
-  "sitemapLocation": "sitemap.json",
-  "style": "v2"
+    "pages": [
+        "pages/home/home",
+        "pages/index/index",
+        "pages/plan/plan",
+        "pages/plan-edit/plan-edit",
+        "pages/my-plan/my-plan",
+        "pages/mine/mine",
+        "pages/statistics/statistics"
+    ],
+    "tabBar": {
+        "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/home/home",
+                "text": "首页",
+                "color": "#2c2c2c",
+                "selectedColor": "#07b45b",
+                "iconPath": "static/images/home.png",
+                "selectedIconPath": "static/images/active_home.png"
+            },
+            {
+                "pagePath": "pages/mine/mine",
+                "text": "我的",
+                "color": "#2c2c2c",
+                "selectedColor": "#07b45b",
+                "iconPath": "static/images/mine.png",
+                "selectedIconPath": "static/images/active_mine.png"
+            }
+        ]
+    },
+    "window": {
+        "navigationBarTextStyle": "black",
+        "navigationBarBackgroundColor": "#ffffff",
+        "navigationBarTitleText": "海带与西兰花"
+    },
+    "sitemapLocation": "sitemap.json",
+    "style": "v2"
 }

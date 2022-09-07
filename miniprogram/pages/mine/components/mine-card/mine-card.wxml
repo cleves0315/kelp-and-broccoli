@@ -1,0 +1,10 @@
+<!--pages/mine/components/mine-card/mine-card.wxml-->
+<view class="mine-card">
+    <view class="card-title">工具栏</view>
+    <view class="case-wrapper">
+        <view class="case-wrap" wx:for="{{toolsList}}" wx:key="item" bindtap="handleClick" data-type="{{item.type}}">
+            <image class="case-icon" mode="widthFix" src="{{item.icon}}"></image>
+            <view class="case-text">{{item.text}}</view>
+        </view>
+    </view>
+</view>

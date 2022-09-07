@@ -1,0 +1,7 @@
+<!--pages/mine.wxml-->
+<view class="mine-page">
+    <mine-header />
+    <view class="card-wrapper">
+        <mine-card />
+    </view>
+</view>

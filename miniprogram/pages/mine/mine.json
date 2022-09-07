@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+        "mine-header": "./components/mine-header/mine-header",
+        "mine-card": "./components/mine-card/mine-card"
+    }
+}

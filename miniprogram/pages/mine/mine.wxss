@@ -1,0 +1,11 @@
+/* pages/mine.wxss */
+.mine-page {
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+
+.mine-page .card-wrapper {
+    transform: translate(35rpx, -35rpx);
+}
+

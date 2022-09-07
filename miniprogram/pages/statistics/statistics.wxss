@@ -1,0 +1,38 @@
+/* pages/statistics/statistics.wxss */
+page {
+    min-height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.computer-wrapper {
+    display: flex;
+    padding: 50rpx 40rpx;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.computer-wrapper .computer-textarea {
+    height: 400rpx;
+    padding: 20rpx 40rpx;
+    background-color: #fff;
+    border-radius: 10rpx;
+    border: 2rpx solid #eee;
+}
+
+.computer-wrapper .computer-result {
+    width: 100%;
+    margin-top: 20rpx;
+}
+
+.computer-result .result-label {
+    margin-bottom: 20rpx;
+}
+
+.number {
+    color: rgb(20, 149, 235);
+}
+
+.count {
+    color: brown;
+}
