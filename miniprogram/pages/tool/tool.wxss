@@ -1,4 +1,4 @@
-/* pages/statistics/statistics.wxss */
+/* pages/tool/tool.wxss */
 page {
     min-height: 100vh;
     background-color: #f8f8f8;
@@ -7,16 +7,23 @@ page {
 .computer-wrapper {
     display: flex;
     padding: 50rpx 40rpx;
-    align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
+.computer-wrapper .tips {
+    font-size: 26rpx;
+    color: #acacac;
+    margin-bottom: 10rpx;
+}
+
 .computer-wrapper .computer-textarea {
+    width: 100%;
     height: 400rpx;
-    padding: 20rpx 40rpx;
+    padding: 20rpx;
     background-color: #fff;
     border-radius: 10rpx;
+    box-sizing: border-box;
     border: 2rpx solid #eee;
 }
 
@@ -38,6 +45,9 @@ page {
 }
 
 .symbol-input {
+    width: 100%;
+    height: 70rpx;
+    box-sizing: border-box;
     padding: 10rpx 30rpx;
     font-size: 28rpx;
     margin-bottom: 20rpx;

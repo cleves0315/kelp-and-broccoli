@@ -26,7 +26,7 @@ Component({
             switch (type) {
                 case 'statistics':
                     wx.navigateTo({
-                      url: `/pages/statistics/statistics?type=${type}`,
+                      url: `/pages/tool/tool?type=${type}`,
                     })
                     break;
             

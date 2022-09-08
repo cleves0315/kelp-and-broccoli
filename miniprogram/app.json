@@ -6,7 +6,7 @@
         "pages/plan-edit/plan-edit",
         "pages/my-plan/my-plan",
         "pages/mine/mine",
-        "pages/statistics/statistics"
+        "pages/tool/tool"
     ],
     "tabBar": {
         "borderStyle": "black",
