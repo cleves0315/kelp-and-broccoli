@@ -56,28 +56,26 @@ Page({
    * 获取最新用户信息
    */
   getLatestUserInfo() {
-    const openId = wx.getStorageSync('open_id');
-
     return new Promise(resolve => {
-      getUserInfo(JSON.parse(openId))
+      getUserInfo(app.globalData.user_id)
         .then(res => {
-          const data = res.result;
+          const { data, code, message } = res.result;
 
           resolve();
   
-          if (data.code !== '1') {
-            wx.showToast({ icon: 'none', title: data.message, });
+          if (code !== '1') {
+            wx.showToast({ icon: 'none', title: message, });
             return;
           }
 
           const userInfo = this.data.userInfo;
-          if (!userInfo || data.user.update_time > userInfo.update_time) {
+          if (!userInfo || data.update_time > userInfo.update_time) {
             this.setData({
-              userInfo: data.user
+              userInfo: data
             });
   
             wx.setStorage({
-              data: JSON.stringify(data.user),
+              data: JSON.stringify(data),
               key: 'user_info',
             })
           }
@@ -89,15 +87,13 @@ Page({
    * 获取最新planlist
    */
   getLatestPlanList() {
-    const openId = wx.getStorageSync('open_id');
-
     return new Promise(resolve => {
-      getPlanList(JSON.parse(openId))     // 获取云端数据和本地缓存比较 -> 渲染视图
+      getPlanList(app.globalData.user_id)     // 获取云端数据和本地缓存比较 -> 渲染视图
         .then(res => {
-          const data = res.result;
+          const { data, code } = res.result;
           const jsonPlanList = wx.getStorageSync('plan_list');
 
-          if (data.code !== '1') {
+          if (code !== '1') {
             wx.showToast({
               icon: 'none',
               title: '获取计划失败',
@@ -106,7 +102,7 @@ Page({
           }
 
           if (!jsonPlanList) {
-            this.data.planList = data.planList;
+            this.data.planList = data;
             
             wx.setStorageSync('plan_list', JSON.stringify(this.data.planList));
             resolve();
@@ -121,7 +117,7 @@ Page({
             // 找出未更新数据
             stogPlanList.forEach(item => {
               if (!item['_id']) {
-                item.open_id = JSON.parse(openId);
+                item.user_id = app.globalData.user_id;
                 loneList.push(item);
               } else {
                 if (item['tobeDeleted'] === 1) {
@@ -138,15 +134,15 @@ Page({
 
             // 更新数据
             latestList.forEach(item => {
-              data.planList.forEach((m, i) => {
+              data.forEach((m, i) => {
                 if (m['_id'] === item['_id']) {
-                  data.planList[i] = item;
+                  data[i] = item;
                 }
               });
             })
 
             // 更新视图层
-            const dataList = data.planList.concat(loneList);
+            const dataList = data.concat(loneList);
             // this.data.planList = dataList;
             this.setData({
               planList: dataList
@@ -204,7 +200,7 @@ Page({
                 addPlanList(loneList)
                   .then(res => {
                     if (res.result.code === '1') {
-                      resolve(res.result.add_list);
+                      resolve(res.result.data);
                     } else {
                       resolve([]);
                     }
@@ -382,11 +378,9 @@ Page({
     // 从缓存获取plan数据
     this.getStoragePlan();
 
-    const openId = wx.getStorageSync('open_id');
-
     // 登陆
     new Promise(resolve => {
-      if (!openId)  {
+      if (!app.globalData._id)  {
         app.login().then(() => resolve());
       } else {
         resolve();

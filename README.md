@@ -30,17 +30,23 @@
 <img src="https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/broccoli-logo.jpg?sign=20165c057e9630056a11128b1b740c08&t=1640626684" alt="diagram-1" width="150">
 
 ### 协议字段内容更新
+> **云函数**
+> - 优化所有云函数 env 环境参数字段 [done]
+> - 所有函数，统一返回数据字段：data，即使没有数据也返回 data: null [done]
+> 
 > **login**
-> - 原本返回 OPENID
-> - 取消 openID 字段，返回用户id
-> - 新增：没有用户信息数据，在数据库生成用户数据
+> - 原本返回 OPENID 取消 openID 字段，返回用户id [done]
+> - 新增：没有用户信息数据，在数据库生成用户数据 [done]
 > ---
 >
 > **userInfo**
-> - 数据接口新增: [用户Id]字段，和原本id字段不冲突。
-> - 取消原本 "没有用户信息数据，生成一条新的用户数据" 逻辑(移动到login)
-> - 返回的数据字段做过敏处理：[ openId, id ]
+> - 取消原本 "没有用户信息数据，生成一条新的用户数据" 逻辑(移动到login) [done]
 > ---
 >
+> **planinfo**
+> - 数据结构：增加 user_id 字段; 原本 open_id 字段 -> 更换成 user_id [done]
+> - 函数入参：查询字段 open_id 更换成 user_id [done]
+> - 目前只对: get_plan_list、add_plan_list 做了 [open_id -> user_id] 字段更换, 还差剩余几个接口。
+> - mytoday_back_image函数：更改字段结构 [done]
+> ---
 >
-    

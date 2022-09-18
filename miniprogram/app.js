@@ -10,6 +10,12 @@ App({
    * @returns Promise
    */
   login() {
+    const id = wx.getStorageSync('user_id')
+    if (id) {
+      this.globalData.user_id = id;
+      return Promise.resolve();
+    }
+
     return new Promise((resolve, reject) => {
       if (!this.canRun) return;
     
@@ -18,9 +24,10 @@ App({
       return login().then(res => {
         if (res.result.code !== '1') return;
 
-        const openId = res.result.data.open_id;
+        const user_id = res.result.data;
 
-        wx.setStorageSync('open_id', JSON.stringify(openId));
+        wx.setStorageSync('user_id', user_id);
+        this.globalData.user_id = user_id;
         this.canRun = true;
         resolve();
       }).catch(err => {

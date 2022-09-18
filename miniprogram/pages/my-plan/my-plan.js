@@ -31,14 +31,15 @@ Page({
     if (isToday) {
       if (wx.getStorageSync('today_back') === '') {
         getMyTodayBakImage()
-        .then(res => {
-          if (res.result.code === '1') {
-            this.setData({
-              backgroundImage: res.result.url
-            })
-            wx.setStorageSync('today_back', JSON.stringify(res.result.url));
-          }
-        });
+          .then(res => {
+            const { code, data } = res.result;
+            if (code === '1') {
+              this.setData({
+                backgroundImage: data
+              })
+              wx.setStorageSync('today_back', JSON.stringify(data));
+            }
+          });
       } else {
         this.setData({
           backgroundImage: JSON.parse(wx.getStorageSync('today_back'))

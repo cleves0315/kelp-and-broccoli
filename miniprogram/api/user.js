@@ -2,13 +2,13 @@ import { callFunction } from '../utils/util';
 
 /**
  * 获取用户信息
- * @param {String} openId
+ * @param {String} user_id
  */
-export function getUserInfo(openId) {
+export function getUserInfo(user_id) {
   return callFunction({
     name: 'userinfo',
     data: {
-      open_id: openId
+      user_id
     }
   });
 }

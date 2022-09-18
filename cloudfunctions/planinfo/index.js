@@ -14,10 +14,11 @@ cloud.init({
  */
 function init_plan_list(options) {
   const data = {
-    open_id: options.open_id,
+    // open_id: options.open_id,
     title: options.title.trim(), 
     detail: options.detail || '', 
-    is_finish: false,        
+    is_finish: false,
+    user_id: options.user_id,
     create_time_applets: options.create_time_applets || 0, 
     create_time: new Date().getTime(),
     update_time: new Date().getTime(),
@@ -57,23 +58,14 @@ exports.main = async (event) => {
  * 获取计划数据
  */
 async function get_plan_list(event, db) {
-  const openId = event.open_id;
-
-  if (!openId || openId[0] === '"') {
-    return {
-      code: '0',
-      message: '获取失败'
-    }
-  }
-
   return db.collection('plan_list').where({
-    open_id: openId
+    user_id: event.user_id
   }).get().then(res => {
     const planList = res.data;
 
     return {
-      planList,
       code: '1',
+      data: planList,
       message: '获取成功',
     };
   })
@@ -91,20 +83,19 @@ async function add_plan_list(event, db) {
   if (!planList || planList.length === 0) {
     return {
       code: '0',
+      data: null,
       message: '添加失败'
     }
   }
-
-
   
   const addList = [];
   planList.forEach(item => {
-    if (item['open_id']) {
+    if (item['user_id']) {
       const data = init_plan_list(item);
       addList.push(data);
     }
   });
-      
+
   if (addList.length > 0) {
     return db.collection('plan_list')
       .add({ data: addList })
@@ -116,7 +107,7 @@ async function add_plan_list(event, db) {
         return {
           code: '1',
           message: '添加成功',
-          add_list: addList
+          data: addList
         };
       });
   } else {
@@ -139,6 +130,7 @@ async function update_plan_list(event, db) {
   if (!planList || planList.length === 0) {
     return {
       code: '0',
+      data: null,
       message: '更新失败'
     };
   }
@@ -185,6 +177,7 @@ async function update_plan_list(event, db) {
     } else {
       return {
         code: '0',
+        data: null,
         message: '更新失败',
       };
     }
@@ -204,6 +197,7 @@ async function delete_plan_list(event, db) {
   if (!ids) {
     return {
       code: '0',
+      data: null,
       message: '删除失败，没有传递id'
     }
   } 
@@ -215,13 +209,15 @@ async function delete_plan_list(event, db) {
       .then(() => {
         return {
           code: '1',
+          data: null,
           message: '删除成功'
         }
       });
   } catch(e) {
     return {
       code: '0',
-      message: '删除失败le'
+      data: null,
+      message: '删除失败'
     }
   }
 }
@@ -238,6 +234,7 @@ async function finish_plan_list(event, db) {
   if (!planList) {
     return {
       code: '0',
+      data: null,
       message: '更新失败'
     }
   }
@@ -431,6 +428,7 @@ async function finish_plan_list(event, db) {
   } catch (err) {
     return {
       code: '0',
+      data: null,
       message: '操作失败'
     }
   }
@@ -440,23 +438,22 @@ async function finish_plan_list(event, db) {
  * 获取my-plan计划列表背景图
  */
 async function mytoday_back_image(event, db) {
-  return db.collection('resources')
-    .where({
-      logo: 'today_back'
-    })
-    .get()
-    .then(res => {
-      return {
-        code: '1',
-        message: '1',
-        url: res.data[0].url
-      }
-    })
-    .catch(err => {
-      return {
-        code: '0',
-        message: '获取失败'
-      }
-    })
-    
+  try {
+    const { data } = await db.collection('resources')
+      .where({ remark: 'todayBackground' })
+      .get();
+
+    // { logo, remark, url, describe }
+    return {
+      code: '1',
+      message: '获取成功',
+      data: data[0].url
+    }
+  } catch (error) {
+    return {
+      code: '0',
+      data: null,
+      message: '获取失败'
+    }
+  }
 }

@@ -6,32 +6,15 @@ cloud.init({
   timeout: 10000
 })
 
-
-const userInit = {
-  day: 1,        // 天数 Number
-  open_id: '',       // openid String
-  create_time: new Date().getTime(),   // 生成时间 Number
-  update_time: new Date().getTime(),   // 更新时间 Number
-};
-
 // 云函数入口函数
 exports.main = async (event, context) => {
   let user = {};
   const db = cloud.database();
-  // const wxContext = cloud.getWXContext();  
-
-  if (event.open_id === '') {
-    return {
-      code: 0,
-      message: '获取失败'
-    };
-  }
 
   // 查询是否用户是否第一次创建
   return db.collection('user_info').where({
-    open_id: event.open_id,
+    _id: event.user_id,
   }).get().then(res => {
-
     if (res.data.length > 0) {
       user = res.data[0];
 
@@ -47,7 +30,7 @@ exports.main = async (event, context) => {
 
         db.collection('user_info')
           .where({ 
-            open_id: event.open_id
+            open_id: event._id
           })
           .update({
             data: {
@@ -56,22 +39,18 @@ exports.main = async (event, context) => {
             }
           });
       }
-    } else {
-      // 数据库不存在该用户
-      // 生成用户信息模板
-      user = userInit;
-      user.open_id = event.open_id;
 
-      db.collection('user_info').add({
-        data: user
-      })
+      return {
+        code: '1',
+        data: user,
+        message: '获取成功',
+      };
     }
 
     return {
-      user,
-      code: '1',
-      message: '获取成功',
+      code: '0',
+      data: null,
+      message: '获取用户信息失败',
     };
-
   });
 }

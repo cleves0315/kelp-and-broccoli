@@ -4,21 +4,20 @@ const name = 'planinfo';
 
 /**
  * 获取plan数据
- * @param { String } openId
  */
-export function getPlanList(openId) {
+export function getPlanList(user_id) {
   return callFunction({
     name,
     data: {
       action: 'get_plan_list',
-      open_id: openId
+      user_id
     }
   });
 }
 
 /**
  * 添加planList
- * @param { String } openId open_id
+ * @param { String } user_id
  * @param { String } title 标题
  * @param { String } organize 栏目
  */
