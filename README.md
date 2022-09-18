@@ -28,3 +28,19 @@
 ## 预览
 
 <img src="https://6f6e-on-line-1gqban3ba49e3d35-1302613116.tcb.qcloud.la/broccoli-logo.jpg?sign=20165c057e9630056a11128b1b740c08&t=1640626684" alt="diagram-1" width="150">
+
+### 协议字段内容更新
+> **login**
+> - 原本返回 OPENID
+> - 取消 openID 字段，返回用户id
+> - 新增：没有用户信息数据，在数据库生成用户数据
+> ---
+>
+> **userInfo**
+> - 数据接口新增: [用户Id]字段，和原本id字段不冲突。
+> - 取消原本 "没有用户信息数据，生成一条新的用户数据" 逻辑(移动到login)
+> - 返回的数据字段做过敏处理：[ openId, id ]
+> ---
+>
+>
+    

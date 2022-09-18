@@ -2,14 +2,12 @@
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: 'broccoli-puuzo',  // 指定运行环境
+  env: cloud.DYNAMIC_CURRENT_ENV,
   timeout: 10000
 })
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-
   pushMessage();
 }
 
