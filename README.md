@@ -36,7 +36,8 @@
 > 
 > **login**
 > - 原本返回 OPENID 取消 openID 字段，返回用户id [done]
-> - 新增：没有用户信息数据，在数据库生成用户数据 [done]
+> - 迁移[userinfo]：没有用户信息数据，在数据库生成用户数据 [done]
+> - 迁移[userinfo]：更新登录天数+1 [done]
 > ---
 >
 > **userInfo**

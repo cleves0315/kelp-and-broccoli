@@ -1,6 +1,3 @@
-// 云函数模板
-// 部署：在 cloud-functions/login 文件夹右击选择 “上传并部署”
-
 const cloud = require('wx-server-sdk')
 
 // 初始化 cloud
@@ -16,27 +13,17 @@ const userInit = {
   update_time: new Date().getTime(),   // 更新时间 Number
 };
 
-
-/**
- * 这个示例将经自动鉴权过的小程序用户 openid 返回给小程序端
- * 
- * event 参数包含小程序端调用传入的 data
- * 
- */
 exports.main = async (event, context) => {
-
-  // 可执行其他自定义逻辑
-
-  // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
   const wxContext = cloud.getWXContext();
   const db = cloud.database();
 
   try {
-    const { data } = await db.collection('user_info').where({
-      open_id: wxContext.OPENID,
-    }).get();
+    const { data } = await queryUserInfo(db, { 
+      open_id: wxContext.OPENID
+    });
 
-    if (data.length > 0) {
+    if (data.length > 0) {      
+      updateNewOneDay(db, data[0]);
       return {
         code: '1',
         message: 'ok',
@@ -46,16 +33,13 @@ exports.main = async (event, context) => {
 
     // 数据库不存在该用户
     // 生成用户信息模板
-    user = {
+    await addUsers(db, {
       ...userInit,
       open_id: wxContext.OPENID
-    };
-    await db.collection('user_info').add({
-      data: user
     })
-    const { data: users } = await db.collection('user_info').where({
-      open_id: wxContext.OPENID,
-    }).get();
+    const { data: users } = await queryUserInfo(db, { 
+      open_id: wxContext.OPENID
+    });
 
     return {
       code: '1',
@@ -71,3 +55,38 @@ exports.main = async (event, context) => {
   }
 }
 
+/**
+ * 对比时间，更新天数
+ */
+const updateNewOneDay = (db, user) => {
+  const _ = db.command;
+  const today = new Date();
+  const updateTime = new Date(user.update_time);
+
+  // 如果在新的一天登录，天数加1
+  if (today.getDate() !== updateTime.getDate() 
+    || today.getMonth() !== updateTime.getMonth() 
+    || today.getFullYear() !== updateTime.getFullYear()) {
+
+    db.collection('user_info')
+      .where({ 
+        _id: user._id || ''
+      })
+      .update({
+        data: {
+          day: _.inc(1),
+          update_time: today.getTime(),
+        }
+      });
+  }
+}
+
+const queryUserInfo = (db, params) => {
+  return db.collection('user_info').where(params).get()
+}
+
+const addUsers = (db, users) => {
+  return db.collection('user_info').add({
+    data: users
+  })
+}

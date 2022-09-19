@@ -8,49 +8,27 @@ cloud.init({
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  let user = {};
   const db = cloud.database();
+  const { data } = await queryUserInfo(db, event.user_id);
 
-  // 查询是否用户是否第一次创建
-  return db.collection('user_info').where({
-    _id: event.user_id,
-  }).get().then(res => {
-    if (res.data.length > 0) {
-      user = res.data[0];
-
-      const today = new Date();
-      const updateTime = new Date(user.update_time);
-
-      // 如果在新的一天登录，天数加1
-      if (today.getDate() !== updateTime.getDate() 
-        || today.getMonth() !== updateTime.getMonth() 
-        || today.getFullYear() !== updateTime.getFullYear()) {
-        user.day += 1;
-        user.update_time = today.getTime();
-
-        db.collection('user_info')
-          .where({ 
-            open_id: event._id
-          })
-          .update({
-            data: {
-              day: user.day,
-              update_time: user.update_time,
-            }
-          });
-      }
-
-      return {
-        code: '1',
-        data: user,
-        message: '获取成功',
-      };
-    }
-
+  if (data.length > 0) {
     return {
-      code: '0',
-      data: null,
-      message: '获取用户信息失败',
+      code: '1',
+      data: data[0],
+      message: '获取成功',
     };
-  });
+  }
+
+  return {
+    code: '0',
+    data: null,
+    message: '获取用户信息失败',
+  };
+}
+
+const queryUserInfo = (db, user_id) => {
+  return db.collection('user_info')
+    .where({ 
+      _id: user_id || ''
+    }).get()
 }
