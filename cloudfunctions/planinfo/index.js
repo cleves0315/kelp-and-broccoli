@@ -57,18 +57,24 @@ exports.main = async (event) => {
 /**
  * 获取计划数据
  */
-async function get_plan_list(event, db) {
-  return db.collection('plan_list').where({
-    user_id: event.user_id
-  }).get().then(res => {
-    const planList = res.data;
-
+const get_plan_list = async (event, db) => {
+  try {
+    const { data } = await db.collection('plan_list').where({
+      user_id: event.user_id
+    }).get();
+  
     return {
       code: '1',
-      data: planList,
-      message: '获取成功',
+      data: data,
+      message: '成功获取计划列表',
     };
-  })
+  } catch (error) {
+    return {
+      code: '1',
+      data: null,
+      message: '获取计划列表失败',
+    }
+  }
 }
 
 
@@ -77,14 +83,14 @@ async function get_plan_list(event, db) {
  * @param {Array} plan_list {open_id*, title*, detail, organize*, closing_date}
  * @returns 带_id plan_list
  */
-async function add_plan_list(event, db) {
+const add_plan_list = async (event, db) => {
   let planList = event.plan_list;
 
   if (!planList || planList.length === 0) {
     return {
       code: '0',
       data: null,
-      message: '添加失败'
+      message: '计划添加失败'
     }
   }
   
@@ -97,22 +103,31 @@ async function add_plan_list(event, db) {
   });
 
   if (addList.length > 0) {
-    return db.collection('plan_list')
-      .add({ data: addList })
-      .then(res => {
-        res._ids.forEach((item, index) => {
-          addList[index]['_id'] = item;
-        });
-
-        return {
-          code: '1',
-          message: '添加成功',
-          data: addList
-        };
+    try {
+      const { _ids } = await db.collection('plan_list').add({
+        data: addList
       });
+  
+      _ids.forEach((item, index) => {
+        addList[index]['_id'] = item;
+      });
+  
+      return {
+        code: '1',
+        message: '计划添加成功',
+        data: addList
+      };
+    } catch (error) {
+      return {
+        code: '0',
+        message: '计划添加失败',
+        data: null
+      };
+    }
   } else {
     return {
       code: '0',
+      data: null,
       message: '添加失败',
     };
   }
