@@ -2,7 +2,7 @@
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: 'broccoli-puuzo',
+  env: 'on-line-1gqban3ba49e3d35',
   timeout: 10000
 })
 
@@ -37,6 +37,8 @@ exports.main = async (event) => {
   const db = cloud.database();
 
   switch (event.action) {
+    case "resetPlan":
+      return resetPlan(db);
     case 'get_plan_list':
       return await get_plan_list(event, db);
     case 'add_plan_list':
@@ -52,6 +54,39 @@ exports.main = async (event) => {
   }
 }
 
+/**
+ * 数据结构更新
+ */
+const resetPlan = async (db) => {
+    const { data } = await db.collection("plan_list").where({}).get();
+    const { data: userList } = await db.collection("user_info").where({}).get();
+    const userIdMap = {}; // open_id 映射 _id
+  
+    userList.forEach((user) => {
+      userIdMap[user.open_id] = user._id;
+    });
+  
+    // 给所有计划插入 plan_no、user_id 字段
+    data.forEach((plan, index) => {
+      const obj = {};
+  
+      if (!plan.plan_no) {
+        obj.plan_no = uuidv4();
+      }
+  
+      if (!plan.user_id) {
+        obj.user_id = userIdMap[plan.open_id];
+      }
+  
+      if (!plan.plan_no || !plan.user_id) {
+        db.collection("plan_list")
+          .doc(plan._id)
+          .update({
+            data: { ...obj },
+          });
+      }
+    });
+};
 
 /**
  * 获取计划数据

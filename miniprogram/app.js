@@ -37,7 +37,7 @@ App({
       //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
       //   如不填则使用默认环境（第一个创建的环境）
       //   全局搜索 'broccoli-puuzo' => <'你的环境id'>
-      env: 'broccoli-puuzo',
+      env: 'on-line-1gqban3ba49e3d35',
       traceUser: true,
       timeout: 5000
     })
