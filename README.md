@@ -4,7 +4,7 @@
 <h1 align="center">Kelp and Broccoli</h1>
 
 [![](https://img.shields.io/badge/-KelpAndBroccoli-%2350c62a)](https://github.com/cleves0315/kelp-and-broccoli)
-![](https://img.shields.io/badge/todo-list-%2350c62a)
+[![](https://img.shields.io/badge/todo-list-%2350c62a)](https://github.com/cleves0315/kelp-and-broccoli)
 
 注意：该仓库已放弃维护与更新，请到 [Kelp and Broccoli Uni](https://github.com/cleves0315/kelp-and-broccoli-uni) 获取最新帮助。
 
